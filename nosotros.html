@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio | ChilliCode Agency</title>
+    <meta name="description" content="Conoce al equipo ChilliCode y nuestras comunidades aliadas. Artesanía digital desde México.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ===== RESET & ROOT ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --emerald: #00A86B;
+            --mex-red: #D7282F;
+            --white: #FFFFFF;
+            --black: #050505;
+            --gray: #666666;
+            --transition-smooth: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: var(--black);
+        }
+
+        /* ===== CAROUSEL SPECIFIC STYLES ===== */
+        .card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-position: center center;
+            background-size: cover;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: background-position 0.5s ease;
+        }
+
+        .card-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #FFFFFF;
+            padding-left: 20px;
+            z-index: 10;
+        }
+
+        .content-place {
+            margin-top: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--emerald);
+        }
+
+        .content-title-1,
+        .content-title-2 {
+            font-weight: 700;
+            font-size: 18px;
+            font-family: "Outfit", sans-serif;
+            line-height: 1.1;
+        }
+
+        .content-start {
+            width: 30px;
+            height: 4px;
+            border-radius: 99px;
+            background-color: var(--emerald);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            z-index: 1;
+        }
+
+        .details {
+            z-index: 22;
+            position: absolute;
+            top: 30%;
+            left: 8%;
+        }
+
+        .details .place-box {
+            height: 46px;
+            overflow: hidden;
+        }
+
+        .details .place-box .text {
+            padding-top: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--emerald);
+        }
+
+        .details .place-box .text:before {
+            top: 0;
+            left: 0;
+            position: absolute;
+            content: "";
+            width: 40px;
+            height: 4px;
+            border-radius: 99px;
+            background-color: var(--mex-red);
+        }
+
+        .details .title-1,
+        .details .title-2 {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-family: "Outfit", sans-serif;
+            line-height: 0.95;
+            color: var(--black);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .details .title-box-1,
+        .details .title-box-2 {
+            margin-top: 2px;
+            height: 1.1em;
+            overflow: hidden;
+        }
+
+        .details > .desc {
+            margin-top: 24px;
+            width: 500px;
+            max-width: 85vw;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--gray);
+        }
+
+        .details > .cta {
+            width: 500px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .details > .cta > .bookmark {
+            border: none;
+            background-color: var(--mex-red);
+            width: 44px;
+            height: 44px;
+            border-radius: 99px;
+            color: white;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 20px rgba(215, 40, 47, 0.2);
+        }
+
+        .details > .cta > .discover {
+            border: 2px solid var(--black);
+            background-color: transparent;
+            height: 44px;
+            border-radius: 99px;
+            color: var(--black);
+            padding: 4px 32px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-left: 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 5px;
+            z-index: 300;
+            background-color: var(--emerald);
+        }
+
+        .pagination {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            z-index: 150; /* Ensure it is above cards */
+            opacity: 0;
+            pointer-events: all;
+        }
+
+        .pagination > .arrow {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 2px solid var(--black);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--white);
+            color: var(--black);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pagination > .arrow:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .pagination > .arrow svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .pagination .progress-sub-container {
+            margin-left: 30px;
+            width: 200px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pagination .progress-sub-container .progress-sub-background {
+            width: 100%;
+            height: 2px;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .pagination .progress-sub-container .progress-sub-background .progress-sub-foreground {
+            height: 2px;
+            background-color: var(--emerald);
+            transition: width 0.5s ease;
+        }
+
+        .pagination .slide-numbers {
+            width: 60px;
+            height: 54px;
+            overflow: hidden;
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .pagination .slide-numbers .item {
+            width: 60px;
+            height: 54px;
+            position: absolute;
+            color: var(--black);
+            top: 0;
+            left: 0;
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            font-weight: 800;
+            font-family: "Outfit", sans-serif;
+        }
+
+        .cover {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--white);
+            z-index: 500;
+        }
+
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            html, body {
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .details {
+                top: 100px;
+                left: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .details .title-1,
+            .details .title-2 {
+                font-size: 2.5rem;
+            }
+
+            .details > .desc {
+                margin-top: 15px;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+
+            .pagination {
+                bottom: 110px; 
+                left: 50%;
+                transform: translateX(-50%) !important;
+                width: auto;
+                gap: 15px;
+            }
+
+            .pagination .progress-sub-container {
+                display: none;
+            }
+
+            .pagination > .arrow {
+                width: 50px;
+                height: 50px;
+            }
+
+            .card {
+                background-position: center 20%; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="indicator"></div>
+
+    <!-- Navigation -->
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Inicio</a></li>
+                <li><a href="nosotros.html" class="active"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+                <li><a href="index.html#proyectos"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>Obra</a></li>
+                <li><a href="index.html#contacto"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Contacto</a></li>
+            </ul>
+            <a href="index.html#contacto" class="nav-cta">Contactar</a>
+        </div>
+    </nav>
+
+    <div id="demo"></div>
+
+    <div class="details" id="details-even">
+        <div class="place-box">
+            <div class="text">IDENTIDAD</div>
+        </div>
+        <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
+        <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
+        <div class="desc"></div>
+        <div class="cta">
+            <button class="bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <button class="discover">Ver Proyecto</button>
+        </div>
+    </div>
+
+    <div class="details" id="details-odd">
+        <div class="place-box">
+            <div class="text">IDENTIDAD</div>
+        </div>
+        <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
+        <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
+        <div class="desc"></div>
+        <div class="cta">
+            <button class="bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <button class="discover">Ver Proyecto</button>
+        </div>
+    </div>
+
+    <div class="pagination" id="pagination">
+        <div class="arrow arrow-left">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+        </div>
+        <div class="arrow arrow-right">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+        </div>
+        <div class="progress-sub-container">
+            <div class="progress-sub-background">
+                <div class="progress-sub-foreground"></div>
+            </div>
+        </div>
+        <div class="slide-numbers" id="slide-numbers"></div>
+    </div>
+
+    <div class="cover"></div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        const data = [
+            {
+                place: 'IDENTIDAD',
+                title: 'ARTESANÍA',
+                title2: 'DIGITAL',
+                description: 'Fusionamos la herencia cultural mexicana con la tecnología de Google para crear piezas únicas de software.',
+                image: 'https://imgur.com/IXGHmR4.jpg'
+            },
+            {
+                place: 'COLABORACIÓN',
+                title: 'COMUNIDAD',
+                title2: 'IA & GEMINI',
+                description: 'Trabajamos con el IPN y Google Gemini para liderar la nueva era de la inteligencia artificial aplicada.',
+                image: 'https://imgur.com/e8Vemgw.jpg'
+            },
+            {
+                place: 'ECOMMERCE',
+                title: 'POTENCIA',
+                title2: 'SHOPIFY',
+                description: 'Desplegamos tiendas de alto rendimiento con el respaldo y la escalabilidad global de Shopify.',
+                image: 'https://imgur.com/Z6JDEmX.jpg'
+            },
+            {
+                place: 'HOSTING',
+                title: 'DESPLIEGUE',
+                title2: '$55 MXN/MES',
+                description: 'Infraestructura profesional basada en GitHub. Hosting de alto rendimiento desde solo $55 pesos al mes.',
+                image: 'https://imgur.com/XTVGUbz.jpg'
+            },
+            {
+                place: 'CREADORES',
+                title: 'PREMIUM',
+                title2: 'FOURTHWALL',
+                description: 'Elevamos la monetización de creadores con experiencias exclusivas y tecnología Fourthwall.',
+                image: 'https://imgur.com/swHkE9F.jpg'
+            },
+            {
+                place: 'APRENDIZAJE',
+                title: 'EDUCACIÓN',
+                title2: '& FUTURO',
+                description: 'Comprometidos con el crecimiento y la formación técnica de las nuevas generaciones digitales.',
+                image: 'https://imgur.com/BDGsKP5.jpg'
+            },
+            {
+                place: 'EQUIPO',
+                title: 'LIDERAZGO',
+                title2: 'ESTRATÉGICO',
+                description: 'Forjando el futuro digital con visión humana y tecnológica desde el corazón de México.',
+                image: 'https://i.imgur.com/fCnJb3i.jpeg'
+            }
+        ];
+
+        const _ = (id) => document.getElementById(id);
+        const cards = data.map((i, index) => `<div class="card" id="card${index}" style="background-image:url(${i.image})"></div>`).join('');
+        const cardContents = data.map((i, index) => `
+            <div class="card-content" id="card-content-${index}">
+                <div class="content-start"></div>
+                <div class="content-place">${i.place}</div>
+                <div class="content-title-1">${i.title}</div>
+                <div class="content-title-2">${i.title2}</div>
+            </div>
+        `).join('');
+        const slideNumbers = data.map((_, index) => `<div class="item" id="slide-item-${index}">${index + 1}</div>`).join('');
+        
+        _('demo').innerHTML = cards + cardContents;
+        _('slide-numbers').innerHTML = slideNumbers;
+
+        function getCard(index) { return `#card${index}`; }
+        function getCardContent(index) { return `#card-content-${index}`; }
+        function getSliderItem(index) { return `#slide-item-${index}`; }
+
+        let order = data.map((_, i) => i);
+        let detailsEven = true;
+        let isStepping = false;
+
+        let offsetTop, offsetLeft, cardWidth, cardHeight, gap, numberSize;
+
+        function updateLayoutConfig() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const isMobile = width < 768;
+
+            cardWidth = isMobile ? 120 : 240;
+            cardHeight = isMobile ? 170 : 360;
+            gap = isMobile ? 12 : 30;
+            numberSize = isMobile ? 44 : 60;
+            offsetTop = isMobile ? height - 320 : height - 450;
+            offsetLeft = isMobile ? (width - (cardWidth * 2.5)) / 2 : width - 900;
+        }
+
+        function init() {
+            updateLayoutConfig();
+            const [active, ...rest] = order;
+            const detailsActive = detailsEven ? "#details-even" : "#details-odd";
+            const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+            const { innerHeight: height, innerWidth: width } = window;
+            const isMobile = width < 768;
+
+            gsap.set("#pagination", {
+                top: isMobile ? 'auto' : offsetTop + cardHeight + 40,
+                bottom: isMobile ? 110 : 'auto',
+                left: isMobile ? '50%' : offsetLeft,
+                xPercent: isMobile ? -50 : 0,
+                opacity: 0,
+                zIndex: 200,
+            });
+
+            document.querySelector(".arrow-left").onclick = () => queueStep("prev");
+            document.querySelector(".arrow-right").onclick = () => queueStep("next");
+
+            gsap.set(getCard(active), { x: 0, y: 0, width: width, height: height, borderRadius: 0 });
+            gsap.set(getCardContent(active), { x: 0, y: 0, opacity: 0 });
+            gsap.set(detailsActive, { opacity: 0, zIndex: 22, x: isMobile ? 0 : -100 });
+            gsap.set(detailsInactive, { opacity: 0, zIndex: 12 });
+            
+            document.querySelectorAll(`${detailsActive} .place-box .text`).forEach(el => el.textContent = data[active].place);
+            document.querySelectorAll(`${detailsActive} .title-1`).forEach(el => el.textContent = data[active].title);
+            document.querySelectorAll(`${detailsActive} .title-2`).forEach(el => el.textContent = data[active].title2);
+            document.querySelectorAll(`${detailsActive} .desc`).forEach(el => el.textContent = data[active].description);
+
+            gsap.set(".progress-sub-foreground", { width: 200 * (1 / data.length) * (active + 1) });
+
+            rest.forEach((i, index) => {
+                gsap.set(getCard(i), {
+                    x: offsetLeft + 400 + index * (cardWidth + gap),
+                    y: offsetTop,
+                    width: cardWidth,
+                    height: cardHeight,
+                    zIndex: 30,
+                    borderRadius: 12,
+                });
+                gsap.set(getCardContent(i), {
+                    x: offsetLeft + 400 + index * (cardWidth + gap),
+                    zIndex: 40,
+                    y: offsetTop + cardHeight - 70,
+                    opacity: 1
+                });
+                gsap.set(getSliderItem(i), { x: (index + 1) * numberSize });
+            });
+
+            gsap.to(".cover", { x: width + 400, duration: 1.2, ease: "expo.inOut", delay: 0.5 });
+
+            const startDelay = 0.8;
+            rest.forEach((i, index) => {
+                gsap.to(getCard(i), {
+                    x: offsetLeft + index * (cardWidth + gap),
+                    duration: 1.2,
+                    ease: "expo.out",
+                    delay: startDelay + (0.05 * index),
+                });
+                gsap.to(getCardContent(i), {
+                    x: offsetLeft + index * (cardWidth + gap),
+                    duration: 1.2,
+                    ease: "expo.out",
+                    delay: startDelay + (0.05 * index),
+                });
+            });
+
+            gsap.to("#pagination", { opacity: 1, ease: "expo.out", delay: startDelay + 0.3 });
+            gsap.to(detailsActive, { opacity: 1, x: 0, ease: "expo.out", delay: startDelay + 0.4 });
+        }
+
+        function queueStep(direction = "next") {
+            if (isStepping) return;
+            isStepping = true;
+            step(direction).finally(() => { isStepping = false; });
+        }
+
+        async function step(direction = "next") {
+            return new Promise((resolve) => {
+                if (direction === "next") order.push(order.shift());
+                else order.unshift(order.pop());
+                
+                detailsEven = !detailsEven;
+                const detailsActive = detailsEven ? "#details-even" : "#details-odd";
+                const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+                const currentData = data[order[0]];
+
+                document.querySelectorAll(`${detailsActive} .place-box .text`).forEach(el => el.textContent = currentData.place);
+                document.querySelectorAll(`${detailsActive} .title-1`).forEach(el => el.textContent = currentData.title);
+                document.querySelectorAll(`${detailsActive} .title-2`).forEach(el => el.textContent = currentData.title2);
+                document.querySelectorAll(`${detailsActive} .desc`).forEach(el => el.textContent = currentData.description);
+
+                gsap.set(detailsActive, { zIndex: 22, opacity: 0 });
+                gsap.to(detailsActive, { opacity: 1, delay: 0.4 });
+                
+                const [active, ...rest] = order;
+                const prv = direction === "next" ? rest[rest.length - 1] : rest[0];
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                gsap.set(getCard(prv), { zIndex: 10 });
+                gsap.set(getCard(active), { zIndex: 20 });
+                gsap.to(getCard(prv), { scale: 1.2, opacity: 0, duration: 1 });
+
+                gsap.to(getCardContent(active), { y: offsetTop + cardHeight, opacity: 0, duration: 0.4 });
+                gsap.to(getSliderItem(active), { x: 0, duration: 0.8 });
+                gsap.to(getSliderItem(prv), { x: -numberSize, duration: 0.8 });
+                
+                gsap.to(".progress-sub-foreground", { width: 200 * (1 / data.length) * (active + 1), duration: 0.8 });
+
+                gsap.to(getCard(active), {
+                    x: 0, y: 0, width: width, height: height, borderRadius: 0,
+                    duration: 1, ease: "expo.inOut",
+                    onComplete: () => {
+                        const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
+                        gsap.set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1, opacity: 1 });
+                        gsap.set(getCardContent(prv), { x: xNew, y: offsetTop + cardHeight - 70, opacity: 1, zIndex: 40 });
+                        gsap.set(getSliderItem(prv), { x: rest.length * numberSize });
+                        resolve();
+                    }
+                });
+
+                rest.forEach((i, index) => {
+                    if (i !== prv) {
+                        const xNew = offsetLeft + index * (cardWidth + gap);
+                        gsap.set(getCard(i), { zIndex: 30 });
+                        gsap.to(getCard(i), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, duration: 1, ease: "expo.inOut", delay: 0.05 * index });
+                        gsap.to(getCardContent(i), { x: xNew, y: offsetTop + cardHeight - 70, opacity: 1, zIndex: 40, duration: 1, ease: "expo.inOut", delay: 0.05 * index });
+                        gsap.to(getSliderItem(i), { x: (index + 1) * numberSize, duration: 1 });
+                    }
+                });
+            });
+        }
+
+        window.addEventListener('load', init);
+        window.addEventListener('resize', () => { updateLayoutConfig(); });
+    </script>
+</body>
+</html>
