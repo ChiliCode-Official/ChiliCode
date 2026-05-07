@@ -1,5 +1,5 @@
 /**
- * Bottle Code Agency - Digital Craftsmanship
+ * ChilliCode Agency - Digital Craftsmanship
  * Animation Engine: Fanta-Style Section Transitions
  */
 

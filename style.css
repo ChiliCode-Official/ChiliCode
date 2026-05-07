@@ -131,13 +131,17 @@ model-viewer {
     transition: 0.3s ease;
 }
 
-.nav-links a svg {
+.nav-links a svg, .nav-links a .nav-logo-mobile {
     display: none; /* Hidden on desktop */
     width: 20px;
     height: 20px;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
+}
+
+.nav-logo-mobile {
+    object-fit: contain;
 }
 
 .nav-links a:hover, .nav-links a.active {
@@ -169,8 +173,9 @@ model-viewer {
     .pill-nav {
         top: auto;
         bottom: 2rem;
-        width: 92%;
-        max-width: 450px;
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
         height: 70px;
         padding: 0 1rem;
         background: rgba(255, 255, 255, 0.9);
@@ -182,7 +187,8 @@ model-viewer {
     .nav-content {
         width: 100%;
         gap: 0;
-        justify-content: space-around;
+        justify-content: center;
+        padding: 0.5rem;
     }
 
     .logo {
@@ -207,8 +213,20 @@ model-viewer {
         letter-spacing: 0.5px;
     }
 
-    .nav-links a svg {
+    .nav-links a .nav-icon-std {
         display: block; /* Show icons on mobile */
+    }
+
+    /* Home link specific for mobile: Show logo, hide icon and text */
+    .nav-links li:first-child a .nav-icon-std,
+    .nav-links li:first-child a .nav-text {
+        display: none !important;
+    }
+
+    .nav-links li:first-child a .nav-logo-mobile {
+        display: block !important;
+        width: 32px;
+        height: 32px;
     }
 
     .nav-cta {
@@ -1168,10 +1186,6 @@ model-viewer {
     z-index: 1;
 }
 
-#plan-basic { --accent: var(--emerald); }
-#plan-growth { --accent: var(--gold); }
-#plan-enterprise { --accent: var(--red); }
-
 .price-card::before {
     content: '';
     position: absolute;
@@ -1184,13 +1198,20 @@ model-viewer {
 }
 
 .price-card:hover, .price-card:active {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    transform: translateY(-25px) scale(1.04);
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.15), 
+        0 0 0 3px var(--accent);
+    border-color: transparent;
 }
 
 .price-card:hover::before, .price-card:active::before {
-    opacity: 0.1;
+    opacity: 0.2;
 }
+
+#plan-basic { --accent: var(--emerald); --accent-rgb: 0, 168, 107; }
+#plan-growth { --accent: var(--gold); --accent-rgb: 230, 190, 138; }
+#plan-enterprise { --accent: var(--red); --accent-rgb: 215, 40, 47; }
 
 .price-card-header {
     margin-bottom: 3rem;
@@ -1352,4 +1373,370 @@ model-viewer {
 @keyframes float {
     0% { transform: translate(0, 0); }
     100% { transform: translate(50px, 100px); }
+}
+/* --- New Tiered Pricing Styles --- */
+.plan-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.price-comparison {
+    background: rgba(0,0,0,0.03);
+    padding: 1.5rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    border: 1px dashed rgba(0,0,0,0.1);
+}
+
+.comp-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+}
+
+.comp-price span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.chili-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.emerald-text { color: var(--emerald); }
+.gold-text { color: var(--gold); }
+.red-text { color: var(--red); }
+
+.chili-bonus {
+    background: rgba(0, 168, 107, 0.05);
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 168, 107, 0.1);
+    margin-top: 1rem !important;
+}
+
+.chili-bonus svg {
+    color: var(--emerald) !important;
+}
+
+.chili-bonus strong {
+    color: var(--emerald);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+/* --- Experience Gallery (Study Page) --- */
+.experience-gallery {
+    padding: 4rem 0 12rem;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.experience-gallery::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--emerald) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.05;
+    animation: backgroundMove 60s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes backgroundMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 1000px 1000px; }
+}
+
+.gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    background: var(--white);
+    border: 1px solid rgba(0, 168, 107, 0.1);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.gallery-item img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}
+
+.gallery-item .item-icon {
+    width: 65px;
+    height: 65px;
+    color: var(--gray);
+    opacity: 0.4;
+    transition: all 0.5s ease;
+}
+
+.gallery-item .item-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 168, 107, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s ease;
+    padding: 1rem;
+    text-align: center;
+}
+
+.gallery-item .item-overlay span {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transform: translateY(10px);
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--emerald);
+    background: var(--white);
+    box-shadow: 0 20px 40px rgba(0, 168, 107, 0.1);
+}
+
+.gallery-item:hover img,
+.gallery-item:hover .item-icon {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.gallery-item:hover .item-overlay {
+    opacity: 1;
+}
+
+.gallery-item:hover .item-overlay span {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    .gallery-item { 
+        width: 100%;
+        height: 180px;
+        border-radius: 20px; 
+        padding: 2rem; 
+        background: var(--white);
+        border: 1px solid rgba(0, 168, 107, 0.15);
+    }
+    .gallery-item img, .gallery-item .item-icon {
+        filter: grayscale(0%);
+        opacity: 1;
+        transform: scale(0.8);
+        margin-bottom: 2rem;
+    }
+    .gallery-item .item-overlay {
+        opacity: 1;
+        background: transparent;
+        align-items: flex-end;
+        padding-bottom: 1.2rem;
+    }
+    .gallery-item .item-overlay span {
+        color: var(--emerald);
+        transform: translateY(0);
+        font-size: 0.75rem;
+        font-weight: 800;
+    }
+}
+
+/* --- Project Portfolio Enhancements --- */
+.project-mini-logo {
+    width: 60px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+}
+
+.project-img-static {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.project-icon-box {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.project-icon-box svg {
+    width: 40px;
+    height: 40px;
+    color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .project-mini-logo { width: 45px; }
+}
+
+/* --- Experience Section (Study Page) --- */
+.experience-section {
+    position: relative;
+    padding: 12rem 0 4rem;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--white);
+}
+
+.experience-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.experience-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.8) 100%);
+    backdrop-filter: blur(3px);
+    z-index: 2;
+}
+
+.experience-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--black);
+}
+
+.experience-content h2 {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    margin-bottom: 2rem;
+    line-height: 1.1;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+
+.experience-content h2 span {
+    color: var(--emerald);
+}
+
+.experience-content p {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+.certification-seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 2.5rem;
+    background: rgba(0, 168, 107, 0.1);
+    border: 1px solid var(--emerald);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+}
+
+.certification-seal svg {
+    width: 24px;
+    height: 24px;
+    color: var(--emerald);
+}
+
+.certification-seal span {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .experience-section { padding: 6rem 0; }
+    .experience-overlay { background: rgba(255,255,255,0.8); }
+}
+
+/* --- Typewriter Section --- */
+.typewriter-container {
+    margin-top: 6rem;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--black);
+}
+
+.typewriter-container .static-text {
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.typewriter-container .dynamic-text {
+    color: var(--emerald);
+    position: relative;
+    margin-left: 0.5rem;
+}
+
+.typewriter-container .cursor {
+    color: var(--emerald);
+    animation: blink 0.8s infinite;
+    font-weight: 300;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .typewriter-container {
+        font-size: 1.2rem;
+        padding: 0 1.5rem;
+    }
 }

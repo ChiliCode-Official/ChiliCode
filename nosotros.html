@@ -18,6 +18,20 @@
         /* ===== RESET & ROOT ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* Carousel Hero Container */
+        .carousel-hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--white);
+        }
+
+        .nosotros-main {
+            position: relative;
+            width: 100%;
+        }
+
         :root {
             --emerald: #00A86B;
             --mex-red: #D7282F;
@@ -29,12 +43,13 @@
 
         html, body {
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100%;
+            overflow-x: hidden;
             background-color: var(--white);
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             color: var(--black);
+            scroll-behavior: smooth;
         }
 
         /* ===== CAROUSEL SPECIFIC STYLES ===== */
@@ -42,12 +57,13 @@
             position: absolute;
             left: 0;
             top: 0;
+            /* background-position set per-card via inline style from data */
             background-position: center center;
             background-size: cover;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             border-radius: 12px;
             overflow: hidden;
-            transition: background-position 0.5s ease;
+            /* No transition on background-position — it causes jumps */
         }
 
         .card-content {
@@ -87,66 +103,83 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            /* Stronger gradient so text is always readable over any image */
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.05) 0%,
+                rgba(0,0,0,0.15) 40%,
+                rgba(0,0,0,0.72) 75%,
+                rgba(0,0,0,0.88) 100%
+            );
             z-index: 1;
         }
 
         .details {
-            z-index: 22;
+            z-index: 100;          /* always above cards (z-index 20) and overlays */
             position: absolute;
-            top: 30%;
+            top: 50%;              /* vertical center on all screens */
+            transform: translateY(-50%);
             left: 8%;
+            padding: 2rem 2.5rem;
+            border-radius: 24px;
+            /* Stronger glass so it reads on any image */
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            max-width: 600px;
+            width: 88%;
         }
 
         .details .place-box {
-            height: 46px;
-            overflow: hidden;
+            position: relative;
+            margin-bottom: 1rem;
         }
 
         .details .place-box .text {
-            padding-top: 16px;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--emerald);
         }
 
         .details .place-box .text:before {
-            top: 0;
-            left: 0;
-            position: absolute;
             content: "";
-            width: 40px;
-            height: 4px;
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: var(--mex-red);
+            margin-bottom: 8px;
             border-radius: 99px;
-            background-color: var(--mex-red);
         }
 
         .details .title-1,
         .details .title-2 {
             font-weight: 900;
-            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-family: "Outfit", sans-serif;
-            line-height: 0.95;
-            color: var(--black);
-            text-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            line-height: 1;
+            color: var(--white);
+            /* Stronger shadow so titles always pop */
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 8px 24px rgba(0,0,0,0.7);
+            display: block;
         }
 
         .details .title-box-1,
         .details .title-box-2 {
-            margin-top: 2px;
-            height: 1.1em;
-            overflow: hidden;
+            margin-top: 5px;
+            height: auto;
+            overflow: visible;
         }
 
         .details > .desc {
-            margin-top: 24px;
-            width: 500px;
-            max-width: 85vw;
-            font-size: 1.1rem;
+            margin-top: 20px;
+            font-size: 1rem;
             line-height: 1.6;
-            color: var(--gray);
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 6px rgba(0,0,0,0.8);
         }
 
         .details > .cta {
@@ -288,25 +321,36 @@
                 overflow-x: hidden;
             }
 
+            /* On mobile: vertically center panel but keep it below the nav bar */
             .details {
-                top: 100px;
-                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 50%;
+                /* Center horizontally on mobile */
+                transform: translate(-50%, -40%);
                 width: calc(100% - 40px);
+                max-width: 100%;
+                padding: 1.5rem;
             }
 
             .details .title-1,
             .details .title-2 {
-                font-size: 2.5rem;
+                font-size: clamp(1.6rem, 8vw, 2.4rem);
             }
 
             .details > .desc {
-                margin-top: 15px;
-                font-size: 0.9rem;
+                margin-top: 12px;
+                font-size: 0.88rem;
                 width: 100%;
+                /* Limit lines on very small screens */
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
             }
 
             .pagination {
-                bottom: 110px; 
+                bottom: 32px;
                 left: 50%;
                 transform: translateX(-50%) !important;
                 width: auto;
@@ -318,12 +362,133 @@
             }
 
             .pagination > .arrow {
-                width: 50px;
-                height: 50px;
+                width: 48px;
+                height: 48px;
             }
 
-            .card {
-                background-position: center 20%; 
+            /* DO NOT override background-position here —
+               each card has its own focal point set inline */
+        }
+
+        /* CEO Slide Button */
+        .btn-meet {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--mex-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(215, 40, 47, 0.2);
+        }
+
+        .btn-meet:hover {
+            transform: translateY(-3px);
+            background: var(--emerald);
+            box-shadow: 0 15px 30px rgba(0, 168, 107, 0.3);
+        }
+
+        /* New CEO Section */
+        .ceo-section {
+            padding: 10rem 0;
+            background: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .ceo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .ceo-image-wrapper {
+            position: relative;
+        }
+
+        .ceo-image-container {
+            position: relative;
+            z-index: 2;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+        }
+
+        .ceo-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ceo-image-container:hover .ceo-img {
+            transform: scale(1.05);
+        }
+
+        .ceo-shape {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--mex-red);
+            border-radius: 20px;
+            z-index: 1;
+            opacity: 0.2;
+        }
+
+        .ceo-content {
+            max-width: 550px;
+        }
+
+        .ceo-content .badge {
+            margin-bottom: 1.5rem;
+        }
+
+        .ceo-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            line-height: 1;
+        }
+
+        .ceo-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .ceo-signature {
+            font-family: 'Outfit';
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--black);
+        }
+
+        .ceo-signature span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--emerald);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .ceo-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 4rem;
+            }
+            .ceo-content {
+                max-width: 100%;
+                margin: 0 auto;
             }
         }
     </style>
@@ -339,72 +504,170 @@
                 <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
             </a>
             <ul class="nav-links">
-                <li><a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Inicio</a></li>
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
                 <li><a href="nosotros.html" class="active"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
                 <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
-                <li><a href="index.html#proyectos"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>Obra</a></li>
-                <li><a href="index.html#contacto"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Contacto</a></li>
             </ul>
-            <a href="index.html#contacto" class="nav-cta">Contactar</a>
+            <a href="index.html#hero-3d" class="nav-cta">Hablemos</a>
         </div>
     </nav>
 
-    <div id="demo"></div>
+    <main class="nosotros-main">
+        <section class="carousel-hero">
+            <div id="demo"></div>
+            
+            <div class="details" id="details-even">
+                <div class="place-box">
+                    <div class="text">IDENTIDAD</div>
+                </div>
+                <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
+                <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
+                <div class="desc"></div>
+                <div class="slide-cta" style="display: none; margin-top: 2rem;">
+                    <a href="#ceo-section" class="btn-meet">Conóceme</a>
+                </div>
+            </div>
 
-    <div class="details" id="details-even">
-        <div class="place-box">
-            <div class="text">IDENTIDAD</div>
-        </div>
-        <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
-        <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
-        <div class="desc"></div>
-        <div class="cta">
-            <button class="bookmark">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            <button class="discover">Ver Proyecto</button>
-        </div>
-    </div>
+            <div class="details" id="details-odd">
+                <div class="place-box">
+                    <div class="text">IDENTIDAD</div>
+                </div>
+                <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
+                <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
+                <div class="desc"></div>
+                <div class="slide-cta" style="display: none; margin-top: 2rem;">
+                    <a href="#ceo-section" class="btn-meet">Conóceme</a>
+                </div>
+            </div>
 
-    <div class="details" id="details-odd">
-        <div class="place-box">
-            <div class="text">IDENTIDAD</div>
-        </div>
-        <div class="title-box-1"><div class="title-1">ARTESANÍA</div></div>
-        <div class="title-box-2"><div class="title-2">DIGITAL</div></div>
-        <div class="desc"></div>
-        <div class="cta">
-            <button class="bookmark">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            <button class="discover">Ver Proyecto</button>
-        </div>
-    </div>
+            <div class="pagination" id="pagination">
+                <div class="arrow arrow-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </div>
+                <div class="arrow arrow-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </div>
+                <div class="progress-sub-container">
+                    <div class="progress-sub-background">
+                        <div class="progress-sub-foreground"></div>
+                    </div>
+                </div>
+                <div class="slide-numbers" id="slide-numbers"></div>
+            </div>
 
-    <div class="pagination" id="pagination">
-        <div class="arrow arrow-left">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-        </div>
-        <div class="arrow arrow-right">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </div>
-        <div class="progress-sub-container">
-            <div class="progress-sub-background">
-                <div class="progress-sub-foreground"></div>
+            <div class="cover"></div>
+        </section>
+    </main>
+
+    <!-- Meet the CEO Section -->
+    <section id="ceo-section" class="ceo-section">
+        <div class="container">
+            <div class="ceo-grid">
+                <div class="ceo-image-wrapper">
+                    <div class="ceo-shape"></div>
+                    <div class="ceo-image-container">
+                        <img src="https://i.imgur.com/fCnJb3i.jpeg" alt="CEO ChilliCode" class="ceo-img">
+                    </div>
+                </div>
+                <div class="ceo-content">
+                    <span class="badge">El Arquitecto Digital</span>
+                    <h2>Trascendiendo la Ingeniería <br><span>con Alma de Artista.</span></h2>
+                    <p>Como <strong>Google UX Designer Certificado</strong>, en ChilliCode no solo construimos sitios web; forjamos identidades digitales. Mi visión es elevar el estándar de la tecnología en México, combinando la precisión de la ingeniería moderna con la pasión y el detalle de nuestra herencia artesanal.</p>
+                    <p>Cada línea de código que escribimos en este estudio es una declaración de excelencia. No creemos en lo ordinario, creemos en lo extraordinario.</p>
+                    <div class="ceo-signature">
+                        CEO & Founder
+                        <span>ChilliCode Agency</span>
+                    </div>
+                    <div class="ceo-socials" style="margin-top: 1.5rem; display: flex; gap: 1.5rem;">
+                        <a href="https://www.instagram.com/rodricg30" target="_blank" class="social-link" style="color: var(--black); text-decoration: none; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">
+                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> 
+                            @rodricg30
+                        </a>
+                        <a href="https://www.instagram.com/chilicode_agency/" target="_blank" class="social-link" style="color: var(--emerald); text-decoration: none; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">
+                            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> 
+                            @chilicode_agency
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="slide-numbers" id="slide-numbers"></div>
-    </div>
+    </section>
 
-    <div class="cover"></div>
+    <!-- Experiencia Section -->
+    <section class="experience-section">
+        <video autoplay muted loop playsinline class="experience-bg-video">
+            <source src="experiencia.mp4" type="video/mp4">
+        </video>
+        <div class="experience-overlay"></div>
+        <div class="container">
+            <div class="experience-content">
+                <span class="badge">Evolución Constante</span>
+                <h2>Nuestra <span>Experiencia</span></h2>
+                <p>Cada año nos esforzamos por mejorar nuestros procesos y elevar la calidad de nuestros sitios web. Recordamos siempre que cada proyecto es un lienzo único: cada web puede ser diferente, adaptándose totalmente a la visión y <strong>creatividad del usuario</strong>.</p>
+                <div class="certification-seal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Google UX Designer Certificado</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de Proyectos de Experiencia -->
+    <section class="experience-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <!-- Q-Zenith -->
+                <a href="https://chilicode-official.github.io/q-zenith/" target="_blank" class="gallery-item">
+                    <img src="https://imgur.com/eQtS4sI.png" alt="Q-Zenith">
+                    <div class="item-overlay"><span>Ecommerce Moda</span></div>
+                </a>
+                <!-- CV -->
+                <a href="https://chilicode-official.github.io/rodricg30/" target="_blank" class="gallery-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="item-overlay"><span>Mi Curriculum</span></div>
+                </a>
+                <!-- Vanto -->
+                <a href="https://chilicode-official.github.io/Vanto/" target="_blank" class="gallery-item">
+                    <img src="https://imgur.com/W25Vdvr.png" alt="Vanto">
+                    <div class="item-overlay"><span>Relojería Lujo</span></div>
+                </a>
+                <!-- Atmos -->
+                <a href="https://chilicode-official.github.io/atmos/" target="_blank" class="gallery-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v2m0 16v2m10-10h-2M4 10H2m16.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414M6.05 6.05L4.636 4.636"></path><circle cx="12" cy="12" r="4"></circle></svg>
+                    </div>
+                    <div class="item-overlay"><span>Atmos PWA</span></div>
+                </a>
+                <!-- Penny-Wise -->
+                <a href="https://chilicode-official.github.io/atmos/" target="_blank" class="gallery-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1v22m5-18H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <div class="item-overlay"><span>Penny-Wise</span></div>
+                </a>
+                <!-- Pompi-Bar -->
+                <a href="https://chilicode-official.github.io/Pompi-Bar/" target="_blank" class="gallery-item">
+                    <img src="https://imgur.com/LYeuSbr.png" alt="Pompi-Bar">
+                    <div class="item-overlay"><span>Restaurante</span></div>
+                </a>
+                <!-- VanKlein -->
+                <a href="https://chilicode-official.github.io/vanklein-ink/" target="_blank" class="gallery-item">
+                    <img src="https://imgur.com/rD2EEDR.png" alt="VanKlein Ink">
+                    <div class="item-overlay"><span>Tatuajes</span></div>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -415,54 +678,65 @@
                 title: 'ARTESANÍA',
                 title2: 'DIGITAL',
                 description: 'Fusionamos la herencia cultural mexicana con la tecnología de Google para crear piezas únicas de software.',
-                image: 'https://imgur.com/IXGHmR4.jpg'
+                image: 'https://imgur.com/IXGHmR4.jpg',
+                bgPos: 'center center'   // adjust if subject is off-center
             },
             {
                 place: 'COLABORACIÓN',
                 title: 'COMUNIDAD',
-                title2: 'IA & GEMINI',
-                description: 'Trabajamos con el IPN y Google Gemini para liderar la nueva era de la inteligencia artificial aplicada.',
-                image: 'https://imgur.com/e8Vemgw.jpg'
+                title2: 'IA & GOOGLE',
+                description: 'Implementamos soluciones avanzadas utilizando Google Cloud y múltiples herramientas de IA para liderar la nueva era digital.',
+                image: 'https://imgur.com/e8Vemgw.jpg',
+                bgPos: 'center center'
             },
             {
                 place: 'ECOMMERCE',
                 title: 'POTENCIA',
                 title2: 'SHOPIFY',
                 description: 'Desplegamos tiendas de alto rendimiento con el respaldo y la escalabilidad global de Shopify.',
-                image: 'https://imgur.com/Z6JDEmX.jpg'
+                image: 'https://imgur.com/Z6JDEmX.jpg',
+                bgPos: 'center center'
             },
             {
-                place: 'HOSTING',
-                title: 'DESPLIEGUE',
-                title2: '$55 MXN/MES',
-                description: 'Infraestructura profesional basada en GitHub. Hosting de alto rendimiento desde solo $55 pesos al mes.',
-                image: 'https://imgur.com/XTVGUbz.jpg'
+                place: 'NUBE PROPIA',
+                title: 'HOSTING',
+                title2: 'PROFESIONAL',
+                description: 'Hosting gratis o desde $55 MXN al mes sin marca de agua en nuestra nube. Incluido sin costo en planes seleccionados.',
+                image: 'https://imgur.com/XTVGUbz.jpg',
+                bgPos: 'center center'
             },
             {
                 place: 'CREADORES',
                 title: 'PREMIUM',
                 title2: 'FOURTHWALL',
                 description: 'Elevamos la monetización de creadores con experiencias exclusivas y tecnología Fourthwall.',
-                image: 'https://imgur.com/swHkE9F.jpg'
+                image: 'https://imgur.com/swHkE9F.jpg',
+                bgPos: 'center center'
             },
             {
                 place: 'APRENDIZAJE',
                 title: 'EDUCACIÓN',
                 title2: '& FUTURO',
                 description: 'Comprometidos con el crecimiento y la formación técnica de las nuevas generaciones digitales.',
-                image: 'https://imgur.com/BDGsKP5.jpg'
+                image: 'https://imgur.com/BDGsKP5.jpg',
+                bgPos: 'center center'
             },
             {
-                place: 'EQUIPO',
-                title: 'LIDERAZGO',
-                title2: 'ESTRATÉGICO',
-                description: 'Forjando el futuro digital con visión humana y tecnológica desde el corazón de México.',
-                image: 'https://i.imgur.com/fCnJb3i.jpeg'
+                place: 'FUNDADOR',
+                title: 'VISIÓN &',
+                title2: 'ESTRATEGIA',
+                description: 'Nacido en la vanguardia digital, nuestro CEO lidera cada proyecto con una maestría técnica inigualable. Fusionando ingeniería de software de élite con una visión artística que redefine lo que es posible en la web moderna.',
+                image: 'https://i.imgur.com/fCnJb3i.jpeg',
+                bgPos: 'center 15%',     // CEO photo: keep face in frame
+                hasButton: true
             }
         ];
 
         const _ = (id) => document.getElementById(id);
-        const cards = data.map((i, index) => `<div class="card" id="card${index}" style="background-image:url(${i.image})"></div>`).join('');
+        // Set background-position per card from data so images always show the right focal point
+        const cards = data.map((i, index) =>
+            `<div class="card" id="card${index}" style="background-image:url(${i.image});background-position:${i.bgPos || 'center center'}"></div>`
+        ).join('');
         const cardContents = data.map((i, index) => `
             <div class="card-content" id="card-content-${index}">
                 <div class="content-start"></div>
@@ -509,7 +783,7 @@
 
             gsap.set("#pagination", {
                 top: isMobile ? 'auto' : offsetTop + cardHeight + 40,
-                bottom: isMobile ? 110 : 'auto',
+                bottom: isMobile ? 32 : 'auto',
                 left: isMobile ? '50%' : offsetLeft,
                 xPercent: isMobile ? -50 : 0,
                 opacity: 0,
@@ -521,13 +795,17 @@
 
             gsap.set(getCard(active), { x: 0, y: 0, width: width, height: height, borderRadius: 0 });
             gsap.set(getCardContent(active), { x: 0, y: 0, opacity: 0 });
-            gsap.set(detailsActive, { opacity: 0, zIndex: 22, x: isMobile ? 0 : -100 });
-            gsap.set(detailsInactive, { opacity: 0, zIndex: 12 });
+            gsap.set(detailsActive, { opacity: 0, zIndex: 100, x: isMobile ? 0 : -100 });
+            gsap.set(detailsInactive, { opacity: 0, zIndex: 80 });
             
             document.querySelectorAll(`${detailsActive} .place-box .text`).forEach(el => el.textContent = data[active].place);
             document.querySelectorAll(`${detailsActive} .title-1`).forEach(el => el.textContent = data[active].title);
             document.querySelectorAll(`${detailsActive} .title-2`).forEach(el => el.textContent = data[active].title2);
             document.querySelectorAll(`${detailsActive} .desc`).forEach(el => el.textContent = data[active].description);
+            
+            document.querySelectorAll(`${detailsActive} .slide-cta`).forEach(el => {
+                el.style.display = data[active].hasButton ? 'block' : 'none';
+            });
 
             gsap.set(".progress-sub-foreground", { width: 200 * (1 / data.length) * (active + 1) });
 
@@ -591,9 +869,19 @@
                 document.querySelectorAll(`${detailsActive} .title-1`).forEach(el => el.textContent = currentData.title);
                 document.querySelectorAll(`${detailsActive} .title-2`).forEach(el => el.textContent = currentData.title2);
                 document.querySelectorAll(`${detailsActive} .desc`).forEach(el => el.textContent = currentData.description);
+                
+                document.querySelectorAll(`${detailsActive} .slide-cta`).forEach(el => {
+                    el.style.display = currentData.hasButton ? 'block' : 'none';
+                });
 
-                gsap.set(detailsActive, { zIndex: 22, opacity: 0 });
-                gsap.to(detailsActive, { opacity: 1, delay: 0.4 });
+                gsap.set(detailsActive, { zIndex: 100, opacity: 0, x: direction === "next" ? 50 : -50 });
+                gsap.to(detailsActive, { opacity: 1, x: 0, duration: 0.6, delay: 0.3, ease: "expo.out" });
+                gsap.to(detailsInactive, {
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power2.inOut",
+                    onComplete: () => gsap.set(detailsInactive, { zIndex: 80 })
+                });
                 
                 const [active, ...rest] = order;
                 const prv = direction === "next" ? rest[rest.length - 1] : rest[0];
