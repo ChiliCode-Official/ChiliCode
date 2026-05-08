@@ -17,14 +17,14 @@ function initAnimations() {
 
     // 1. Initial State (Hero)
     const isMobile = window.innerWidth < 768;
-    gsap.set(modelViewer, { 
-        xPercent: isMobile ? 0 : 30, 
-        yPercent: isMobile ? -5 : 0, 
-        scale: isMobile ? 0.6 : 1.2, 
-        opacity: 0 
+    gsap.set(modelViewer, {
+        xPercent: isMobile ? 0 : 30,
+        yPercent: isMobile ? -5 : 0,
+        scale: isMobile ? 0.6 : 1.2,
+        opacity: 0
     });
     updateOrbit(0, 75, 2);
-    
+
     gsap.to(modelViewer, { opacity: 1, duration: 1.5 });
 
     // 2. Transition: Hero -> Servicios
@@ -40,7 +40,7 @@ function initAnimations() {
     tl1.to(modelViewer, {
         xPercent: -35,
         scale: 0.7,
-        onUpdate: function() {
+        onUpdate: function () {
             const p = this.progress();
             const azimuth = gsap.utils.interpolate(0, 180, p);
             const polar = gsap.utils.interpolate(75, 90, p);
@@ -66,7 +66,7 @@ function initAnimations() {
         opacity: 0,
         duration: 1,
         ease: "power2.inOut",
-        onUpdate: function() {
+        onUpdate: function () {
             const p = this.progress();
             const azimuth = gsap.utils.interpolate(180, 360, p);
             const polar = gsap.utils.interpolate(90, 45, p);
@@ -110,7 +110,7 @@ function initNavbar() {
 // Reveal animations for text
 function initReveals() {
     const revealElements = document.querySelectorAll('.content-wrapper, .service-card, .project-item, .section-header');
-    
+
     revealElements.forEach(el => {
         gsap.from(el, {
             scrollTrigger: {
@@ -130,7 +130,7 @@ function initReveals() {
 
 function initCarousel() {
     const cards = Array.from(document.querySelectorAll('.carousel-card'));
-    const dots  = Array.from(document.querySelectorAll('.dot'));
+    const dots = Array.from(document.querySelectorAll('.dot'));
     if (cards.length === 0) return;
 
     let currentIndex = 0;

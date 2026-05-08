@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Infraestructura Web | ChilliCode Agency</title>
+    <meta name="description" content="Completa este breve formulario para entender mejor tus necesidades y prepararnos para nuestra llamada.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+    
+    <!-- Open Graph (WhatsApp sharing) -->
+    <meta property="og:title" content="Diagnóstico de Infraestructura Web | ChilliCode Agency">
+    <meta property="og:description" content="Completa este breve formulario para entender mejor tus necesidades y prepararnos para nuestra llamada.">
+    <meta property="og:image" content="https://i.imgur.com/QTzmlBC.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background: radial-gradient(circle at top left, rgba(0, 168, 107, 0.08), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(215, 40, 47, 0.05), transparent 40%),
+                        #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Decorative Glowing Blobs */
+        .glow-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--emerald);
+            filter: blur(150px);
+            border-radius: 50%;
+            opacity: 0.12;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .blob-1 { top: -100px; left: -100px; }
+        .blob-2 { bottom: -100px; right: -100px; background: var(--red); opacity: 0.08; }
+        
+        /* Motion Graphics / Decorative Elements (PC Only) */
+        .decorations-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            display: none; /* Hidden on mobile */
+        }
+        
+        @media (min-width: 1024px) {
+            .decorations-container {
+                display: block;
+            }
+            
+            .floating-shape {
+                position: absolute;
+                opacity: 0.25;
+                transition: all 0.5s ease;
+            }
+            
+            .shape-1 {
+                width: 80px;
+                height: 80px;
+                border: 2px solid var(--emerald);
+                border-radius: 24px;
+                left: 8%;
+                top: 25%;
+                animation: float-slow 12s infinite ease-in-out, rotate 25s linear infinite;
+            }
+            
+            .shape-2 {
+                width: 140px;
+                height: 140px;
+                background: linear-gradient(135deg, rgba(0, 168, 107, 0.2), transparent);
+                left: 5%;
+                top: 60%;
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                animation: float-morph 15s infinite ease-in-out;
+                filter: blur(5px);
+            }
+            
+            .shape-3 {
+                width: 120px;
+                height: 120px;
+                background-image: radial-gradient(var(--color-text-muted) 1.5px, transparent 1.5px);
+                background-size: 15px 15px;
+                left: 12%;
+                top: 45%;
+                opacity: 0.1;
+                animation: float-alt 18s infinite ease-in-out;
+            }
+            
+            .shape-4 {
+                width: 60px;
+                height: 60px;
+                border: 2px solid var(--red);
+                right: 8%;
+                top: 20%;
+                border-radius: 50%;
+                animation: float-alt 10s infinite ease-in-out;
+            }
+            
+            .shape-5 {
+                width: 100px;
+                height: 20px;
+                background: linear-gradient(90deg, var(--gold), transparent);
+                right: 5%;
+                top: 55%;
+                border-radius: var(--radius-pill);
+                transform: rotate(-45deg);
+                animation: float-slow 14s infinite ease-in-out;
+            }
+            
+            .shape-6 {
+                width: 40px;
+                height: 40px;
+                background: rgba(230, 190, 138, 0.3);
+                right: 10%;
+                top: 75%;
+                border-radius: 10px;
+                transform: rotate(15deg);
+                animation: float-slow 8s infinite ease-in-out reverse;
+            }
+            
+            @keyframes float-slow {
+                0%, 100% { transform: translateY(0) translateX(0); }
+                50% { transform: translateY(-30px) translateX(15px); }
+            }
+            
+            @keyframes float-alt {
+                0%, 100% { transform: translateY(0) translateX(0); }
+                50% { transform: translateY(25px) translateX(-15px); }
+            }
+            
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            @keyframes float-morph {
+                0%, 100% { 
+                    transform: translateY(0) rotate(0deg);
+                    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                }
+                50% { 
+                    transform: translateY(-20px) rotate(20deg);
+                    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                }
+            }
+        }
+        
+        .form-header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .btn-volver {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .btn-volver:hover {
+            color: var(--emerald);
+            transform: translateX(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+            background: #FFFFFF;
+        }
+        
+        .btn-volver svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-volver:hover svg {
+            transform: translateX(-3px);
+        }
+        
+        .form-logo {
+            height: 32px;
+            width: auto;
+        }
+        
+        .page-intro {
+            text-align: center;
+            margin: 2rem 0 3rem;
+            position: relative;
+            z-index: 1;
+            padding: 0 1rem;
+        }
+        
+        .page-intro h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.1;
+            margin: 0.75rem 0;
+            letter-spacing: -1.5px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+        
+        .page-intro p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-container {
+            width: 100%;
+            max-width: 680px;
+            background: #FFFFFF;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.03), 0 10px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 5rem;
+            border: 1px solid rgba(0, 0, 0, 0.01);
+            position: relative;
+            z-index: 1;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Custom Form Styles */
+        form {
+            padding: 3.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            form {
+                padding: 2rem 1.5rem;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+        
+        .label-desc {
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-top: -0.5rem;
+        }
+        
+        input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--emerald);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.05);
+        }
+        
+        /* Radio and Checkbox Styles */
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #f9f9f9;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option-item:hover {
+            background: #f0fdf4;
+            border-color: rgba(0, 168, 107, 0.2);
+        }
+        
+        .option-item input {
+            cursor: pointer;
+            accent-color: var(--emerald);
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        
+        .option-item span {
+            font-size: 0.95rem;
+            color: var(--color-text);
+        }
+        
+        .other-input {
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--color-text);
+            color: var(--white);
+            font-weight: 700;
+            padding: 1.2rem;
+            border-radius: var(--radius-pill);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            background: var(--emerald);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 168, 107, 0.1);
+        }
+        
+        .form-status {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            padding: 1rem;
+            display: none;
+        }
+        
+        .form-status.success {
+            display: block;
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--emerald);
+            font-weight: 600;
+            border: 1px solid rgba(0, 168, 107, 0.2);
+        }
+        
+        .form-status.error {
+            display: block;
+            background: rgba(215, 40, 47, 0.1);
+            color: var(--red);
+            font-weight: 600;
+            border: 1px solid rgba(215, 40, 47, 0.2);
+        }
+        
+        .badge {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Background Blobs -->
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+
+    <!-- Motion Graphics / Decorative Elements (Desktop Only) -->
+    <div class="decorations-container">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+        <div class="floating-shape shape-6"></div>
+    </div>
+
+    <header class="form-header">
+        <a href="artesanias.html" class="btn-volver">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver
+        </a>
+        <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="form-logo">
+        <div style="width: 80px;" class="desktop-only"></div> <!-- Spacer for symmetry -->
+    </header>
+
+    <div class="page-intro">
+        <span class="badge">🌶️ DIAGNÓSTICO WEB</span>
+        <h1>Cuéntanos de tu proyecto</h1>
+        <p>Por favor, completa este breve reporte para que podamos analizar el estado actual de tu negocio antes de nuestra videollamada.</p>
+    </div>
+
+    <div class="form-container">
+        <form id="project-form">
+            
+            <!-- Pregunta 1 -->
+            <div class="form-group">
+                <label for="nombre_whatsapp">Nombre del líder del proyecto y WhatsApp de contacto *</label>
+                <input type="text" id="nombre_whatsapp" name="nombre_whatsapp" required placeholder="Ej. Juan Pérez - +52 55 1234 5678">
+            </div>
+            
+            <!-- Pregunta 2 -->
+            <div class="form-group">
+                <label>¿Prefieres contactarnos por WhatsApp o agendar una Videollamada? *</label>
+                <div class="options-group">
+                    <label class="option-item">
+                        <input type="radio" name="preferencia_contacto" value="WhatsApp" required>
+                        <span>WhatsApp</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="preferencia_contacto" value="Videollamada" required>
+                        <span>Videollamada</span>
+                    </label>
+                </div>
+                
+                <!-- Calendar Section (Hidden by default) -->
+                <div id="calendar-section" style="display: none; margin-top: 1.5rem;">
+                    <label>Agenda tu Videollamada *</label>
+                    <div class="label-desc">Selecciona el día y la hora que mejor te queden.</div>
+                    <div class="calendar-container" style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0, 0, 0, 0.1); margin-top: 0.5rem; height: 600px;">
+                        <iframe src="https://calendar.app.google/CHT4wvHienEidjhs9" style="border: 0" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                    <div class="label-desc" style="margin-top: 0.5rem;">* Si el calendario no carga, puedes usar el botón de abajo.</div>
+                    <a href="https://calendar.app.google/CHT4wvHienEidjhs9" target="_blank" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem; text-align: center; font-size: 0.9rem; padding: 0.8rem;">Abrir Calendario en pantalla completa</a>
+                </div>
+            </div>
+            
+            <!-- Pregunta 3 -->
+            <div class="form-group">
+                <label for="negocio">¿De qué trata tu negocio y qué te hace diferente a tu competencia? *</label>
+                <textarea id="negocio" name="negocio" rows="4" required placeholder="Cuéntanos un poco sobre lo que haces..."></textarea>
+            </div>
+            
+            <!-- Pregunta 4 -->
+            <div class="form-group">
+                <label for="redes">¿Tienes redes sociales o página actual? (Pega el link aquí) *</label>
+                <input type="text" id="redes" name="redes" required placeholder="Ej. instagram.com/mi_negocio">
+            </div>
+            
+            <!-- Pregunta 5 -->
+            <div class="form-group">
+                <label>¿Cuál es el principal "cuello de botella" de tu negocio hoy? *</label>
+                <div class="options-group">
+                    <label class="option-item">
+                        <input type="checkbox" name="cuello_botella" value="Pierdo mucho tiempo contestando los mismos mensajes">
+                        <span>Pierdo mucho tiempo contestando los mismos mensajes</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" name="cuello_botella" value="Mi imagen en internet no se ve profesional / No tengo presencia.">
+                        <span>Mi imagen en internet no se ve profesional / No tengo presencia.</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" name="cuello_botella" value="Es un caos organizar las citas, pedidos o a mi equipo.">
+                        <span>Es un caos organizar las citas, pedidos o a mi equipo.</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Pregunta 6 -->
+            <div class="form-group">
+                <label for="plan">¿Ya seleccionaste un plan? *</label>
+                <div class="label-desc">Basado en nuestro catálogo, ¿qué sistema te interesa explorar?</div>
+                <select id="plan" name="plan" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="piquin">NIVEL PIQUÍN (Landing Page...)</option>
+                    <option value="chipotle">NIVEL CHIPOTLE ( Sitio Web Completo...)</option>
+                    <option value="habanero">NIVEL HABANERO (Sitio y Tienda Online Completa...)</option>
+                    <option value="asesoria">Aún no sé, necesito que me asesoren. (o busco algo más personalizado)</option>
+                </select>
+            </div>
+            
+            <!-- Pregunta 7 -->
+            <div class="form-group">
+                <label for="diseno_favorito">¿Hay algún sitio web del que te guste mucho su diseño?</label>
+                <div class="label-desc">(sin importar si tiene que ver con tu marca, ejemplo: Apple, Samsung, Ferrari etc, pega el link)</div>
+                <input type="text" id="diseno_favorito" name="diseno_favorito" placeholder="Ej. apple.com">
+            </div>
+            
+            <button type="submit" class="btn btn-submit">Enviar Diagnóstico</button>
+            <div id="form-status" class="form-status"></div>
+        </form>
+    </div>
+
+    <script>
+        // Read URL params and auto-select plan
+        const urlParams = new URLSearchParams(window.location.search);
+        const planParam = urlParams.get('plan');
+        if (planParam) {
+            const planSelect = document.getElementById('plan');
+            if (planSelect) planSelect.value = planParam;
+        }
+
+        // Conditional Calendar Display
+        const contactRadios = document.querySelectorAll('input[name="preferencia_contacto"]');
+        const calendarSection = document.getElementById('calendar-section');
+
+        contactRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'Videollamada') {
+                    calendarSection.style.display = 'block';
+                } else {
+                    calendarSection.style.display = 'none';
+                }
+            });
+        });
+
+        // Form handling
+        const form = document.getElementById('project-form');
+        const statusDiv = document.getElementById('form-status');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            statusDiv.textContent = "Enviando diagnóstico...";
+            statusDiv.className = "form-status success";
+            statusDiv.style.display = "block";
+            
+            const formData = new FormData(form);
+            
+            // Handle checkboxes for "cuello_botella"
+            const cuellos = [];
+            document.querySelectorAll('input[name="cuello_botella"]:checked').forEach(cb => {
+                cuellos.push(cb.value);
+            });
+            
+            const data = Object.fromEntries(formData.entries());
+            data.cuello_botella = cuellos.join(', '); // Join selected options
+            
+            // NOTE: The user needs to replace this URL with their deployed Google Apps Script Web App URL
+            const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygrGwrW0aiOVXcHevQrHt5GYMle5L1lu0ejJCgPuLL1BS1VzChZP_Cx5IkTslaPEtK-A/exec";
+            
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                statusDiv.textContent = "¡Diagnóstico enviado con éxito! Nos pondremos en contacto contigo pronto.";
+                statusDiv.className = "form-status success";
+                form.reset();
+            } catch (error) {
+                statusDiv.textContent = "Hubo un error al enviar. Por favor, intenta de nuevo o contáctanos por WhatsApp.";
+                statusDiv.className = "form-status error";
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>

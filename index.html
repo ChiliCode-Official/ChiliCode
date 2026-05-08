@@ -8,6 +8,15 @@
     <!-- Meta tags for SEO -->
     <meta name="description" content="ChilliCode - Estudio boutique de diseño y desarrollo de software con herencia artesanal.">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+    
+    <!-- Open Graph (WhatsApp sharing) -->
+    <meta property="og:title" content="ChilliCode Agency | Digital Craftsmanship">
+    <meta property="og:description" content="ChilliCode - Estudio boutique de diseño y desarrollo de software con herencia artesanal.">
+    <meta property="og:image" content="https://i.imgur.com/QTzmlBC.png">
+    <meta property="og:type" content="website">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +67,7 @@
                 <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
                 <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
             </ul>
-            <a href="#hero-3d" class="nav-cta">Hablemos</a>
+            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20más%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
         </div>
     </nav>
 
@@ -204,17 +213,72 @@
 
     <footer class="footer">
         <div class="container">
+            <!-- Typewriter Section -->
+            <div class="typewriter-container" style="text-align: center; margin-bottom: 2rem;">
+                <span class="static-text">Nuestra tecnología es para:</span>
+                <span id="typewriter" class="dynamic-text"></span>
+                <span class="cursor">|</span>
+            </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2026 ChilliCode Agency. Digital Craftsmanship Studio.</p>
+                <p>&copy; 2026 ChilliCode Agency.</p>
                 <div class="socials">
-                    <a href="#">Instagram</a>
-                    <a href="#">LinkedIn</a>
-                    <a href="#">X</a>
+                    <a href="https://www.instagram.com/chilicode_agency/" target="_blank">Instagram Empresa</a>
+                    <a href="https://www.instagram.com/rodricg30" target="_blank">CEO Instagram</a>
+                    <a href="https://wa.me/525574123521" target="_blank">WhatsApp</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="main.js"></script>
+    <script>
+        // Typewriter Engine
+        function initTypewriter() {
+            const typewriter = document.getElementById('typewriter');
+            if (!typewriter) return;
+
+            const words = [
+                "Emprendedores", "Empresas", "Chefs", "Abogados", 
+                "Notarías", "Despachos", "Doctores", "Hospitales", 
+                "Restaurantes", "Bares", "Restaurantes Pequeños"
+            ];
+            
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingSpeed = 100;
+            const deletingSpeed = 50;
+            const pauseTime = 2000;
+
+            function type() {
+                const currentWord = words[wordIndex];
+                
+                if (isDeleting) {
+                    typewriter.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriter.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typeSpeed = isDeleting ? deletingSpeed : typingSpeed;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    isDeleting = true;
+                    typeSpeed = pauseTime;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 500;
+                }
+
+                setTimeout(type, typeSpeed);
+            }
+
+            type();
+        }
+        initTypewriter();
+    </script>
 </body>
 </html>
