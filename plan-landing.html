@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Landing Page | ChilliCode Agency</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Detalles del Plan Landing Page de ChilliCode. Una página de conversión completa orientada a un solo objetivo.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        .plan-details-container {
+            padding-top: 150px;
+            padding-bottom: 100px;
+        }
+        
+        .plan-hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        
+        .plan-hero .badge {
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--emerald);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .plan-hero h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+        
+        .plan-hero p {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .investment-tag {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--emerald);
+            background: rgba(0, 168, 107, 0.05);
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(0, 168, 107, 0.2);
+        }
+        
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 5rem;
+        }
+        
+        .process-section h2, .hosting-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--color-text);
+        }
+        
+        .process-list {
+            list-style: none;
+            counter-reset: process-counter;
+        }
+        
+        .process-item {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 2rem;
+        }
+        
+        .process-item::before {
+            counter-increment: process-counter;
+            content: counter(process-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--mex-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        
+        .process-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text);
+        }
+        
+        .process-item p {
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+        
+        .hosting-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hosting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        
+        .hosting-card.premium {
+            border-color: var(--gold);
+            background: rgba(230, 190, 138, 0.05);
+        }
+        
+        .hosting-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .hosting-card p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hosting-price {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--mex-red);
+        }
+        
+        .hosting-link-example {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #f4f4f4;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #333;
+            word-break: break-all;
+        }
+        
+        @media (max-width: 992px) {
+            .grid-2-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Mexicana Premium Sections --- */
+        .mexicana-wrapper {
+            position: relative;
+            background-color: var(--white);
+            border-radius: 40px;
+            padding: 5rem 0;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+            overflow: hidden;
+        }
+
+        .mex-section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mex-section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+
+        .mex-section-header p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .mex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mex-grid:last-child {
+            margin-bottom: 0;
+        }
+
+        .mex-card {
+            background: #ffffff;
+            border: 2px solid rgba(0, 0, 0, 0.05);
+            border-radius: 32px;
+            padding: 3rem 2.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .mex-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card Themes */
+        .mex-card.theme-emerald { border-color: rgba(0, 168, 107, 0.2); }
+        .mex-card.theme-emerald:hover { border-color: var(--emerald); }
+        
+        .mex-card.theme-gold { border-color: rgba(230, 190, 138, 0.3); background: rgba(230, 190, 138, 0.03); }
+        .mex-card.theme-gold:hover { border-color: var(--gold); }
+
+        .mex-card.theme-red { border-color: rgba(215, 40, 47, 0.2); }
+        .mex-card.theme-red:hover { border-color: var(--mex-red); }
+
+        .mex-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+        }
+
+        .theme-emerald h3 svg { color: var(--emerald); }
+        .theme-gold h3 svg { color: var(--gold); }
+        .theme-red h3 svg { color: var(--mex-red); }
+
+        .mex-card p.mex-desc {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .mex-card .specs {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: auto;
+            padding-bottom: 2rem;
+            background: rgba(0,0,0,0.02);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        
+        .mex-card .specs strong {
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        .support-list {
+            list-style: none;
+            margin-top: 1rem;
+            margin-bottom: auto;
+            padding-bottom: 2rem;
+        }
+
+        .support-list li {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .support-list li::before {
+            content: '✓';
+            color: var(--black);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+        
+        .theme-emerald .support-list li::before { color: var(--emerald); }
+        .theme-gold .support-list li::before { color: var(--gold); }
+        .theme-red .support-list li::before { color: var(--mex-red); }
+
+        .mex-investment {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--black);
+            margin-top: 1.5rem;
+            border-top: 2px dashed rgba(0, 0, 0, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        /* Floating Decor */
+        .floating-element {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.15;
+            user-select: none;
+            pointer-events: none;
+            animation: float-anim 6s ease-in-out infinite;
+        }
+
+        .float-1 { top: 10%; left: 5%; font-size: 4rem; animation-delay: 0s; }
+        .float-2 { top: 40%; right: 5%; font-size: 5rem; animation-delay: 1s; }
+        .float-3 { bottom: 20%; left: 8%; font-size: 3rem; animation-delay: 2s; }
+        .float-4 { top: 60%; left: 45%; font-size: 3.5rem; animation-delay: 1.5s; opacity: 0.08;}
+        .float-5 { bottom: 5%; right: 15%; font-size: 4.5rem; animation-delay: 0.5s; }
+
+        @keyframes float-anim {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Inicio</a></li>
+                <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+                <li><a href="index.html#hero-3d"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Hablemos</a></li>
+            </ul>
+            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20más%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
+        </div>
+    </nav>
+
+    <main class="plan-details-container container">
+        
+        <div class="plan-hero">
+            <span class="badge">Nivel Piquín</span>
+            <h1>Landing Page Profesional</h1>
+            <p>Una página de conversión completa orientada a un solo objetivo. Ideal para campañas de publicidad, promocionar un servicio clave o para tener presencia web robusta sin complicaciones.</p>
+            <div class="investment-tag">
+                Inversión: $1,899 - $4,500 MXN
+            </div>
+            <div style="margin-top: 2rem;">
+                <a href="formulario.html?plan=piquin" class="btn btn-primary">Comenzar Ahora</a>
+                <a href="artesanias.html" class="btn btn-secondary" style="margin-left: 1rem; border: 2px solid var(--gray); background: transparent; color: var(--black);">Ver otros planes</a>
+            </div>
+        </div>
+
+        <div class="grid-2-col">
+            
+            <!-- Proceso de Trabajo -->
+            <div class="process-section" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; text-align: left;">
+                <h2 style="text-align: center;">Nuestro Proceso</h2>
+                <ul class="process-list">
+                    <li class="process-item">
+                        <h3>Junta de Estrategia (30 min)</h3>
+                        <p>Entendemos tu negocio, tu cliente ideal y el objetivo principal de la página. Definimos la ruta para convertir visitantes en clientes.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Recopilación de Contenido</h3>
+                        <p>Nos mandas tu logo, fotografías, textos y referencias de estilo. Nuestros plazos arrancan en el momento que tenemos todo tu material.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Diseño y Desarrollo (2 a 7 días)</h3>
+                        <p>Construimos la página completa utilizando tecnologías de vanguardia para asegurar máxima velocidad. Te enviamos un preview funcional para revisar.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Revisión y Ajustes</h3>
+                        <p>Tienes <strong>1 ronda completa de revisiones</strong> incluida. Aplicamos todos los cambios y refinamientos que necesites para que quede perfecta.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Despliegue y Publicación</h3>
+                        <p>Conectamos la infraestructura, activamos los certificados de seguridad SSL y publicamos tu Landing Page al mundo.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- NEW MEXICANA ARTESANIA SECTIONS -->
+        <div class="mexicana-wrapper">
+            
+            <!-- Decoraciones Flotantes -->
+            <div class="floating-element float-1">☁️</div>
+            <div class="floating-element float-2">🌶️</div>
+            <div class="floating-element float-3">🌶️</div>
+            <div class="floating-element float-4">☁️</div>
+            <div class="floating-element float-5">🔥</div>
+
+            <!-- SECCIÓN 1: INFRAESTRUCTURA [CHILI CLOUD] -->
+            <div class="mex-section-header">
+                <h2>Cielo Digital (Hosting)</h2>
+                <p>No usamos hosting genérico. Desplegamos tu éxito en la red global con el respaldo de la mejor infraestructura.</p>
+            </div>
+
+            <div class="mex-grid">
+                <!-- Nube Base -->
+                <div class="mex-card theme-emerald">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Nube Poblano</h3>
+                    <p class="mex-desc">El punto de partida confiable para validar tu idea. Infraestructura sólida, segura y con marca de agua de ChilliCode. (Github Base).</p>
+                    <div class="specs"><strong>Características:</strong> Certificado SSL (HTTPS) incluido, almacenamiento estático de alto rendimiento.</div>
+                    <div class="mex-investment" style="color: var(--emerald);">$0 MXN <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">(Incluido)</span></div>
+                </div>
+
+                <!-- Nube Pro -->
+                <div class="mex-card theme-gold">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Nube Chipotle</h3>
+                    <p class="mex-desc">Velocidad de nivel empresarial con un toque ahumado. Tu sitio vive en la "Edge Network", cargando en milisegundos. (Vercel Edge).</p>
+                    <div class="specs"><strong>Características:</strong> URL optimizada (chili.li/tu-marca), despliegue automático, máxima puntuación en SEO.</div>
+                    <div class="mex-investment" style="color: var(--gold);">+$150 MXN <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">/ mes</span></div>
+                </div>
+
+                <!-- Nube Elite -->
+                <div class="mex-card theme-red">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Nube Habanero</h3>
+                    <p class="mex-desc">Autoridad total. La combinación de velocidad máxima con la confianza absoluta de un dominio propio (.com / .mx).</p>
+                    <div class="specs"><strong>Características:</strong> Gestión completa de DNS, correos corporativos y renovación automática.</div>
+                    <div class="mex-investment" style="color: var(--mex-red);">GRATIS <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">(Plan Elite)</span></div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: EVOLUCIÓN [CHILI SUPPORT] -->
+            <div class="mex-section-header" style="margin-top: 6rem;">
+                <h2>Seguro de Evolución</h2>
+                <p>El Seguro de tu Ecosistema Digital. Los sistemas que no evolucionan, mueren. Nosotros mantenemos tu motor encendido y actualizado constantemente.</p>
+            </div>
+
+            <div class="mex-grid">
+                <!-- Plan Base -->
+                <div class="mex-card theme-emerald">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Seguro Verde</h3>
+                    <p class="mex-desc"><strong>(Supervivencia):</strong> Solo necesitas que tu sistema esté siempre en línea, blindado y con el dominio renovado.</p>
+                    <ul class="support-list">
+                        <li>Hosting activo en Nube Vercel (Sitio siempre en línea).</li>
+                        <li>Gestión y renovación automática de dominio.</li>
+                        <li>Actualizaciones de seguridad y dependencias de código (Trimestral).</li>
+                        <li>Monitoreo de Uptime (Si cae, se levanta de inmediato).</li>
+                        <li>Certificado SSL activo y renovado.</li>
+                    </ul>
+                    <div class="specs" style="background: rgba(215,40,47,0.05); color: var(--mex-red);"><strong>❌ RESTRICCIÓN ESTRICTA:</strong> Ningún cambio de contenido, diseño o funcionamiento.<br><br><span style="color: var(--gray); font-size:0.8rem;">*Nota: Si este mes necesitas hacer un cambio, simplemente pagas el plan "Rojo" solo por este mes.</span></div>
+                    <div class="mex-investment" style="color: var(--emerald);">$499 MXN <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">/ mes</span></div>
+                </div>
+
+                <!-- Plan Pro -->
+                <div class="mex-card theme-gold">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Seguro Salsa Roja</h3>
+                    <p class="mex-desc"><strong>(Dinámico):</strong> Para negocios que cambian de menú, actualizan precios o necesitan pequeños ajustes sin rediseñar la rueda.</p>
+                    <ul class="support-list">
+                        <li>Todo lo del plan Verde.</li>
+                        <li><strong>Micro-Updates (2 horas o menos):</strong></li>
+                        <li>Cambios de texto: Precios, servicios, horarios, teléfonos.</li>
+                        <li>Reemplazo de medios: Intercambio de imágenes/videos existentes.</li>
+                        <li>Actualización de enlaces de redes y contacto.</li>
+                        <li>Pequeños ajustes de color o estilo (sin alterar estructura).</li>
+                        <li>Verificación mensual de formularios a Google Sheets.</li>
+                    </ul>
+                    <div class="specs" style="background: rgba(230,190,138,0.1); color: #B38F5F;"><strong>⏱️ SLA de Entrega:</strong> Hasta 3 días hábiles.<br><br><span style="color: var(--mex-red);"><strong>❌ RESTRICCIÓN ESTRICTA:</strong> No incluye nuevas páginas completas, funcionalidades ni rediseños.</span></div>
+                    <div class="mex-investment" style="color: var(--gold);">$999 MXN <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">/ mes</span></div>
+                </div>
+
+                <!-- Plan Elite -->
+                <div class="mex-card theme-red">
+                    <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Socio Molcajete</h3>
+                    <p class="mex-desc"><strong>(Evolución Pro):</strong> Para sitios que facturan activamente. Somos tu departamento tech; tú pides, nosotros construimos.</p>
+                    <ul class="support-list">
+                        <li>Todo lo del plan Rojo.</li>
+                        <li>Desarrollo Activo: Nuevas secciones a páginas existentes.</li>
+                        <li>Landing Pages Temporales: Para promociones (Buen Fin, etc).</li>
+                        <li>Ajustes de integraciones (Calendarios, Pagos).</li>
+                        <li>Optimización de velocidad y SEO On-Page.</li>
+                        <li>Reporte avanzado con Vercel Analytics.</li>
+                        <li>Llamada trimestral de estrategia (30 min).</li>
+                    </ul>
+                    <div class="specs" style="background: rgba(0,168,107,0.1); color: var(--emerald);"><strong>⚡ SLA de Prioridad:</strong> Entrega en 1 día hábil.</div>
+                    <div class="mex-investment" style="color: var(--mex-red);">$2,499 MXN <span style="font-size: 1rem; color: var(--gray); font-weight: normal;">/ mes</span></div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 ChilliCode Agency. Digital Craftsmanship Studio.</p>
+                <div class="socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
