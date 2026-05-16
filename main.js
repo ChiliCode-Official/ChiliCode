@@ -221,6 +221,8 @@ function initCarousel() {
     updateCarousel(0);
 }
 
+
+
 window.addEventListener('load', () => {
     initAnimations();
     initNavbar();

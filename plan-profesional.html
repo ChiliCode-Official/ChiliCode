@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Landing Page | ChilliCode Agency</title>
+    <title>Plan Sitio Web Profesional | ChilliCode Agency</title>
     
     <!-- Meta tags for SEO -->
-    <meta name="description" content="Detalles del Plan Landing Page de ChilliCode. Una página de conversión completa orientada a un solo objetivo.">
+    <meta name="description" content="Plan Sitio Web E-commerce y Reservas. Sistema digital completo e integrado para escalar tu negocio al máximo.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -23,6 +23,9 @@
     <style>
         :root {
             --black: #050505;
+            --mex-red: #D7282F;
+            --emerald: #00A86B;
+            --gold: #E6BE8A;
         }
 
         /* Ambient Animated Background */
@@ -48,9 +51,9 @@
             animation: float-orb 20s infinite ease-in-out alternate;
         }
 
-        .orb-1 { width: 500px; height: 500px; background: rgba(0, 168, 107, 0.15); top: -10%; left: -10%; animation-delay: 0s; }
-        .orb-2 { width: 600px; height: 600px; background: rgba(215, 40, 47, 0.08); bottom: -20%; right: -10%; animation-delay: -5s; }
-        .orb-3 { width: 450px; height: 450px; background: rgba(230, 190, 138, 0.15); top: 30%; left: 60%; animation-delay: -10s; }
+        .orb-1 { width: 500px; height: 500px; background: rgba(215, 40, 47, 0.15); top: -10%; left: -10%; animation-delay: 0s; }
+        .orb-2 { width: 600px; height: 600px; background: rgba(230, 190, 138, 0.08); bottom: -20%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 450px; height: 450px; background: rgba(0, 168, 107, 0.05); top: 30%; left: 60%; animation-delay: -10s; }
 
         @keyframes float-orb {
             0% { transform: translate(0, 0) scale(1); }
@@ -66,13 +69,13 @@
         
         .plan-hero {
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto 4rem auto;
         }
         
         .plan-hero .badge {
-            background: rgba(0, 168, 107, 0.1);
-            color: var(--emerald);
+            background: rgba(215, 40, 47, 0.1);
+            color: var(--mex-red);
             padding: 8px 16px;
             border-radius: 100px;
             font-weight: 700;
@@ -81,6 +84,7 @@
             letter-spacing: 2px;
             display: inline-block;
             margin-bottom: 1.5rem;
+            border: 1px solid rgba(215, 40, 47, 0.3);
         }
         
         .plan-hero h1 {
@@ -101,12 +105,81 @@
             font-family: 'Outfit', sans-serif;
             font-size: 2rem;
             font-weight: 800;
-            color: var(--emerald);
-            background: rgba(0, 168, 107, 0.05);
+            color: var(--mex-red);
+            background: rgba(215, 40, 47, 0.05);
             padding: 1rem 2rem;
             border-radius: 20px;
             display: inline-block;
-            border: 1px solid rgba(0, 168, 107, 0.2);
+            border: 1px solid rgba(215, 40, 47, 0.3);
+        }
+
+        /* Hero Layout side-by-side */
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            text-align: left;
+            align-items: center;
+        }
+
+        .hero-features-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(215, 40, 47, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+        }
+
+        .hero-features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+
+        .hero-features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.05rem;
+            color: var(--black);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .hero-features-list li svg {
+            color: var(--mex-red);
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .plan-video-container {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            aspect-ratio: 16 / 9;
+            border: 2px solid rgba(215, 40, 47, 0.3);
+            width: 100%;
+        }
+        
+        .plan-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+            }
         }
         
         .grid-2-col {
@@ -159,7 +232,7 @@
             width: 40px;
             height: 40px;
             background: var(--mex-red);
-            color: white;
+            color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -180,58 +253,6 @@
         .process-item p {
             color: var(--color-text-muted);
             line-height: 1.5;
-        }
-        
-        .hosting-card {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .hosting-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-        
-        .hosting-card.premium {
-            border-color: var(--gold);
-            background: rgba(230, 190, 138, 0.05);
-        }
-        
-        .hosting-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .hosting-card p {
-            color: var(--color-text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hosting-price {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--mex-red);
-        }
-        
-        .hosting-link-example {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: #f4f4f4;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #333;
-            word-break: break-all;
         }
         
         @media (max-width: 992px) {
@@ -358,7 +379,7 @@
 
         .support-list li {
             font-size: 0.95rem;
-            color: var(--gray);
+            color: var(--color-text-muted);
             margin-bottom: 1rem;
             display: flex;
             align-items: flex-start;
@@ -381,14 +402,31 @@
             content: '✕';
         }
 
-        .mex-investment {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--black);
-            margin-top: 1.5rem;
-            border-top: 2px dashed rgba(0, 0, 0, 0.1);
-            padding-top: 1.5rem;
+        .sub-list {
+            list-style: none;
+            margin-top: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            border-left: 2px solid rgba(215, 40, 47, 0.2);
+            margin-left: 0.5rem;
+        }
+
+        .sub-list li {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            margin-bottom: 0.8rem;
+        }
+        
+        .sub-list li::before {
+            content: '→';
+            color: rgba(215, 40, 47, 0.4);
+            font-size: 1rem;
+            margin-right: 8px;
+        }
+
+        .highlight-text {
+            color: var(--mex-red);
+            font-weight: 600;
         }
 
         /* Floating Decor */
@@ -467,20 +505,42 @@
             <li><a href="index.html#proyectos">Proyectos</a></li>
         </ul>
     </div>
+    
     <main class="plan-details-container container">
         
         <div class="plan-hero">
-            <span class="badge">Next.js Premium</span>
-            <h1>Landing Page Profesional</h1>
-            <p>Una página de conversión completa orientada a un solo objetivo. Ideal para campañas de publicidad o para tener presencia web sin complicaciones.</p>
+            <span class="badge">Next.js Elite</span>
+            <h1>ChiliCode Profesional<br><span style="font-size: 0.6em; color: var(--color-text-muted); font-weight: 600; line-height: 1.2; display: block; margin-top: 10px;">Nivel Habanero (El E-commerce Total)</span></h1>
+            <p>La vanguardia del comercio. Ideal para restaurantes, agencias de autos o inmobiliarias de lujo que buscan facturar en automático.</p>
+            
+            <div class="hero-layout">
+                <div class="hero-features-card">
+                    <ul class="hero-features-list">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Todo lo de Chipotle</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Tienda Online Completa</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Pasarelas Stripe & MercadoPago</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Carrito Optimizado Cero Fricción</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Integración Google Analytics (Métricas globales)</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-video-container">
+                    <video autoplay muted loop playsinline>
+                        <source src="plan lujo.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
             <div class="investment-tag">
-                Inversión: $1,899 - $4,500 MXN
+                Inversión: $7,399 - $14,900 MXN
             </div>
-            <div style="margin-top: 1.5rem; color: var(--mex-red); font-weight: 800; font-size: 1.1rem; background: rgba(215, 40, 47, 0.05); display: inline-block; padding: 10px 25px; border-radius: 100px; border: 1px dashed rgba(215, 40, 47, 0.3);">
-                🎁 Incluye Bono Chili: 1 mes extra de Chat GPT + 1 año de Canva
+            
+            <div style="margin-top: 1.5rem; color: var(--mex-red); font-weight: 800; font-size: 1.1rem; background: rgba(215, 40, 47, 0.05); display: inline-block; padding: 10px 25px; border-radius: 100px; border: 1px dashed rgba(215, 40, 47, 0.4);">
+                🎁 Incluye Bono Chili: 3 meses de ChatGPT + 1 año de Canva Pro
             </div>
+            
             <div style="margin-top: 2.5rem;">
-                <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20la%20Landing%20Page%20Profesional." target="_blank" class="btn btn-primary">Agenda tu junta gratis</a>
+                <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20el%20Sitio%20Profesional." target="_blank" class="btn btn-primary" style="background: var(--mex-red); border-color: var(--mex-red); color: white;">Agendar consulta técnica</a>
                 <a href="artesanias.html" class="btn btn-secondary" style="margin-left: 1rem; border: 2px solid var(--gray); background: transparent; color: var(--black);">Ver otros planes</a>
             </div>
         </div>
@@ -489,36 +549,44 @@
         <div class="mexicana-wrapper" style="padding: 4rem 2rem; margin-top: 2rem;">
             <div class="mex-section-header">
                 <h2>Transparencia Total</h2>
-                <p>Todo lo que necesitas saber sobre los entregables de tu página.</p>
+                <p>Todo lo que necesitas para dominar tu sector, sin sorpresas.</p>
             </div>
             
             <div class="grid-2-col" style="margin-top: 2rem; gap: 2rem;">
                 <!-- Qué incluye -->
-                <div class="mex-card theme-emerald" style="padding: 2.5rem;">
+                <div class="mex-card theme-red" style="padding: 2.5rem;">
                     <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Qué incluye</h3>
                     
                     <ul class="support-list" style="margin-top: 1.5rem;">
-                        <li><strong style="color: var(--black);">1 página completa de conversión</strong></li>
-                        <li>Hero section con CTA principal visible sin scroll</li>
-                        <li>Sección de servicios o productos destacados</li>
-                        <li>Sobre nosotros / Beneficios clave</li>
-                        <li>Testimonios y prueba social</li>
-                        <li>Galería de fotos (hasta 12 fotos)</li>
-                        <li>Formulario de contacto</li>
-                        <li>Footer con datos de contacto y redes sociales</li>
-                        <li>Diseño responsive (móvil, tablet, desktop)</li>
+                        <li><strong style="color: var(--black);">6 a 10 páginas completas</strong></li>
+                    </ul>
+                    <ul class="sub-list">
+                        <li><strong>Inicio:</strong> Hero interactivo, servicios destacados, testimonios y CTAs optimizados</li>
+                        <li><strong>Servicios Individuales:</strong> Páginas dedicadas a cada servicio principal</li>
+                        <li><strong>Nosotros / Equipo:</strong> Historia, equipo de trabajo, valores y visión</li>
+                        <li><strong>Preguntas Frecuentes (FAQ):</strong> Sección interactiva dedicada</li>
+                        <li><strong>Contacto Avanzado:</strong> Formulario conectado a Google Sheets y mapa interactivo</li>
+                    </ul>
+                    <ul class="support-list" style="padding-top: 0;">
+                        <li><strong style="color: var(--black);">Sistema de reservas / citas integrado</strong> (Google Calendar)</li>
+                        <li><strong style="color: var(--black);">Tienda Online Completa</strong> (Hasta 15 productos iniciales)</li>
+                        <li><strong style="color: var(--black);">Pasarelas de Pago Stripe & MercadoPago</strong></li>
+                        <li>Carrito optimizado cero fricción</li>
+                        <li>Formulario conectado a Google Sheets (leads guardados automáticamente)</li>
+                        <li>SEO on-page optimizado (meta tags, Open Graph, sitemap.xml)</li>
                         <li>Primer año de dominio incluido</li>
-                        <li>Primer mes de hosting incluido</li>
-                        <li>SSL activado automáticamente</li>
+                        <li>Primer mes de hosting ultra-rápido incluido</li>
+                        <li>Vercel Speed Insights (rendimiento en tiempo real)</li>
                         <li><strong style="color: var(--black);">Código QR permanente GRATIS</strong></li>
+                        <li><strong style="color: var(--black);">Todo lo del paquete ChiliCode Corporativo</strong></li>
                     </ul>
                     
-                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed rgba(0, 168, 107, 0.3);">
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed rgba(215, 40, 47, 0.3);">
                         <p style="color: var(--black); font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; margin-bottom: 0;">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                             Revisiones
                         </p>
-                        <p style="color: var(--emerald); font-weight: 600; font-size: 1.05rem; margin-top: 0.5rem; margin-bottom: 0;">1 ronda de revisiones incluida</p>
+                        <p style="color: var(--mex-red); font-weight: 600; font-size: 1.05rem; margin-top: 0.5rem; margin-bottom: 0;">2 rondas de revisiones + revisión intermedia incluidas</p>
                     </div>
                 </div>
 
@@ -526,13 +594,18 @@
                 <div class="mex-card theme-red" style="padding: 2.5rem;">
                     <h3 style="color: var(--mex-red);"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> No incluye</h3>
                     <ul class="support-list negative-list" style="margin-top: 1.5rem;">
-                        <li>Páginas adicionales</li>
-                        <li>Sistema de reservas <span style="display:block; font-size: 0.85rem; color: var(--gray);">(disponible como add-on)</span></li>
-                        <li>Link WhatsApp</li>
-                        <li>Catálogos</li>
-                        <li>Carrito de compras</li>
-                        <li>Google Analytics</li>
+                        <li>Catálogo de e-commerce complejo con gestión de inventario masivo <span style="display:block; font-size: 0.85rem; color: var(--color-text-muted);">(más de 50 productos)</span></li>
+                        <li>Blog autoadministrable <span style="display:block; font-size: 0.85rem; color: var(--color-text-muted);">(disponible como add-on)</span></li>
+                        <li>Portal de clientes con login y base de datos privada <span style="display:block; font-size: 0.85rem; color: var(--color-text-muted);">(cotización a medida)</span></li>
+                        <li>Posicionamiento SEO off-page o Linkbuilding <span style="display:block; font-size: 0.85rem; color: var(--color-text-muted);">(campaña mensual aparte)</span></li>
                     </ul>
+                    
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px dashed rgba(215, 40, 47, 0.2);">
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6;">
+                            ¿Requieres alguna función a medida de alta complejidad? Platiquemos tus ideas para diseñar una arquitectura web a tu medida.
+                        </p>
+                        <a href="chili-mods.html" style="color: var(--mex-red); text-decoration: none; font-weight: 700; font-size: 0.95rem; display: inline-block; margin-top: 1rem;">Ver Catálogo de Add-ons →</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -543,27 +616,31 @@
             <div style="position: relative;">
                 <div class="process-line"></div>
                 <ul class="process-list">
-                <li class="process-item">
-                    <h3>Junta de estrategia (30 min)</h3>
-                    <p>Entendemos tu negocio, tu cliente ideal y el objetivo principal de la página.</p>
-                </li>
-                <li class="process-item">
-                    <h3>Recopilación de contenido</h3>
-                    <p>Nos mandas logo, fotos, textos y referencias. Los plazos arrancan cuando tenemos todo.</p>
-                </li>
-                <li class="process-item">
-                    <h3>Diseño y desarrollo (5-7 días)</h3>
-                    <p>Construimos la página completa en Next.js. Te mandamos un preview para revisar.</p>
-                </li>
-                <li class="process-item">
-                    <h3>Revisión y ajustes</h3>
-                    <p>Tienes <strong>1 ronda completa de revisiones</strong> incluida. Aplica todos los cambios que necesites.</p>
-                </li>
-                <li class="process-item">
-                    <h3>Publicación</h3>
-                    <p>Conectamos el dominio, activamos el SSL y publicamos. Tu sitio está en vivo.</p>
-                </li>
-            </ul>
+                    <li class="process-item">
+                        <h3>Junta de estrategia (45 min)</h3>
+                        <p>Mapeamos todas las páginas, definimos el sistema de reservas, pasarelas de pago y formularios avanzados.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Recopilación de contenido</h3>
+                        <p>Nos mandas todo el contenido organizado. Al ser un proyecto más grande, es clave tenerlo listo.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Desarrollo y Setup (20-28 días)</h3>
+                        <p>Construimos el sitio completo en Next.js con integraciones de Stripe y Calendario. Con revisión a mitad de camino.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Revisión intermedia</h3>
+                        <p>Revisas el progreso a la mitad del desarrollo, probando el sistema de reservas y los flujos de pago.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Revisión final y ajustes</h3>
+                        <p>Revisas el sitio completo terminado. Aplicamos todos los cambios finos e integraciones finales.</p>
+                    </li>
+                    <li class="process-item">
+                        <h3>Publicación + SEO</h3>
+                        <p>Publicamos en producción, activamos SSL, sitemaps, robots.txt y lo verificamos en Google Search Console.</p>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -571,7 +648,7 @@
         <div class="mexicana-wrapper" style="padding: 4rem 2rem; margin-top: 2rem;">
             <div class="mex-section-header">
                 <h2>¿Es para ti?</h2>
-                <p>Descubre si una Landing Page es la solución exacta que tu negocio necesita en este momento.</p>
+                <p>Descubre si el plan ChiliCode Profesional es la solución exacta que tu negocio necesita en este momento.</p>
             </div>
             
             <!-- Typewriter Section -->
@@ -583,23 +660,24 @@
 
             <div class="grid-2-col" style="gap: 2rem;">
                 <!-- Para quién es -->
-                <div class="mex-card theme-emerald" style="padding: 2.5rem;">
+                <div class="mex-card theme-red" style="padding: 2.5rem;">
                     <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Ideal para ti si...</h3>
                     <ul class="support-list" style="margin-top: 1.5rem;">
-                        <li>Necesitas presencia web rápida y profesional</li>
-                        <li>Tu negocio tiene un solo servicio o producto principal</li>
-                        <li>Quieres empezar simple y escalar después</li>
-                        <li>Tu objetivo es generar mensajes o llamadas directas</li>
+                        <li>Tu negocio necesita una presencia digital completa y profesional</li>
+                        <li>Los clientes agendan citas o reuniones contigo</li>
+                        <li>Quieres capturar leads automáticamente desde el sitio</li>
+                        <li>El SEO orgánico es clave para atraer nuevos clientes</li>
+                        <li>Quieres datos de rendimiento del sitio en tiempo real</li>
                     </ul>
                 </div>
                 <!-- Para quién NO es -->
                 <div class="mex-card theme-red" style="padding: 2.5rem;">
                     <h3 style="color: var(--mex-red);"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> No es para ti si...</h3>
                     <ul class="support-list negative-list" style="margin-top: 1.5rem;">
-                        <li>Necesitas mostrar múltiples servicios en páginas separadas</li>
-                        <li>Quieres que tus clientes naveguen por distintas secciones</li>
-                        <li>Necesitas blog o catálogo de productos</li>
-                        <li>Tienes una tienda online</li>
+                        <li>Tu presupuesto es ajustado (considera el plan Corporativo)</li>
+                        <li>Solo necesitas una página de campaña rápida para anuncios</li>
+                        <li>Tienes e-commerce complejo con miles de productos</li>
+                        <li>Necesitas un portal de clientes con login</li>
                     </ul>
                 </div>
             </div>
@@ -671,50 +749,59 @@
         <div class="mexicana-wrapper" style="padding: 4rem 2rem; margin-top: 2rem;">
             <div class="mex-section-header">
                 <h2>Preguntas Frecuentes</h2>
-                <p>Todo lo que necesitas saber antes de empezar.</p>
+                <p>Resolvemos tus dudas sobre el plan ChiliCode Profesional.</p>
             </div>
             
             <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
                 <!-- Q1 -->
                 <div class="faq-item" style="background: #fff; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem 2rem; cursor: pointer; transition: all 0.3s ease;">
                     <h3 style="font-size: 1.2rem; color: var(--black); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                        ¿Puedo agregar páginas después?
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        ¿Qué plan de mantenimiento se recomienda?
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </h3>
-                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Sí. Cada página adicional tiene un costo de $1,299 MXN. Si en el futuro quieres un sitio completo, el trabajo previo no se pierde — construimos sobre lo que ya existe</p>
+                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Para este paquete recomendamos el Plan Pro ($3,500/mes) — incluye hasta 5 ajustes de contenido al mes, entrega en 1 día hábil y llamada trimestral de estrategia.</p>
                 </div>
 
                 <!-- Q2 -->
                 <div class="faq-item" style="background: #fff; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem 2rem; cursor: pointer; transition: all 0.3s ease;">
                     <h3 style="font-size: 1.2rem; color: var(--black); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                        ¿El dominio y el código son míos?
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        ¿El SEO incluido me va a posicionar en Google?
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </h3>
-                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Sí, siempre. El dominio está registrado a tu nombre. Al finalizar te entregamos acceso completo al repositorio de GitHub. Chilicode nunca cobra por 'liberar' tu sitio.</p>
+                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">El SEO on-page que incluimos (meta tags, sitemap, estructura de headings) es la base técnica necesaria. El posicionamiento real depende también de contenido de calidad y linkbuilding a lo largo del tiempo.</p>
                 </div>
 
                 <!-- Q3 -->
                 <div class="faq-item" style="background: #fff; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem 2rem; cursor: pointer; transition: all 0.3s ease;">
                     <h3 style="font-size: 1.2rem; color: var(--black); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                        ¿Qué necesito tener listo para empezar?
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        ¿El sistema de reservas está incluido?
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </h3>
-                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Logo en alta resolución, colores de marca, descripción del negocio, lista de servicios, mínimo 10 fotos de buena calidad, datos de contacto, 3-5 testimonios y 2-3 sitios web de referencia.</p>
+                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Sí. A diferencia del Landing Page y Sitio Corporativo donde es un add-on, en el Sitio Profesional el sistema de citas está incluido en el precio base.</p>
                 </div>
 
                 <!-- Q4 -->
                 <div class="faq-item" style="background: #fff; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem 2rem; cursor: pointer; transition: all 0.3s ease;">
                     <h3 style="font-size: 1.2rem; color: var(--black); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                        ¿El mantenimiento es obligatorio?
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--emerald)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        ¿El dominio y el código son míos?
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </h3>
-                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Para mantener el hosting activo en los servidores de ChiliCode Cloud, sí. El plan Básico de $55/mes cubre hosting, y seguridad. Si prefieres usar tu propio hosting, te entregamos el código y te ayudamos con la migración sin costo.</p>
+                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Sí, siempre. El dominio está registrado a tu nombre. Al finalizar te entregamos acceso completo al repositorio de GitHub. Chilicode nunca cobra por 'liberar' tu sitio.</p>
+                </div>
+
+                <!-- Q5 -->
+                <div class="faq-item" style="background: #fff; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem 2rem; cursor: pointer; transition: all 0.3s ease;">
+                    <h3 style="font-size: 1.2rem; color: var(--black); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        ¿Qué necesito tener listo para empezar?
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--mex-red)" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </h3>
+                    <p style="color: var(--color-text-muted); line-height: 1.6; margin: 0; font-size: 1rem;">Logo, colores de marca, descripción del negocio, lista de servicios, mínimo 20 fotos de buena calidad, datos de contacto, testimonios y las cuentas de Stripe/MercadoPago para integrar.</p>
                 </div>
             </div>
             <style>
                 .faq-item:hover {
                     box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-                    border-color: rgba(0, 168, 107, 0.2);
+                    border-color: rgba(215, 40, 47, 0.4);
                 }
             </style>
         </div>
@@ -779,9 +866,8 @@
             if (!typewriter) return;
 
             const words = [
-                "Emprendedores", "Empresas", "Chefs", "Abogados", 
-                "Notarías", "Despachos", "Doctores", "Hospitales", 
-                "Restaurantes", "Bares", "Pymes"
+                "Clínicas", "Inmobiliarias", "Franquicias", "Despachos", 
+                "Academias", "E-commerce", "Empresas B2B", "Notarías"
             ];
             
             let wordIndex = 0;

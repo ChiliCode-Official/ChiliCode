@@ -45,10 +45,35 @@
                 </a></li>
                 <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
                 <li><a href="artesanias.html" class="active"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
-             </ul>
-            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20más%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
+            </ul>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+    
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div>
 
     <main class="pricing-container">
         <section class="pricing-hero">
@@ -86,9 +111,12 @@
                                 <source src="plan basico.mp4" type="video/mp4">
                             </video>
                         </div>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <a href="plan-landing.html" class="btn" style="flex: 1; border: 2px solid var(--emerald); color: var(--emerald); background: transparent; text-align: center; padding: 12px 20px; font-weight: 700; border-radius: 100px;">Detalles</a>
-                            <a href="formulario.html?plan=piquin" class="btn btn-price emerald" style="flex: 2; margin-top: 0;">Deseo comenzar a invertir</a>
+                        <div style="display: flex; gap: 10px; margin-top: 20px; flex-direction: column;">
+                            <div style="display: flex; gap: 10px;">
+                                <a href="plan-landing.html" class="btn" style="flex: 1; border: 2px solid var(--emerald); color: var(--emerald); background: transparent; text-align: center; padding: 12px 20px; font-weight: 700; border-radius: 100px;">Detalles</a>
+                                <a href="requisitos.html?plan=piquin" class="btn btn-price emerald" style="flex: 2; margin-top: 0;">Deseo comenzar</a>
+                            </div>
+                            <a href="chili-mods.html" style="display: block; text-align: center; margin-top: 5px; color: var(--emerald); font-weight: 600; font-size: 0.95rem; text-decoration: none;">+ Explorar Addons</a>
                         </div>
                     </div>
 
@@ -120,7 +148,13 @@
                                 <source src="plan commerce.mp4" type="video/mp4">
                             </video>
                         </div>
-                        <a href="formulario.html?plan=chipotle" class="btn btn-price gold">Quiero escalar mi negocio</a>
+                        <div style="display: flex; gap: 10px; margin-top: 20px; flex-direction: column;">
+                            <div style="display: flex; gap: 10px;">
+                                <a href="plan-sitio-web.html" class="btn" style="flex: 1; border: 2px solid var(--gold); color: var(--gold); background: transparent; text-align: center; padding: 12px 20px; font-weight: 700; border-radius: 100px;">Detalles</a>
+                                <a href="requisitos.html?plan=chipotle" class="btn btn-price gold" style="flex: 2; margin-top: 0;">Quiero escalar</a>
+                            </div>
+                            <a href="chili-mods.html" style="display: block; text-align: center; margin-top: 5px; color: var(--gold); font-weight: 600; font-size: 0.95rem; text-decoration: none;">+ Explorar Addons</a>
+                        </div>
                     </div>
 
                     <!-- Nivel Habanero -->
@@ -150,9 +184,16 @@
                                 <source src="plan lujo.mp4" type="video/mp4">
                             </video>
                         </div>
-                        <a href="formulario.html?plan=habanero" class="btn btn-price red">Esto es para mí</a>
+                        <div style="display: flex; gap: 10px; margin-top: 20px; flex-direction: column;">
+                            <div style="display: flex; gap: 10px;">
+                                <a href="plan-profesional.html" class="btn" style="flex: 1; border: 2px solid var(--red); color: var(--red); background: transparent; text-align: center; padding: 12px 20px; font-weight: 700; border-radius: 100px;">Detalles</a>
+                                <a href="requisitos.html?plan=habanero" class="btn btn-price red" style="flex: 2; margin-top: 0;">Esto es para mí</a>
+                            </div>
+                            <a href="chili-mods.html" style="display: block; text-align: center; margin-top: 5px; color: var(--mex-red); font-weight: 600; font-size: 0.95rem; text-decoration: none;">+ Explorar Addons</a>
+                        </div>
                     </div>
                 </div>
+                <div class="swipe-indicator">← Desliza hacia la derecha o izquierda para ver más →</div>
 
                 <div class="guarantee-pill">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -171,7 +212,7 @@
                         
                         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                             <a href="https://wa.me/525574123521?text=Hola!%20Busco%20un%20plan%20personalizado%20para%20mi%20negocio." class="btn btn-primary" target="_blank" style="background: var(--emerald); color: #fff;">Escribir por WhatsApp</a>
-                            <a href="formulario.html?plan=personalizado" class="btn btn-secondary" style="background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2);">Llenar Formulario</a>
+                            <a href="requisitos.html?plan=personalizado" class="btn btn-secondary" style="background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2);">Llenar Formulario</a>
                         </div>
                     </div>
                 </div>
@@ -300,5 +341,6 @@
     </script>
 
 
+    <script src="hamburger.js"></script>
 </body>
 </html>

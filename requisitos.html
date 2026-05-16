@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requisitos del Proyecto | ChilliCode Agency</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background: radial-gradient(circle at top right, rgba(0, 168, 107, 0.05), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(230, 190, 138, 0.05), transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .checklist-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 6rem auto 4rem;
+            background: #fff;
+            border-radius: 32px;
+            padding: 4rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-top {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header-top h1 {
+            font-size: 2.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .header-top p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 3rem;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.2rem;
+            background: #fcfcfc;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .check-list li:hover {
+            transform: translateX(5px);
+            border-color: rgba(0, 168, 107, 0.2);
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .check-icon {
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--emerald);
+            min-width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .check-content strong {
+            display: block;
+            font-size: 1.05rem;
+            color: var(--black);
+            margin-bottom: 0.2rem;
+        }
+
+        .check-content span {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+
+        .extra-note {
+            background: rgba(230, 190, 138, 0.1);
+            color: #9A7B4F;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.4rem;
+        }
+
+        .btn-continue {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-continue:hover {
+            background: var(--emerald);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 168, 107, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .checklist-container {
+                padding: 2rem 1.5rem;
+                margin: 4rem 1rem 2rem;
+                width: calc(100% - 2rem);
+            }
+            .header-top h1 { font-size: 2rem; }
+        }
+
+        .floating-logo {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="artesanias.html">
+        <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode" class="floating-logo">
+    </a>
+
+    <div class="checklist-container">
+        <div class="header-top">
+            <span class="badge" style="background: rgba(215, 40, 47, 0.1); color: var(--red); padding: 0.4rem 1rem; border-radius: 100px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1rem; display: inline-block;">PASO PREVIO</span>
+            <h1>Lo que necesitas tener listo</h1>
+            <p>Prepara esto antes de nuestra junta para que el proyecto arranque de inmediato y sin demoras.</p>
+        </div>
+
+        <ul class="check-list">
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Logo en alta resolución</strong>
+                    <span>Formato PNG o SVG, con fondo transparente.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Colores de marca</strong>
+                    <span>Códigos HEX o fotos de referencia para tu identidad visual.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Descripción del negocio</strong>
+                    <span>Explícanos qué hacen y qué los hace diferentes.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Lista de servicios / productos principales</strong>
+                    <span>Con descripción breve. <div class="extra-note">Podemos redactarlo nosotros (con costo extra).</div></span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Mínimo 10 fotos de buena calidad</strong>
+                    <span>Fachada, interior, equipo, servicios, etc.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Información de contacto completa</strong>
+                    <span>Teléfono, WhatsApp, email, dirección y horarios.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>3-5 testimonios o reseñas</strong>
+                    <span>Capturas o textos de reseñas de Google o Facebook.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>Dominio o Accesos</strong>
+                    <span>El nombre de dominio deseado o acceso al dominio existente.</span>
+                </div>
+            </li>
+            <li>
+                <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="check-content">
+                    <strong>2-3 Sitios web de referencia</strong>
+                    <span>Ejemplos de páginas que les gusten (para entender el estilo).</span>
+                </div>
+            </li>
+        </ul>
+
+        <a href="formulario.html" id="btn-next" class="btn-continue">
+            Estoy listo, llenar formulario
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+    </div>
+
+    <script>
+        // Forward the URL parameters to the form
+        const urlParams = new URLSearchParams(window.location.search);
+        const planParam = urlParams.get('plan');
+        const nextBtn = document.getElementById('btn-next');
+        
+        if (planParam) {
+            nextBtn.href = 'formulario.html?plan=' + planParam;
+        }
+    </script>
+</body>
+</html>

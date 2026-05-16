@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chili Mods | ChilliCode Agency</title>
+    <meta name="description" content="Módulos de Expansión para potenciar tu presencia digital.">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .mods-hero {
+            padding: 10rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top, rgba(215, 40, 47, 0.05), transparent 60%);
+        }
+        
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+        
+        .mod-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mod-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border-color: rgba(0,168,107,0.2);
+        }
+        
+        .mod-category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+        }
+        
+        .cat-basic { background: rgba(0, 168, 107, 0.1); color: var(--emerald); }
+        .cat-conv { background: rgba(230, 190, 138, 0.2); color: #B38600; }
+        .cat-elite { background: rgba(215, 40, 47, 0.1); color: var(--red); }
+        
+        .mod-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text);
+        }
+        
+        .mod-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .mod-price-area {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mod-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-text);
+        }
+        
+        .mod-original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+        
+        .btn-add {
+            width: 100%;
+            padding: 1rem;
+            border-radius: var(--radius-pill);
+            border: 2px solid var(--color-text);
+            background: transparent;
+            color: var(--color-text);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add:hover {
+            background: var(--color-text);
+            color: #fff;
+        }
+        
+        .btn-add.added {
+            background: var(--emerald);
+            border-color: var(--emerald);
+            color: #fff;
+        }
+
+        /* Cart Floating UI */
+        .cart-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            width: 350px;
+            z-index: 1000;
+            border: 1px solid rgba(0,0,0,0.05);
+            transform: translateY(120%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-widget.active {
+            transform: translateY(0);
+        }
+        
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-header h3 {
+            font-size: 1.2rem;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+        }
+        
+        .cart-items {
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 1rem 1.5rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+        }
+        
+        .cart-item-info h4 {
+            font-size: 0.95rem;
+            margin: 0 0 0.2rem;
+        }
+        
+        .cart-item-info p {
+            font-size: 0.85rem;
+            color: var(--emerald);
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.2rem;
+        }
+        
+        .cart-footer {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 0 0 24px 24px;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-checkout {
+            width: 100%;
+            background: #25D366; /* WhatsApp Green */
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .cart-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--color-text);
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 999;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .cart-toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--red);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #fff;
+        }
+
+        @media (max-width: 768px) {
+            .cart-widget {
+                width: 90%;
+                right: 5%;
+                bottom: 5%;
+            }
+            .mods-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.8rem;
+                padding: 0 1rem;
+            }
+            .mod-card {
+                padding: 1.2rem;
+            }
+            .mod-card h3 {
+                font-size: 1.1rem;
+            }
+            .mod-price {
+                font-size: 1.15rem;
+            }
+            .mod-original-price {
+                font-size: 0.75rem;
+            }
+            .mod-card p {
+                font-size: 0.8rem;
+                margin-bottom: 1rem;
+            }
+            .btn-add {
+                padding: 0.7rem;
+                font-size: 0.85rem;
+            }
+            .mod-category {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
+                <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+            </ul>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="mods-hero">
+            <span class="badge" style="background: rgba(215, 40, 47, 0.1); color: var(--red); padding: 0.5rem 1rem; border-radius: 100px; font-weight: 700; margin-bottom: 1.5rem; display: inline-block;">🌶️ CHILI MODS</span>
+            <h1 class="title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1.5rem;">Módulos de Expansión</h1>
+            <p class="subtitle" style="margin: 0 auto; max-width: 600px;">Potencia tu sitio web con funcionalidades extra. Añade los módulos que necesites al carrito y procesa tu pedido directo por WhatsApp.</p>
+        </section>
+
+        <div class="mods-grid" id="mods-container">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Custom Addon Banner -->
+        <div class="custom-mod-banner" style="background: #111; color: #fff; padding: 4rem; border-radius: 24px; text-align: center; margin: 2rem auto 5rem; max-width: 900px; position: relative; overflow: hidden; border: 1px solid rgba(230, 190, 138, 0.2);">
+            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: #e6be8a; filter: blur(100px); opacity: 0.15;"></div>
+            <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: #d7282f; filter: blur(100px); opacity: 0.1;"></div>
+            
+            <div style="position: relative; z-index: 1;">
+                <span class="badge" style="background: rgba(230, 190, 138, 0.15); color: #e6be8a; border: 1px solid #e6be8a; padding: 0.5rem 1rem; border-radius: 100px; font-weight: 700; margin-bottom: 1.5rem; display: inline-block;">🌟 CHILI CUSTOM</span>
+                <h2 style="font-size: 2.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; margin-bottom: 1rem;">¿No encuentras lo que buscas?</h2>
+                <p style="color: #a0aec0; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.6;">Cotiza el addon especial que necesitas junto con tu sitio web. Te brindamos una solución más económica y con un acabado ultra premium garantizado.</p>
+                <a href="https://wa.me/525574123521?text=Hola!%20Busco%20un%20módulo%20que%20no%20está%20en%20el%20catálogo%20para%20cotizarlo%20junto%20con%20mi%20sitio%20web." target="_blank" style="background: #e6be8a; color: #111; font-weight: 800; padding: 1.2rem 2.5rem; display: inline-block; text-decoration: none; border-radius: 100px; transition: transform 0.3s ease;">Cotizar a la medida</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Cart Toggle Button -->
+    <button class="cart-toggle-btn" id="cart-toggle" style="display: none;">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <div class="cart-badge" id="cart-count">0</div>
+    </button>
+
+    <!-- Cart Widget -->
+    <div class="cart-widget" id="cart-widget">
+        <div class="cart-header">
+            <h3>Tu Orden 🛒</h3>
+            <button id="close-cart" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items rendered here -->
+            <p style="text-align: center; color: #999; margin-top: 1rem;">Tu carrito está vacío</p>
+        </div>
+        <div class="cart-footer">
+            <div id="cloud-billing-section" style="display: none; background: #f0fdf4; border: 1px solid rgba(0, 168, 107, 0.2); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                <p style="font-size: 0.85rem; font-weight: 700; color: var(--emerald); margin-top: 0; margin-bottom: 0.5rem;">☁️ Suscripción de Nube Requerida</p>
+                <div style="display: flex; gap: 1rem; font-size: 0.9rem;">
+                    <label><input type="radio" name="cloud_billing" value="mensual" checked> Mensual</label>
+                    <label><input type="radio" name="cloud_billing" value="anual"> Anual</label>
+                </div>
+                <div id="cloud-price-display" style="font-size: 0.85rem; color: #666; margin-top: 0.5rem; font-weight: 600;"></div>
+            </div>
+            <div class="cart-total">
+                <span>Total Inversión Hoy:</span>
+                <span id="cart-total-price">$0 MXN</span>
+            </div>
+            <button class="btn-checkout" id="btn-whatsapp">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Proceder al Pago
+            </button>
+            <p style="text-align: center; font-size: 0.75rem; color: #999; margin-top: 0.8rem;">El pago se coordina por WhatsApp</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 ChilliCode Agency.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/chilicode_agency/" target="_blank">Instagram Empresa</a>
+                    <a href="https://www.instagram.com/rodricg30" target="_blank">CEO Instagram</a>
+                    <a href="https://wa.me/525574123521" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cloud-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div style="background: #fff; padding: 2.5rem; border-radius: 24px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+            <button onclick="document.getElementById('cloud-modal').style.display='none'" style="position: absolute; top: 1.2rem; right: 1.5rem; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #999;">&times;</button>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--black);">☁️ Suscripción de Nube</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5;">Las apps Elite requieren un servidor en la nube para funcionar y almacenar tu información. Conoce nuestros planes de hospedaje dedicado:</p>
+            
+            <div style="background: #f8fafc; border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;">
+                <h4 style="font-size: 1.1rem; color: var(--black); margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Un solo módulo Elite</h4>
+                <p style="margin: 0; color: #666; font-size: 0.95rem;"><strong>Mensual:</strong> $220 MXN</p>
+                <p style="margin: 0.4rem 0 0; color: #666; font-size: 0.95rem;"><strong>Anual:</strong> $2,199 MXN <span style="color: var(--emerald); font-weight: 700; background: rgba(0,168,107,0.1); padding: 2px 8px; border-radius: 100px; font-size: 0.8rem; margin-left: 5px;">1 mes gratis</span></p>
+            </div>
+            
+            <div style="background: rgba(230, 190, 138, 0.1); border: 1px solid rgba(230, 190, 138, 0.3); border-radius: 16px; padding: 1.5rem;">
+                <h4 style="font-size: 1.1rem; color: var(--black); margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">🔥 Elite Bundle (Publisher + Monitor)</h4>
+                <p style="margin: 0; color: #666; font-size: 0.95rem;"><strong>Mensual:</strong> $299 MXN por ambos</p>
+                <p style="margin: 0.4rem 0 0; color: #666; font-size: 0.95rem;"><strong>Anual:</strong> $2,999 MXN <span style="color: var(--emerald); font-weight: 700; background: rgba(0,168,107,0.1); padding: 2px 8px; border-radius: 100px; font-size: 0.8rem; margin-left: 5px;">3 meses gratis</span></p>
+            </div>
+            
+            <p style="text-align: center; margin-top: 1.5rem; margin-bottom: 0; font-size: 0.85rem; color: #999;">Al añadir un módulo Elite al carrito, el sistema agregará la opción de la nube automáticamente.</p>
+        </div>
+    </div>
+
+    <script src="hamburger.js"></script>
+    <script>
+        const products = [
+            { id: 1, name: 'Expansión de Terreno', desc: 'Página Adicional Completa (Ej. "Nosotros" o "Aviso de Privacidad"). Incluye 1 ronda de revisión.', cat: '🟢 MODS BÁSICOS', class: 'cat-basic', price: 1350, original: null },
+            { id: 2, name: 'Radar de Tráfico', desc: 'Google Analytics Avanzado. Instalación de etiquetas para saber exactamente de qué ciudades te visitan.', cat: '🟢 MODS BÁSICOS', class: 'cat-basic', price: 350, original: 599 },
+            { id: 3, name: 'Traducción Dual', desc: 'Módulo Multilenguaje ES/EN. Tu sitio 100% bilingüe con selector de idioma fluido.', cat: '🟢 MODS BÁSICOS', class: 'cat-basic', price: 950, original: 2500 },
+            { id: 4, name: 'Captura de Datos', desc: 'Smart Forms a Google Sheets. Recopilación de leads directamente a un Excel automatizado.', cat: '🟢 MODS BÁSICOS', class: 'cat-basic', price: 450, original: 800 },
+            
+            { id: 5, name: 'Vitrina Digital', desc: 'Catálogo sin Carrito. Menú interactivo con botón directo de WhatsApp por producto.', cat: '🟡 MODS DE CONVERSIÓN', class: 'cat-conv', price: 850, original: 1800 },
+            { id: 6, name: 'Fast-Checkout', desc: 'Carrito de WhatsApp Nativo. El usuario añade al carrito y manda el pedido listo al WhatsApp.', cat: '🟡 MODS DE CONVERSIÓN', class: 'cat-conv', price: 750, original: 1500 },
+            { id: 7, name: 'Motor de Reservas', desc: 'Google Calendar Sync. Página integrada para agendar citas según tu disponibilidad.', cat: '🟡 MODS DE CONVERSIÓN', class: 'cat-conv', price: 650, original: 1200 },
+            { id: 8, name: 'Sync Restaurante', desc: 'API OpenTable. Conexión directa para reservación de mesas en tiempo real.', cat: '🟡 MODS DE CONVERSIÓN', class: 'cat-conv', price: 750, original: 1500 },
+            { id: 9, name: 'Pasarela de Pagos Global', desc: 'Stripe / MercadoPago. Recibe pagos con tarjeta directamente en la web.', cat: '🟡 MODS DE CONVERSIÓN', class: 'cat-conv', price: 1450, original: 2800 },
+            
+            { id: 10, name: 'Chili App', desc: 'Conversión a PWA. Tu sitio web se vuelve instalable con un ícono en Android e iOS.', cat: '🔴 MODS ELITE', class: 'cat-elite', price: 1200, original: 2800 },
+            { id: 11, name: 'Chili Publisher', desc: 'Blog desde el Celular. Interfaz simple para subir fotos y textos como noticias. *Requiere Nube', cat: '🔴 MODS ELITE', class: 'cat-elite', price: 2450, original: 4500, reqCloud: true },
+            { id: 12, name: 'Chili Monitor', desc: 'Gestión de Base de Datos / CRM. Backend para recopilar usuarios y dudas. *Requiere Nube', cat: '🔴 MODS ELITE', class: 'cat-elite', price: 3890, original: 8900, reqCloud: true },
+            { id: 13, name: 'Chili Inventory', desc: 'App de Gestión de Inventario Móvil. Toma foto, pon precio y se publica en tu web. Ideal para catálogos dinámicos.', cat: '🔴 MODS ELITE', class: 'cat-elite', price: 3980, original: null }
+        ];
+
+        let cart = [];
+
+        function getCloudPrice() {
+            let hasPublisher = cart.some(i => i.id === 11);
+            let hasMonitor = cart.some(i => i.id === 12);
+            
+            if (hasPublisher && hasMonitor) {
+                return { mensual: 299, anual: 2999, desc: 'Nube Elite Bundle (Publisher + Monitor)' };
+            } else if (hasPublisher || hasMonitor) {
+                return { mensual: 220, anual: 2199, desc: hasPublisher ? 'Nube (Publisher)' : 'Nube (Monitor)' };
+            }
+            return null;
+        }
+
+        document.querySelectorAll('input[name="cloud_billing"]').forEach(radio => {
+            radio.addEventListener('change', updateCartUI);
+        });
+
+        function renderProducts() {
+            const container = document.getElementById('mods-container');
+            container.innerHTML = products.map(p => `
+                <div class="mod-card">
+                    <span class="mod-category ${p.class}">${p.cat}</span>
+                    <h3>${p.name}</h3>
+                    <p>${p.desc}</p>
+                    <div class="mod-price-area">
+                        <span class="mod-price">$${p.price.toLocaleString('es-MX')} MXN</span>
+                        ${p.original ? `<span class="mod-original-price">$${p.original.toLocaleString('es-MX')}</span>` : ''}
+                        ${p.reqCloud ? `<br><button onclick="document.getElementById('cloud-modal').style.display='flex'" style="background: rgba(230,190,138,0.1); border: 1px solid rgba(230,190,138,0.3); color: #9A7B4F; padding: 0.4rem 0.8rem; border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-top: 0.8rem; cursor: pointer; display: inline-block; width: max-content; max-width: 100%; white-space: nowrap;">☁️ Cotizar Nube</button>` : ''}
+                    </div>
+                    <button class="btn-add" onclick="toggleCart(${p.id}, this)">Añadir al carrito</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart(id, btnElement) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index > -1) {
+                cart.splice(index, 1);
+                btnElement.textContent = 'Añadir al carrito';
+                btnElement.classList.remove('added');
+            } else {
+                const product = products.find(p => p.id === id);
+                cart.push(product);
+                btnElement.textContent = '✓ Añadido';
+                btnElement.classList.add('added');
+                
+                document.getElementById('cart-widget').classList.add('active');
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index > -1) {
+                cart.splice(index, 1);
+                const btns = document.querySelectorAll('.btn-add');
+                const productIndex = products.findIndex(p => p.id === id);
+                if (btns[productIndex]) {
+                    btns[productIndex].textContent = 'Añadir al carrito';
+                    btns[productIndex].classList.remove('added');
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const toggleBtn = document.getElementById('cart-toggle');
+            const countBadge = document.getElementById('cart-count');
+            const itemsContainer = document.getElementById('cart-items-container');
+            const totalPriceEl = document.getElementById('cart-total-price');
+            const cloudSection = document.getElementById('cloud-billing-section');
+            const cloudPriceDisplay = document.getElementById('cloud-price-display');
+            
+            countBadge.textContent = cart.length;
+            if (cart.length > 0) {
+                toggleBtn.style.display = 'flex';
+                
+                let html = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    total += item.price;
+                    html += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                                <p>$${item.price.toLocaleString('es-MX')} MXN</p>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">🗑️</button>
+                        </div>
+                    `;
+                });
+
+                const cloudPricing = getCloudPrice();
+                if (cloudPricing) {
+                    cloudSection.style.display = 'block';
+                    const billingType = document.querySelector('input[name="cloud_billing"]:checked').value;
+                    const cloudCost = cloudPricing[billingType];
+                    
+                    let cloudDetailText = '';
+                    if (cloudPricing.mensual === 299) {
+                        cloudDetailText = billingType === 'mensual' 
+                            ? '+$299 MXN/mes (Promoción Bundle)' 
+                            : '+$2,999 MXN/año (3 meses gratis incluidos)';
+                    } else {
+                        cloudDetailText = billingType === 'mensual' 
+                            ? '+$220 MXN/mes' 
+                            : '+$2,199 MXN/año (1 mes gratis incluido)';
+                    }
+                    
+                    cloudPriceDisplay.textContent = cloudDetailText;
+                    
+                    html += `
+                        <div class="cart-item" style="border-bottom:none; margin-top: 0.5rem; padding-bottom: 0;">
+                            <div class="cart-item-info">
+                                <h4>☁️ ${cloudPricing.desc} (${billingType})</h4>
+                                <p>+$${cloudCost.toLocaleString('es-MX')} MXN</p>
+                            </div>
+                        </div>
+                    `;
+                    total += cloudCost;
+                } else {
+                    cloudSection.style.display = 'none';
+                }
+                
+                itemsContainer.innerHTML = html;
+                totalPriceEl.textContent = `$${total.toLocaleString('es-MX')} MXN`;
+            } else {
+                toggleBtn.style.display = 'none';
+                cloudSection.style.display = 'none';
+                itemsContainer.innerHTML = '<p style="text-align: center; color: #999; margin-top: 1rem;">Tu carrito está vacío</p>';
+                totalPriceEl.textContent = '$0 MXN';
+            }
+        }
+
+        document.getElementById('btn-whatsapp').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío.');
+                return;
+            }
+            
+            let message = "Hola! Quiero proceder con la compra de los siguientes Chili Mods:\n\n";
+            let total = 0;
+            
+            cart.forEach(item => {
+                message += `▪️ ${item.name} ($${item.price.toLocaleString('es-MX')})\n`;
+                total += item.price;
+            });
+
+            const cloudPricing = getCloudPrice();
+            if (cloudPricing) {
+                const billingType = document.querySelector('input[name="cloud_billing"]:checked').value;
+                const cloudCost = cloudPricing[billingType];
+                message += `▪️ ☁️ ${cloudPricing.desc} - Pago ${billingType} (+$${cloudCost.toLocaleString('es-MX')} MXN)\n`;
+                total += cloudCost;
+            }
+            
+            message += `\n*Total Inversión Hoy: $${total.toLocaleString('es-MX')} MXN*\n\n¿Cuáles son los pasos a seguir?`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/525574123521?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // Widget Toggle
+        document.getElementById('cart-toggle').addEventListener('click', () => {
+            document.getElementById('cart-widget').classList.toggle('active');
+        });
+        
+        document.getElementById('close-cart').addEventListener('click', () => {
+            document.getElementById('cart-widget').classList.remove('active');
+        });
+
+        // Init
+        renderProducts();
+    </script>
+</body>
+</html>

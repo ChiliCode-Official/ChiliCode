@@ -50,14 +50,42 @@
                 <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
             </a>
             <ul class="nav-links">
-                <li><a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Inicio</a></li>
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
                 <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
                 <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
-                <li><a href="index.html#hero-3d"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Hablemos</a></li>
             </ul>
-            <a href="index.html#hero-3d" class="nav-cta">Hablemos</a>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+    
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div>
 
     <main id="main-content">
         <header class="section hero">
@@ -112,5 +140,6 @@
     </footer>
 
     <script src="main.js"></script>
+    <script src="hamburger.js"></script>
 </body>
 </html>
