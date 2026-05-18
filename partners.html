@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners | ChiliCode</title>
+    
+    <meta name="description" content="Portal de Socios y Afiliados de ChiliCode.">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- GSAP for animations if needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* Specific Styles for Partners Page to maintain the premium feel */
+        .partners-hero {
+            padding-top: 12rem;
+            padding-bottom: 6rem;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 168, 107, 0.05) 0%, transparent 70%);
+        }
+        
+        .partners-hero .content-wrapper {
+            margin: 0 auto;
+            align-items: center;
+            text-align: center;
+        }
+
+        .partners-hero .title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            font-size: 4rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: rgba(0, 168, 107, 0.1);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: var(--transition-smooth);
+        }
+
+        .service-card:hover .step-number {
+            color: rgba(0, 168, 107, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .service-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Premium Table */
+        .premium-table-container {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-card);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 900px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.02);
+        }
+
+        .premium-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .premium-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            border-bottom: 2px solid rgba(0,0,0,0.05);
+        }
+        
+        .premium-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            vertical-align: middle;
+        }
+        
+        .premium-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .premium-table tr {
+            transition: all 0.3s ease;
+        }
+        
+        .premium-table tr:hover {
+            background: rgba(0, 168, 107, 0.02);
+        }
+        
+        .plan-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+        
+        .plan-desc {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+        }
+        
+        .commission-amount {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--emerald);
+            text-align: right;
+        }
+
+        /* Form styling matching ChiliCode style */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 3rem;
+            border-radius: var(--radius-card);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--color-text);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            background: #fff;
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #aaa;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            margin-top: 1rem;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-card {
+            background: #fff;
+            padding: 4rem;
+            border-radius: var(--radius-card);
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+        
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--emerald);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+        
+        .modal-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        @media (max-width: 768px) {
+            .premium-table-container {
+                padding: 1.5rem;
+            }
+            .premium-table th { display: none; }
+            .premium-table td {
+                display: block;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            .commission-amount {
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+            .modal-card {
+                padding: 3rem 1.5rem;
+                margin: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
+                <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+            </ul>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div>
+
+    <main>
+        
+        <!-- HERO -->
+        <section class="section partners-hero">
+            <div class="container">
+                <div class="content-wrapper">
+                    <span class="badge">Acceso Socios</span>
+                    <h1 class="title">No vendas páginas. <br><span>Construye Ecosistemas.</span></h1>
+                    <p class="subtitle" style="margin: 0 auto 3rem auto;">Conecta negocios locales con tecnología Serverless y gana un 15% de comisión real por cada sistema instalado. Sin programar. Sin soporte. Solo conexiones.</p>
+                    <div class="cta-row" style="justify-content: center;">
+                        <a href="#formulario" class="btn btn-primary">Iniciar Protocolo de Socio</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lógica de Operación -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">La Lógica de Operación</h2>
+                    <p class="section-subtitle">Procedimiento simple, transparente y altamente rentable.</p>
+                </div>
+                
+                <div class="services-grid">
+                    <!-- Detectar -->
+                    <div class="service-card">
+                        <span class="step-number">01</span>
+                        <div class="card-icon emerald">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <h3>Detectar</h3>
+                        <p>Encuentra sitios web obsoletos, lentos o negocios en tu área local que aún no tengan presencia web profesional o utilicen plantillas obsoletas.</p>
+                    </div>
+                    
+                    <!-- Conectar -->
+                    <div class="service-card">
+                        <span class="step-number">02</span>
+                        <div class="card-icon gold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                        </div>
+                        <h3>Conectar</h3>
+                        <p>Envíales nuestro video demostrativo de alto impacto y agenda una llamada estratégica con nuestro equipo de expertos en la que cerraremos la venta.</p>
+                    </div>
+                    
+                    <!-- Cobrar -->
+                    <div class="service-card">
+                        <span class="step-number">03</span>
+                        <div class="card-icon red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        </div>
+                        <h3>Cobrar</h3>
+                        <p>Cerramos el trato con el cliente de inmediato, implementamos la infraestructura Serverless premium y te transferimos tu 15% al instante.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabulador de Comisiones -->
+        <section class="section" style="padding-top: 0;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Tabulador de Comisiones</h2>
+                    <p class="section-subtitle">Tus ganancias por cada conexión exitosa.</p>
+                </div>
+
+                <div class="premium-table-container">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>Plan de Instalación</th>
+                                <th style="text-align: right;">Comisión Directa (15% Real)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="plan-name">Piquín Setup</div>
+                                    <div class="plan-desc">Sitio Landing de alto impacto</div>
+                                </td>
+                                <td class="commission-amount">$585 MXN</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="plan-name">Chipotle Setup</div>
+                                    <div class="plan-desc">Sitio Web Corporativo multipágina</div>
+                                </td>
+                                <td class="commission-amount">$1,185 MXN</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="plan-name">Habanero Setup</div>
+                                    <div class="plan-desc">E-commerce robusto o App a medida</div>
+                                </td>
+                                <td class="commission-amount">$2,235 MXN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulario -->
+        <section id="formulario" class="section" style="padding-top: 0;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Únete a la Red</h2>
+                    <p class="section-subtitle">Regístrate para recibir tu kit de afiliado e instrucciones.</p>
+                </div>
+
+                <div class="form-container">
+                    <!-- The form will post data to the Google Apps Script URL -->
+                    <form id="partner-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="Número de WhatsApp" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="instagram" name="instagram" class="form-input" placeholder="Instagram (Opcional)">
+                        </div>
+                        <button type="submit" class="btn btn-primary form-submit" id="submit-btn">Solicitar Acceso</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Success -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="title" style="font-size: 2rem; margin-bottom: 1rem; letter-spacing: -1px;">Protocolo Iniciado</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Tus datos han sido registrados en nuestro sistema de partners de ChiliCode. Un Ingeniero Senior se pondrá en contacto contigo vía WhatsApp para entregarte tu kit de afiliado.</p>
+            <button class="btn btn-primary" id="close-modal" style="width: 100%;">Entendido</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 ChilliCode Agency.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/chilicode_agency/" target="_blank">Instagram Empresa</a>
+                    <a href="https://wa.me/525574123521" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="hamburger.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('partner-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const modal = document.getElementById('success-modal');
+            const closeModal = document.getElementById('close-modal');
+
+            // REEMPLAZA ESTA URL CON LA URL DE TU WEB APP DE GOOGLE APPS SCRIPT
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyrhaq2IAUq1-zeT7llN0UFIkdF-5E4RPkf2ZhWN5GRjmvqI2eipSRK-jxkLOvpBVq-/exec';
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                
+                if (scriptURL === 'AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT') {
+                    alert('Debes configurar la URL del script de Google primero en el archivo partners.html');
+                    return;
+                }
+                
+                // Cambiar estado del botón
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+
+                // Crear FormData
+                const formData = new FormData(form);
+
+                fetch(scriptURL, { method: 'POST', body: formData })
+                    .then(response => {
+                        modal.classList.add('active');
+                        form.reset();
+                        submitBtn.textContent = 'Solicitar Acceso';
+                        submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Error!', error.message);
+                        alert('Hubo un error al enviar el formulario. Por favor, intenta de nuevo.');
+                        submitBtn.textContent = 'Solicitar Acceso';
+                        submitBtn.disabled = false;
+                    });
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
