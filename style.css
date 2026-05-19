@@ -730,6 +730,7 @@ model-viewer {
 .project-block:nth-child(2) .project-content h3 {
     background: linear-gradient(90deg, #007AFF, #FF7A00, #FFCC00);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
 }
@@ -925,6 +926,7 @@ model-viewer {
 .instagram-text {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
     display: inline-block;
@@ -1344,6 +1346,7 @@ model-viewer {
     border: 3px solid transparent;
     background: linear-gradient(135deg, var(--emerald), var(--gold), var(--red), var(--emerald)) border-box;
     -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
     transition: opacity 0.5s ease;

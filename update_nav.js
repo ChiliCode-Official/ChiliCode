@@ -62,8 +62,8 @@ files.forEach(file => {
     if (navRegex.test(content)) {
         content = content.replace(navRegex, getConsistentNavLinks(activePage));
         fs.writeFileSync(filePath, content, 'utf8');
-        console.log(\`Updated \${file}\`);
+        console.log("Updated " + file);
     } else {
-        console.log(\`Could not find nav-links in \${file}\`);
+        console.log("Could not find nav-links in " + file);
     }
 });
