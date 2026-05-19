@@ -231,6 +231,28 @@
             stroke-width: 2;
             fill: none;
         }
+
+        /* PWA Urus Yellow Card Styling */
+        .pwa-btn {
+            background: #FFCC00;
+            color: #000 !important;
+            font-weight: 800;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            border-radius: var(--radius-pill);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.2);
+            font-family: 'Outfit', sans-serif;
+            border: none;
+            cursor: pointer;
+        }
+        .pwa-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 204, 0, 0.4);
+            background: #ffe066;
+        }
         
         @media (max-width: 768px) {
             .premium-table-container {
@@ -400,6 +422,41 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PWA Regalo: LARPP APP -->
+        <section class="section" style="padding-top: 0;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge" style="background: rgba(255, 204, 0, 0.1); color: #FFCC00; border: 1px solid rgba(255, 204, 0, 0.2);">Bono Exclusivo</span>
+                    <h2 class="section-title">LARPP APP <span>Gastos</span></h2>
+                    <p class="section-subtitle">Tu centro de control financiero. Gestiona tus comisiones y gastos en tiempo real.</p>
+                </div>
+
+                <div class="pwa-card-container" style="max-width: 900px; margin: 0 auto;">
+                    <div class="service-card" style="background: linear-gradient(135deg, #111 0%, #222 100%); color: #fff; border: 1px solid rgba(255, 204, 0, 0.2); padding: 4rem 3rem; text-align: center; border-radius: var(--radius-card); box-shadow: 0 30px 60px rgba(0,0,0,0.15);">
+                        <div style="font-size: 5rem; line-height: 1; margin-bottom: 1.5rem; filter: drop-shadow(0 10px 20px rgba(255, 204, 0, 0.3));">🐂</div>
+                        <h3 class="title" style="color: #FFCC00; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255, 204, 0, 0.2); font-family: 'Outfit', sans-serif;">LARPP APP</h3>
+                        <p style="color: #ccc; max-width: 600px; margin: 0 auto 2.5rem auto; font-size: 1.1rem; line-height: 1.6; font-family: 'Plus Jakarta Sans', sans-serif;">
+                            Como socio de <strong>ChiliCode</strong>, te regalamos acceso exclusivo a nuestro gestor de finanzas de alto rendimiento. Monitorea tus ganancias y gastos en tiempo real con una interfaz deportiva y elegante.
+                        </p>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <a href="https://chilicode-official.github.io/LARPP-APP/" target="_blank" class="pwa-btn">
+                                Lanzar LARPP APP
+                            </a>
+                        </div>
+
+                        <!-- Advertencia PWA/Localhost -->
+                        <div style="background: rgba(255, 204, 0, 0.05); border: 1px dashed rgba(255, 204, 0, 0.3); border-radius: 16px; padding: 1.2rem; max-width: 650px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; text-align: left;">
+                            <span style="font-size: 1.8rem; filter: drop-shadow(0 2px 5px rgba(255, 204, 0, 0.3));">⚠️</span>
+                            <p style="font-size: 0.9rem; color: #E6BE8A; margin: 0; line-height: 1.4; font-family: 'Plus Jakarta Sans', sans-serif;">
+                                <strong>ADVERTENCIA DE SEGURIDAD DE DATOS:</strong> Al correr de manera serverless/local, esta PWA almacena tu información únicamente en la memoria local de tu navegador (IndexedDB). <strong>No borres el historial ni los datos del navegador</strong> si deseas conservar tus registros de gastos intactos.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
