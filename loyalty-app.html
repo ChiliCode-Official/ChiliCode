@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chili Loyalty | Tarjeta Digital</title>
+  
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Chili Loyalty">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4605/4605221.png">
+
+  <!-- Space Grotesk Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary-color: #ff3b30;
+      --bg-color: #f8fafc;
+      --text-color: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.45);
+      --card-border: rgba(255, 255, 255, 0.6);
+      --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06);
+      --input-bg: rgba(255, 255, 255, 0.8);
+      --input-border: rgba(15, 23, 42, 0.1);
+      --sub-text: #64748b;
+      --grid-dot: rgba(15, 23, 42, 0.05);
+      --success-glow: #10b981;
+      --success-banner: rgba(16, 185, 129, 0.15);
+      --error-glow: #ef4444;
+      --error-banner: rgba(239, 68, 68, 0.15);
+    }
+
+    body.dark {
+      --bg-color: #09090b;
+      --text-color: #f8fafc;
+      --card-bg: rgba(15, 15, 20, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      --input-bg: rgba(20, 20, 25, 0.8);
+      --input-border: rgba(255, 255, 255, 0.08);
+      --sub-text: #94a3b8;
+      --grid-dot: rgba(248, 250, 252, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Grid Background Effect */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, color-mix(in srgb, var(--primary-color) 10%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(40px);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-color);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--card-shadow);
+      z-index: 10;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    /* Main Container Card */
+    .app-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      display: none; /* Controlled by JS */
+      flex-direction: column;
+      gap: 24px;
+      animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Branding Header */
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .brand-logo-container {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .brand-logo {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    .brand-logo.default-svg {
+      color: var(--primary-color);
+      width: 60%;
+      height: 60%;
+    }
+
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 0.875rem;
+      color: var(--sub-text);
+    }
+
+    /* Role Selector Styling */
+    .role-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .role-btn {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      padding: 24px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-align: left;
+      transition: all 0.25s ease;
+      color: var(--text-color);
+    }
+
+    .role-btn:hover {
+      border-color: var(--primary-color);
+      background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .role-btn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      flex-shrink: 0;
+    }
+
+    .role-btn-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .role-btn-desc {
+      font-size: 0.825rem;
+      color: var(--sub-text);
+      line-height: 1.3;
+    }
+
+    /* Back Header */
+    .header-navigation {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: -8px;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: none;
+      color: var(--sub-text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .back-btn:hover {
+      color: var(--text-color);
+    }
+
+    /* PIN input fields */
+    .pin-input-container {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+    }
+
+    .pin-field {
+      width: 100%;
+      max-width: 220px;
+      font-size: 2rem;
+      text-align: center;
+      letter-spacing: 0.5em;
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-color);
+      font-weight: 700;
+      outline: none;
+    }
+
+    .pin-field:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 15%, transparent);
+    }
+
+    /* Form Fields */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-color);
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 15%, transparent);
+    }
+
+    /* System Alerts */
+    .alert-banner {
+      background: color-mix(in srgb, #ef4444 10%, transparent);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .alert-banner.success {
+      background: color-mix(in srgb, #10b981 10%, transparent);
+      border: 1px solid #10b981;
+      color: #10b981;
+    }
+
+    .alert-banner svg {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px 0 color-mix(in srgb, var(--primary-color) 30%, transparent);
+    }
+
+    .btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Stamp Grid View */
+    .stamp-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 8px 0;
+    }
+
+    .stamp-slot {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px dashed var(--input-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--sub-text);
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    body.dark .stamp-slot {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .stamp-slot.active {
+      border: 2px solid var(--primary-color);
+      background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+      color: var(--primary-color);
+      animation: stampAcquired 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes stampAcquired {
+      from {
+        transform: scale(0.6);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .stamp-icon {
+      width: 60%;
+      height: 60%;
+      color: var(--primary-color);
+    }
+
+    /* Progress Info Card */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--input-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary-color);
+      width: 0%;
+      border-radius: 4px;
+    }
+
+    .offer-details {
+      background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .offer-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary-color);
+      margin-bottom: 6px;
+    }
+
+    .offer-desc {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* User Profile Info */
+    .user-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      font-size: 0.875rem;
+    }
+
+    .user-badge-name {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .user-badge-phone {
+      font-family: monospace;
+      color: var(--sub-text);
+    }
+
+    /* QR Code Display Container */
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .qr-image {
+      width: 180px;
+      height: 180px;
+      background: #f1f5f9;
+      display: block;
+    }
+
+    .qr-info {
+      font-size: 0.8rem;
+      color: #64748b;
+      text-align: center;
+      max-width: 240px;
+      line-height: 1.4;
+    }
+
+    /* Massive Green Glowing Claim Button & State */
+    .claim-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .btn-claim {
+      background: var(--success-glow);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border: none;
+      border-radius: 16px;
+      padding: 20px;
+      width: 100%;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px 4px color-mix(in srgb, var(--success-glow) 40%, transparent);
+      animation: claimPulse 2s infinite;
+    }
+
+    @keyframes claimPulse {
+      0% {
+        box-shadow: 0 0 12px 0px color-mix(in srgb, var(--success-glow) 50%, transparent);
+      }
+      50% {
+        box-shadow: 0 0 24px 8px color-mix(in srgb, var(--success-glow) 50%, transparent);
+      }
+      100% {
+        box-shadow: 0 0 12px 0px color-mix(in srgb, var(--success-glow) 50%, transparent);
+      }
+    }
+
+    .btn-claim:hover {
+      filter: brightness(1.1);
+    }
+
+    /* Modal Overlay (for Redeem QR) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-card {
+      background: var(--bg-color);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 400px;
+      padding: 32px 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      animation: modalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes modalSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--success-glow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Live Scanner Viewport */
+    .scanner-viewfinder {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1;
+      margin: 8px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      background: #000000;
+      position: relative;
+    }
+
+    #reader {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    #reader video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    .scanner-status {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--sub-text);
+      font-weight: 500;
+    }
+
+    /* Live scanner pop-ups overlay */
+    .scanner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .scanner-overlay.active {
+      opacity: 1;
+    }
+
+    .scanner-overlay.success {
+      background: rgba(16, 185, 129, 0.9);
+      color: #ffffff;
+    }
+
+    .scanner-overlay.error {
+      background: rgba(239, 68, 68, 0.9);
+      color: #ffffff;
+    }
+
+    .scanner-overlay-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+    }
+
+    .scanner-overlay-desc {
+      font-size: 0.85rem;
+      margin-top: 6px;
+      opacity: 0.9;
+    }
+
+    /* Loading and System Overlays */
+    .full-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--bg-color);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .system-error-title {
+      color: #ef4444;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border: 1.5px solid #ef4444;
+      padding: 16px 24px;
+      border-radius: 12px;
+      max-width: 90%;
+      background: color-mix(in srgb, #ef4444 8%, transparent);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);
+      font-family: monospace;
+    }
+
+    .freemium-blocked-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-color);
+      max-width: 480px;
+      line-height: 1.6;
+      border: 1px solid var(--input-border);
+      padding: 32px 24px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .freemium-blocked-title svg {
+      width: 48px;
+      height: 48px;
+      color: var(--primary-color);
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--input-border);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .skeleton-text {
+      width: 140px;
+      height: 16px;
+      background: var(--input-border);
+      border-radius: 4px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Footer Branding */
+    .footer-brand {
+      margin-top: 32px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sub-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .footer-brand span {
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggleBtn" aria-label="Cambiar tema">
+    <i data-lucide="moon" id="themeIcon"></i>
+  </button>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loadingOverlay" class="full-overlay">
+    <div class="spinner"></div>
+    <div class="skeleton-text"></div>
+  </div>
+
+  <!-- FATAL SYSTEM ERROR OVERLAY -->
+  <div id="fatalErrorOverlay" class="full-overlay" style="display: none;">
+    <div class="system-error-title" id="fatalErrorMessage">
+      [ ERROR DE SISTEMA: ID de Establecimiento No Encontrado ]
+    </div>
+  </div>
+
+  <!-- FREEMIUM BLOCKER OVERLAY -->
+  <div id="freemiumOverlay" class="full-overlay" style="display: none; background: rgba(9, 9, 11, 0.4); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+    <div class="freemium-blocked-title">
+      <i data-lucide="shield-alert"></i>
+      <div>[ LÍMITE FREEMIUM ALCANZADO. Contacta a ChiliCode para desbloquear infraestructura. ]</div>
+    </div>
+  </div>
+
+  <!-- ROLE SELECTION UI CARD -->
+  <main class="app-card" id="roleSelectionCard">
+    <header class="brand-header">
+      <div class="brand-logo-container">
+        <img class="brand-logo logo-img" src="" alt="Logo" style="display: none;">
+        <i data-lucide="flame" class="brand-logo default-svg"></i>
+      </div>
+      <h1 class="brand-title brand-name-placeholder">Establecimiento</h1>
+      <p class="brand-subtitle">Bienvenido al club de lealtad</p>
+    </header>
+    
+    <div class="role-container">
+      <h2 class="form-label" style="text-align: center; margin-bottom: 4px;">¿Cómo deseas ingresar?</h2>
+      
+      <button class="role-btn" id="btnSelectClient">
+        <div class="role-btn-icon">
+          <i data-lucide="user"></i>
+        </div>
+        <div>
+          <div class="role-btn-title">[ 👤 Cliente ]</div>
+          <div class="role-btn-desc">Registra tus visitas, acumula sellos y reclama tus premios.</div>
+        </div>
+      </button>
+
+      <button class="role-btn" id="btnSelectStaff">
+        <div class="role-btn-icon">
+          <i data-lucide="shield-alert"></i>
+        </div>
+        <div>
+          <div class="role-btn-title">[ 🏪 Cajero / Staff ]</div>
+          <div class="role-btn-desc">Inicia el scanner POS para acreditar visitas o canjear premios.</div>
+        </div>
+      </button>
+    </div>
+  </main>
+
+  <!-- STAFF AUTHENTICATION CARD -->
+  <main class="app-card" id="cajeroAuthCard">
+    <div class="header-navigation">
+      <button class="back-btn" id="btnBackFromAuth">
+        <i data-lucide="arrow-left"></i> Volver
+      </button>
+    </div>
+
+    <header class="brand-header">
+      <div class="brand-logo-container">
+        <img class="brand-logo logo-img" src="" alt="Logo" style="display: none;">
+        <i data-lucide="shield-alert" class="brand-logo default-svg"></i>
+      </div>
+      <h1 class="brand-title">Modo Cajero</h1>
+      <p class="brand-subtitle">Introduce tu código de verificación</p>
+    </header>
+
+    <div class="alert-banner" id="authErrorAlert">
+      <i data-lucide="x-circle"></i>
+      <span>[ ACCESO DENEGADO ]</span>
+    </div>
+
+    <form class="stamp-container" id="cajeroLoginForm" onsubmit="return false;">
+      <div class="form-group" style="text-align: center;">
+        <label class="form-label" for="cajeroPinInput">PIN de Acceso</label>
+        <div class="pin-input-container">
+          <input class="pin-field" type="password" id="cajeroPinInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required>
+        </div>
+      </div>
+
+      <button class="btn" type="submit" id="btnSubmitAuth">
+        <i data-lucide="key-round"></i>
+        [ /> INGRESAR ]
+      </button>
+    </form>
+  </main>
+
+  <!-- POS SCANNER CARD -->
+  <main class="app-card" id="cajeroScannerCard" style="max-width: 480px;">
+    <div class="header-navigation">
+      <button class="back-btn" id="btnBackFromScanner">
+        <i data-lucide="arrow-left"></i> Cambiar Rol
+      </button>
+    </div>
+
+    <header class="brand-header">
+      <h1 class="brand-title" style="font-size: 1.3rem;"><i data-lucide="scan-line" style="vertical-align: middle; margin-right: 6px; color: var(--primary-color);"></i>Scanner POS</h1>
+      <p class="brand-subtitle" id="scannerBrandSub">Acreditación y Canje</p>
+    </header>
+
+    <div class="stamp-container" style="position: relative;">
+      <!-- Camera viewport -->
+      <div class="scanner-viewfinder">
+        <div id="reader"></div>
+        
+        <!-- Live status feedback overlays -->
+        <div class="scanner-overlay" id="scannerNotificationOverlay">
+          <i data-lucide="check-circle" id="scannerNotificationIcon" style="width: 48px; height: 48px;"></i>
+          <div class="scanner-overlay-title" id="scannerNotificationTitle">Éxito</div>
+          <div class="scanner-overlay-desc" id="scannerNotificationDesc">Procesado correctamente</div>
+        </div>
+      </div>
+      
+      <div class="scanner-status" id="scannerStatus">
+        Iniciando cámara...
+      </div>
+    </div>
+
+    <div class="user-badge" style="background: rgba(0, 0, 0, 0.02); text-align: center; justify-content: center; font-size: 0.8rem; font-weight: 500;">
+      Coloca el código QR del cliente frente a la cámara.
+    </div>
+  </main>
+
+  <!-- REGISTRATION VIEW CARD -->
+  <main class="app-card" id="registrationCard">
+    <div class="header-navigation">
+      <button class="back-btn" id="btnBackFromReg">
+        <i data-lucide="arrow-left"></i> Volver
+      </button>
+    </div>
+
+    <header class="brand-header">
+      <div class="brand-logo-container">
+        <!-- Logo dynamic src replacement -->
+        <img class="brand-logo logo-img" src="" alt="Logo" style="display: none;">
+        <i data-lucide="flame" class="brand-logo default-svg"></i>
+      </div>
+      <h1 class="brand-title brand-name-placeholder">Establecimiento</h1>
+      <p class="brand-subtitle">Únete a nuestro club de lealtad y gana increíbles recompensas.</p>
+    </header>
+
+    <div class="alert-banner" id="registrationAlert">
+      <i data-lucide="alert-circle"></i>
+      <span id="registrationAlertText">Datos ya vinculados a una tarjeta activa en este local.</span>
+    </div>
+
+    <form class="stamp-container" id="registrationForm" onsubmit="return false;">
+      <div class="form-group">
+        <label class="form-label" for="userName">Nombre Completo</label>
+        <input class="form-input" type="text" id="userName" placeholder="Ej. Juan Pérez" required minlength="3">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="userEmail">Correo Electrónico</label>
+        <input class="form-input" type="email" id="userEmail" placeholder="Ej. juan@correo.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="userWhatsApp">WhatsApp (10 dígitos)</label>
+        <input class="form-input" type="tel" id="userWhatsApp" placeholder="Ej. 5512345678" required pattern="\d{10}">
+      </div>
+
+      <button class="btn" type="submit" id="btnSubmitRegister">
+        <i data-lucide="user-plus"></i>
+        [ /> REGISTRARSE ]
+      </button>
+    </form>
+  </main>
+
+  <!-- LOYALTY CARD VIEW CONTAINER -->
+  <main class="app-card" id="loyaltyCard">
+    <div class="header-navigation">
+      <button class="back-btn" id="btnBackFromLoyalty">
+        <i data-lucide="arrow-left"></i> Volver
+      </button>
+    </div>
+
+    <header class="brand-header">
+      <div class="brand-logo-container">
+        <img class="brand-logo logo-img" src="" alt="Logo" style="display: none;">
+        <i data-lucide="flame" class="brand-logo default-svg"></i>
+      </div>
+      <h1 class="brand-title brand-name-placeholder">Establecimiento</h1>
+      <p class="brand-subtitle">Tarjeta de Fidelidad Digital</p>
+    </header>
+
+    <div class="user-badge">
+      <div class="user-badge-name" id="loyUserName">---</div>
+      <div class="user-badge-phone" id="loyUserPhone">---</div>
+    </div>
+
+    <!-- Visual stamp counter -->
+    <div class="stamp-container">
+      <div class="offer-details">
+        <div class="offer-title">Premio Acumulable</div>
+        <div class="offer-desc" id="offerDescription">---</div>
+      </div>
+
+      <div class="stamp-grid" id="stampGrid">
+        <!-- Rendered via JS -->
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+    </div>
+
+    <!-- Active State: Check-In QR -->
+    <div class="qr-container" id="standardQRContainer">
+      <img class="qr-image" id="standardQRImg" src="" alt="Código QR Check-In">
+      <div class="qr-info">
+        Presenta este código al personal en tu visita para acumular sellos.
+      </div>
+    </div>
+
+    <!-- Active State: Claim Reward Button -->
+    <div class="claim-container" id="claimRewardContainer" style="display: none;">
+      <button class="btn-claim" id="btnClaimReward">
+        <i data-lucide="gift"></i>
+        [ /> RECLAMAR PREMIO ]
+      </button>
+    </div>
+  </main>
+
+  <!-- REDEEM QR MODAL -->
+  <div class="modal-overlay" id="redeemModal">
+    <div class="modal-card">
+      <div class="modal-title">
+        <i data-lucide="check-circle-2"></i>
+        Canje de Premio
+      </div>
+      <div class="qr-container">
+        <img class="qr-image" id="redeemQRImg" src="" alt="Código QR Canje">
+        <div class="qr-info" style="color: var(--text-color); font-weight: 500;">
+          Muestra este código al cajero para reclamar tu premio.
+        </div>
+        <div class="qr-info" style="font-size: 0.75rem;">
+          Una vez escaneado, tu tarjeta de visitas se reiniciará.
+        </div>
+      </div>
+      <button class="btn" id="btnCloseRedeemModal" style="background: var(--input-bg); color: var(--text-color); border: 1px solid var(--input-border); box-shadow: none;">
+        [ /> VOLVER ]
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer-brand">
+    Tecnología por <span>ChiliCode</span>
+  </footer>
+
+  <!-- MODULE FIREBASE V10 ARCHITECTURE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      updateDoc,
+      increment,
+      collection, 
+      query, 
+      where, 
+      getDocs, 
+      addDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Firebase configuration parameters (strictly matches spec)
+    const firebaseConfig = {
+      // INSERT_CHILICLOUD_CONFIG_HERE
+      apiKey: "AIzaSyDtiA-kLeD21QykL_ztIA8Ffrv0N_ITlBI",
+      authDomain: "chilicloud-loyalty.firebaseapp.com",
+      projectId: "chilicloud-loyalty",
+      storageBucket: "chilicloud-loyalty.firebasestorage.app",
+      messagingSenderId: "96924217153",
+      appId: "1:96924217153:web:9a0f0a32577ce6196dbbc0"
+    };
+
+    // Initialize Firebase Services
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // DOM Overlays & View Holders
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    const fatalErrorOverlay = document.getElementById("fatalErrorOverlay");
+    const fatalErrorMessage = document.getElementById("fatalErrorMessage");
+    const freemiumOverlay = document.getElementById("freemiumOverlay");
+    const roleSelectionCard = document.getElementById("roleSelectionCard");
+    const cajeroAuthCard = document.getElementById("cajeroAuthCard");
+    const cajeroScannerCard = document.getElementById("cajeroScannerCard");
+    const registrationCard = document.getElementById("registrationCard");
+    const loyaltyCard = document.getElementById("loyaltyCard");
+    
+    // Theme toggle references
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+
+    // Router states & business records
+    let businessDoc = null;
+    let bizId = "";
+    let userId = "";
+
+    // Scanner state variables
+    let html5Qrcode = null;
+    let isProcessingScan = false;
+
+    // Set up light/dark mode configuration
+    function initTheme() {
+      const storedTheme = localStorage.getItem("theme") || "light";
+      if (storedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeIcon.setAttribute("data-lucide", "sun");
+      } else {
+        document.body.classList.remove("dark");
+        themeIcon.setAttribute("data-lucide", "moon");
+      }
+      lucide.createIcons();
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      themeIcon.setAttribute("data-lucide", isDark ? "sun" : "moon");
+      lucide.createIcons();
+    });
+
+    // Parse routing configuration
+    function getBizParameter() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("biz");
+    }
+
+    // Dynamic PWA manifest blob injection
+    function injectPwaManifest(businessName) {
+      const myManifest = {
+        "short_name": businessName || "ChiliLoyalty",
+        "name": businessName ? `Lealtad | ${businessName}` : "Chili Loyalty Card",
+        "icons": [
+          {
+            "src": "https://cdn-icons-png.flaticon.com/512/4605/4605221.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+          }
+        ],
+        "start_url": window.location.href,
+        "background_color": "#ffffff",
+        "theme_color": businessDoc?.colorMarca || "#ff3b30",
+        "display": "standalone",
+        "orientation": "portrait"
+      };
+      
+      const stringManifest = JSON.stringify(myManifest);
+      const blob = new Blob([stringManifest], { type: 'application/json' });
+      const manifestURL = URL.createObjectURL(blob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestURL;
+      document.head.appendChild(link);
+    }
+
+    // Dynamic UI styling and logo configurations
+    function applyBrandBranding(docData) {
+      if (docData.colorMarca) {
+        document.documentElement.style.setProperty('--primary-color', docData.colorMarca);
+      }
+      
+      const logoUrl = docData.logoUrl;
+      const businessName = docData.nombre || "Chili Business";
+
+      // Apply logo assets and business names to placeholders
+      const nameHolders = document.querySelectorAll(".brand-name-placeholder");
+      nameHolders.forEach(el => el.textContent = businessName);
+
+      const logoImgs = document.querySelectorAll(".logo-img");
+      const defaultSvgs = document.querySelectorAll(".brand-header .default-svg");
+
+      if (logoUrl) {
+        logoImgs.forEach(el => {
+          el.src = logoUrl;
+          el.style.display = "block";
+        });
+        defaultSvgs.forEach(el => el.style.display = "none");
+      }
+
+      // Re-skin document title
+      document.title = `${businessName} | Chili Loyalty`;
+      document.getElementById("scannerBrandSub").textContent = `${businessName} - Acreditación y Canje`;
+    }
+
+    // Service Worker registration (safely handles local/sandboxed runs)
+    function setupServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        try {
+          const swCode = `
+            self.addEventListener('install', (e) => {
+              self.skipWaiting();
+            });
+            self.addEventListener('activate', (e) => {
+              e.waitUntil(clients.claim());
+            });
+            self.addEventListener('fetch', (e) => {
+              e.respondWith(
+                fetch(e.request).catch(() => new Response("Conexión perdida. Chili Loyalty requiere internet para actualizar tus puntos."))
+              );
+            });
+          `;
+          const blob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(swUrl).catch(err => console.log('PWA Service Worker offline support initialized.'));
+        } catch (e) {
+          console.warn("Unable to register sandbox service worker:", e);
+        }
+      }
+    }
+
+    // Client stamp grid setup
+    function renderStampMatrix(puntos, maxStamps) {
+      const stampGrid = document.getElementById("stampGrid");
+      stampGrid.innerHTML = "";
+      
+      if (maxStamps <= 6) {
+        stampGrid.style.gridTemplateColumns = "repeat(3, 1fr)";
+      } else if (maxStamps <= 10) {
+        stampGrid.style.gridTemplateColumns = "repeat(5, 1fr)";
+      } else {
+        stampGrid.style.gridTemplateColumns = "repeat(6, 1fr)";
+      }
+
+      for (let i = 1; i <= maxStamps; i++) {
+        const slot = document.createElement("div");
+        slot.className = "stamp-slot";
+        
+        if (i <= puntos) {
+          slot.classList.add("active");
+          slot.innerHTML = `<i data-lucide="flame" class="stamp-icon"></i>`;
+        } else {
+          slot.textContent = i;
+        }
+        stampGrid.appendChild(slot);
+      }
+      
+      const fillPercentage = Math.min((puntos / maxStamps) * 100, 100);
+      document.getElementById("progressBarFill").style.width = `${fillPercentage}%`;
+      
+      lucide.createIcons();
+    }
+
+    // Main App Orchestration Loop
+    async function initApp() {
+      initTheme();
+      setupServiceWorker();
+
+      bizId = getBizParameter();
+      if (!bizId) {
+        loadingOverlay.style.display = "none";
+        fatalErrorMessage.textContent = "[ ERROR DE SISTEMA: ID de Establecimiento No Encontrado ]";
+        fatalErrorOverlay.style.display = "flex";
+        return;
+      }
+
+      try {
+        // Fetch database records
+        const bizRef = doc(db, "negocios", bizId);
+        const bizSnap = await getDoc(bizRef);
+
+        if (!bizSnap.exists()) {
+          loadingOverlay.style.display = "none";
+          fatalErrorMessage.textContent = `[ ERROR DE SISTEMA: Establecimiento "${bizId}" No Existe ]`;
+          fatalErrorOverlay.style.display = "flex";
+          return;
+        }
+
+        businessDoc = bizSnap.data();
+        applyBrandBranding(businessDoc);
+        injectPwaManifest(businessDoc.nombre);
+
+        // Freemium blocker check
+        if (businessDoc.planSuscripcion === "Piquín") {
+          const qCount = query(collection(db, "clientes_fidelizados"), where("idNegocio", "==", bizId));
+          const snapCount = await getDocs(qCount);
+          if (snapCount.size >= 10) {
+            loadingOverlay.style.display = "none";
+            freemiumOverlay.style.display = "flex";
+            return;
+          }
+        }
+
+        // Show role selection UI card
+        loadingOverlay.style.display = "none";
+        roleSelectionCard.style.display = "flex";
+
+      } catch (err) {
+        console.error(err);
+        loadingOverlay.style.display = "none";
+        fatalErrorMessage.textContent = `[ ERROR DE RED / ACCESO DENEGADO A FIREBASE ]`;
+        fatalErrorOverlay.style.display = "flex";
+      }
+    }
+
+    // Router triggers
+    document.getElementById("btnSelectClient").onclick = () => {
+      roleSelectionCard.style.display = "none";
+      routeToClientNode();
+    };
+
+    document.getElementById("btnSelectStaff").onclick = () => {
+      roleSelectionCard.style.display = "none";
+      cajeroAuthCard.style.display = "flex";
+      document.getElementById("cajeroPinInput").focus();
+    };
+
+    document.getElementById("btnBackFromAuth").onclick = () => {
+      cajeroAuthCard.style.display = "none";
+      document.getElementById("authErrorAlert").style.display = "none";
+      document.getElementById("cajeroPinInput").value = "";
+      roleSelectionCard.style.display = "flex";
+    };
+
+    document.getElementById("btnBackFromReg").onclick = () => {
+      registrationCard.style.display = "none";
+      document.getElementById("registrationAlert").style.display = "none";
+      roleSelectionCard.style.display = "flex";
+    };
+
+    document.getElementById("btnBackFromLoyalty").onclick = () => {
+      loyaltyCard.style.display = "none";
+      roleSelectionCard.style.display = "flex";
+    };
+
+    document.getElementById("btnBackFromScanner").onclick = async () => {
+      await stopScanner();
+      cajeroScannerCard.style.display = "none";
+      cajeroAuthCard.style.display = "flex";
+      document.getElementById("cajeroPinInput").value = "";
+      document.getElementById("cajeroPinInput").focus();
+    };
+
+    // Routing configuration for clients
+    async function routeToClientNode() {
+      loadingOverlay.style.display = "flex";
+      
+      userId = localStorage.getItem(`chili_loyalty_uid_${bizId}`);
+      if (userId) {
+        try {
+          const userRef = doc(db, "clientes_fidelizados", userId);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            displayLoyaltyCard(userSnap.data());
+          } else {
+            localStorage.removeItem(`chili_loyalty_uid_${bizId}`);
+            displayRegistrationForm();
+          }
+        } catch (e) {
+          console.error(e);
+          displayRegistrationForm();
+        }
+      } else {
+        displayRegistrationForm();
+      }
+    }
+
+    // View Display Handlers
+    function displayRegistrationForm() {
+      loadingOverlay.style.display = "none";
+      registrationCard.style.display = "flex";
+      loyaltyCard.style.display = "none";
+      lucide.createIcons();
+    }
+
+    function displayLoyaltyCard(userData) {
+      loadingOverlay.style.display = "none";
+      registrationCard.style.display = "none";
+      loyaltyCard.style.display = "flex";
+
+      // Bind dynamic parameters
+      document.getElementById("loyUserName").textContent = userData.nombreCompleto || userData.nombre || "Cliente Valioso";
+      document.getElementById("loyUserPhone").textContent = userData.whatsapp || "----------";
+
+      const offers = businessDoc.configuracionOfertas || {};
+      const targetVisits = parseInt(offers.visitasRequeridasParaPremio || 10);
+      const rewardDesc = offers.descripcionPremio || "Regalo sorpresa en tu próxima visita.";
+      
+      document.getElementById("offerDescription").textContent = rewardDesc;
+      
+      const puntos = parseInt(userData.puntosAcumulados || 0);
+      renderStampMatrix(puntos, targetVisits);
+
+      // Reward Check-In vs Redemption Logic
+      const standardQRContainer = document.getElementById("standardQRContainer");
+      const claimRewardContainer = document.getElementById("claimRewardContainer");
+
+      if (puntos >= targetVisits) {
+        standardQRContainer.style.display = "none";
+        claimRewardContainer.style.display = "flex";
+        
+        // Dynamic QR code for redemption
+        const redeemPayload = `REDEEM|${bizId}|${userId}`;
+        const redeemQRImg = document.getElementById("redeemQRImg");
+        redeemQRImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(redeemPayload)}`;
+
+        // Dynamic modal buttons
+        const btnClaimReward = document.getElementById("btnClaimReward");
+        const redeemModal = document.getElementById("redeemModal");
+        
+        btnClaimReward.onclick = () => {
+          redeemModal.style.display = "flex";
+        };
+
+        const btnCloseRedeemModal = document.getElementById("btnCloseRedeemModal");
+        btnCloseRedeemModal.onclick = () => {
+          redeemModal.style.display = "none";
+        };
+      } else {
+        claimRewardContainer.style.display = "none";
+        standardQRContainer.style.display = "flex";
+
+        // Dynamic QR code for check-in
+        const checkinPayload = `CHILI_LOYALTY|${bizId}|${userId}`;
+        const standardQRImg = document.getElementById("standardQRImg");
+        standardQRImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(checkinPayload)}`;
+      }
+
+      lucide.createIcons();
+    }
+
+    // Cashier Verification Action
+    const authForm = document.getElementById("cajeroLoginForm");
+    const authErrorAlert = document.getElementById("authErrorAlert");
+    const btnSubmitAuth = document.getElementById("btnSubmitAuth");
+
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      authErrorAlert.style.display = "none";
+
+      const enteredPin = document.getElementById("cajeroPinInput").value.trim();
+      const pinCajeroInDb = businessDoc.pinCajero || "1234"; // Default db verification fallback
+
+      btnSubmitAuth.disabled = true;
+      btnSubmitAuth.innerHTML = `<span class="spinner" style="width:20px; height:20px; border-width:2px; margin-bottom:0;"></span> [ VERIFICANDO... ]`;
+
+      // Small UI simulation for professional feel
+      await new Promise(r => setTimeout(r, 600));
+
+      if (enteredPin === pinCajeroInDb.toString()) {
+        btnSubmitAuth.disabled = false;
+        btnSubmitAuth.innerHTML = `<i data-lucide="key-round"></i> [ /> INGRESAR ]`;
+        
+        cajeroAuthCard.style.display = "none";
+        cajeroScannerCard.style.display = "flex";
+        
+        startScanner();
+      } else {
+        btnSubmitAuth.disabled = false;
+        btnSubmitAuth.innerHTML = `<i data-lucide="key-round"></i> [ /> INGRESAR ]`;
+        authErrorAlert.style.display = "flex";
+        document.getElementById("cajeroPinInput").value = "";
+        document.getElementById("cajeroPinInput").focus();
+        lucide.createIcons();
+      }
+    });
+
+    // Scanner script loading triggers
+    function loadScannerLibrary() {
+      return new Promise((resolve, reject) => {
+        if (window.Html5Qrcode) {
+          resolve();
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/html5-qrcode";
+        script.onload = () => resolve();
+        script.onerror = (err) => reject(err);
+        document.head.appendChild(script);
+      });
+    }
+
+    // Native beep audio compiler
+    function playSuccessSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Dynamic dual-tone synthesizer notes
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+        gain1.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        
+        osc1.start();
+        osc1.stop(audioCtx.currentTime + 0.15);
+        
+        setTimeout(() => {
+          const osc2 = audioCtx.createOscillator();
+          const gain2 = audioCtx.createGain();
+          osc2.connect(gain2);
+          gain2.connect(audioCtx.destination);
+          
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+          gain2.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+          
+          osc2.start();
+          osc2.stop(audioCtx.currentTime + 0.25);
+        }, 80);
+      } catch (e) {
+        console.warn("Autoplay or browser audio restricted:", e);
+      }
+    }
+
+    // Scanner implementation
+    async function startScanner() {
+      document.getElementById("scannerStatus").textContent = "Iniciando cámara...";
+      isProcessingScan = false;
+
+      try {
+        await loadScannerLibrary();
+        
+        html5Qrcode = new Html5Qrcode("reader");
+        const config = { 
+          fps: 10, 
+          qrbox: { width: 220, height: 220 } 
+        };
+
+        await html5Qrcode.start(
+          { facingMode: "environment" },
+          config,
+          onScanSuccess,
+          onScanFailure
+        );
+
+        document.getElementById("scannerStatus").textContent = "Buscando código QR...";
+      } catch (err) {
+        console.error("Camera connection failed:", err);
+        document.getElementById("scannerStatus").textContent = "Acceso a cámara denegado o error de inicio.";
+      }
+    }
+
+    async function stopScanner() {
+      if (html5Qrcode && html5Qrcode.isScanning) {
+        try {
+          await html5Qrcode.stop();
+        } catch (e) {
+          console.error("Error stopping camera stream:", e);
+        }
+      }
+    }
+
+    // Scan Success Parser
+    async function onScanSuccess(decodedText, decodedResult) {
+      if (isProcessingScan) return;
+      isProcessingScan = true;
+
+      try {
+        const parts = decodedText.split('|');
+        if (parts.length === 3) {
+          const [type, qrBizId, qrUserId] = parts;
+          
+          if (qrBizId !== bizId) {
+            playErrorNotification("Establecimiento incorrecto.");
+            return;
+          }
+
+          if (type === "CHILI_LOYALTY") {
+            await addStampToClient(qrUserId);
+          } else if (type === "REDEEM") {
+            await redeemRewardForClient(qrUserId);
+          } else {
+            playErrorNotification("Código inválido.");
+          }
+        } else {
+          playErrorNotification("Código no reconocido.");
+        }
+      } catch (err) {
+        console.error(err);
+        playErrorNotification("Error de red.");
+      }
+    }
+
+    function onScanFailure(error) {
+      // Quietly ignore standard viewfinder cycle scan failures
+    }
+
+    // Firestore mutations
+    async function addStampToClient(clientId) {
+      playSuccessSound();
+      
+      const clientRef = doc(db, "clientes_fidelizados", clientId);
+      const clientSnap = await getDoc(clientRef);
+
+      if (!clientSnap.exists()) {
+        playErrorNotification("Usuario no registrado.");
+        return;
+      }
+
+      const clientData = clientSnap.data();
+      const offers = businessDoc.configuracionOfertas || {};
+      const targetVisits = parseInt(offers.visitasRequeridasParaPremio || 10);
+      const currentPoints = parseInt(clientData.puntosAcumulados || 0);
+
+      if (currentPoints >= targetVisits) {
+        playErrorNotification("Premio pendiente de cobro.");
+        return;
+      }
+
+      await updateDoc(clientRef, {
+        puntosAcumulados: increment(1)
+      });
+
+      const nextPoints = currentPoints + 1;
+      
+      showScannerNotification(
+        "check-circle",
+        "success",
+        "[ +1 SELLO AÑADIDO ]",
+        `${clientData.nombreCompleto || 'Cliente'}: ${nextPoints} / ${targetVisits} sellos`
+      );
+
+      setTimeout(() => {
+        isProcessingScan = false;
+      }, 3000);
+    }
+
+    async function redeemRewardForClient(clientId) {
+      playSuccessSound();
+
+      const clientRef = doc(db, "clientes_fidelizados", clientId);
+      const clientSnap = await getDoc(clientRef);
+
+      if (!clientSnap.exists()) {
+        playErrorNotification("Usuario no registrado.");
+        return;
+      }
+
+      const clientData = clientSnap.data();
+
+      await updateDoc(clientRef, {
+        puntosAcumulados: 0
+      });
+
+      showScannerNotification(
+        "gift",
+        "success",
+        "[ PREMIO ENTREGADO ]",
+        `¡Felicidades a ${clientData.nombreCompleto || 'Cliente'}! Tarjeta restablecida.`
+      );
+
+      setTimeout(() => {
+        isProcessingScan = false;
+      }, 3500);
+    }
+
+    // UI Viewfinder feedback animations
+    function showScannerNotification(iconName, statusClass, title, desc) {
+      const overlay = document.getElementById("scannerNotificationOverlay");
+      const icon = document.getElementById("scannerNotificationIcon");
+      const titleEl = document.getElementById("scannerNotificationTitle");
+      const descEl = document.getElementById("scannerNotificationDesc");
+
+      overlay.className = `scanner-overlay active ${statusClass}`;
+      icon.setAttribute("data-lucide", iconName);
+      titleEl.textContent = title;
+      descEl.textContent = desc;
+
+      lucide.createIcons();
+
+      setTimeout(() => {
+        overlay.classList.remove("active");
+      }, 2500);
+    }
+
+    function playErrorNotification(errorMessage) {
+      // Play high error tone
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+
+      showScannerNotification(
+        "x-circle",
+        "error",
+        "[ SCANNER FALLIDO ]",
+        errorMessage
+      );
+
+      setTimeout(() => {
+        isProcessingScan = false;
+      }, 2500);
+    }
+
+    // Client registration form submission handler
+    const regForm = document.getElementById("registrationForm");
+    const alertBanner = document.getElementById("registrationAlert");
+    const alertBannerText = document.getElementById("registrationAlertText");
+    const btnSubmitRegister = document.getElementById("btnSubmitRegister");
+
+    regForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      alertBanner.style.display = "none";
+
+      const name = document.getElementById("userName").value.trim();
+      const email = document.getElementById("userEmail").value.trim().toLowerCase();
+      const whatsapp = document.getElementById("userWhatsApp").value.trim();
+
+      if (!name || !email || !whatsapp) {
+        return;
+      }
+
+      btnSubmitRegister.disabled = true;
+      btnSubmitRegister.innerHTML = `<span class="spinner" style="width:20px; height:20px; border-width:2px; margin-bottom:0;"></span> [ ENVIANDO... ]`;
+
+      try {
+        // Anti-fraud validation checks
+        const qEmail = query(
+          collection(db, "clientes_fidelizados"), 
+          where("idNegocio", "==", bizId), 
+          where("email", "==", email)
+        );
+        const qWhatsApp = query(
+          collection(db, "clientes_fidelizados"), 
+          where("idNegocio", "==", bizId), 
+          where("whatsapp", "==", whatsapp)
+        );
+
+        const [snapEmail, snapWhatsApp] = await Promise.all([
+          getDocs(qEmail),
+          getDocs(qWhatsApp)
+        ]);
+
+        if (!snapEmail.empty || !snapWhatsApp.empty) {
+          alertBannerText.textContent = "[ ALERTA: Datos ya vinculados a una tarjeta activa en este local. ]";
+          alertBanner.style.display = "flex";
+          btnSubmitRegister.disabled = false;
+          btnSubmitRegister.innerHTML = `<i data-lucide="user-plus"></i> [ /> REGISTRARSE ]`;
+          lucide.createIcons();
+          return;
+        }
+
+        // Add document to user profile
+        const newClientDoc = {
+          idNegocio: bizId,
+          nombreCompleto: name,
+          email: email,
+          whatsapp: whatsapp,
+          puntosAcumulados: 0,
+          fechaRegistro: new Date().toISOString()
+        };
+
+        const docRef = await addDoc(collection(db, "clientes_fidelizados"), newClientDoc);
+        userId = docRef.id;
+
+        // Save session state
+        localStorage.setItem(`chili_loyalty_uid_${bizId}`, userId);
+        
+        displayLoyaltyCard(newClientDoc);
+
+      } catch (err) {
+        console.error("Error en registro:", err);
+        alertBannerText.textContent = "[ ERROR DE COMUNICACIÓN CON EL SERVIDOR. INTENTE DE NUEVO ]";
+        alertBanner.style.display = "flex";
+        btnSubmitRegister.disabled = false;
+        btnSubmitRegister.innerHTML = `<i data-lucide="user-plus"></i> [ /> REGISTRARSE ]`;
+        lucide.createIcons();
+      }
+    });
+
+    // Run Engine Initializer
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
