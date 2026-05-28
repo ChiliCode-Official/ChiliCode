@@ -7,7 +7,8 @@ const files = [
     'artesanias.html',
     'experiencia.html',
     'plan-landing.html',
-    'mantenimientos.html'
+    'mantenimientos.html',
+    'como-funciona.html'
 ];
 
 const menuOverlayHTML = `
@@ -16,6 +17,7 @@ const menuOverlayHTML = `
         <ul class="menu-links">
             <li><a href="experiencia.html">Experiencia</a></li>
             <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
             <li><a href="mantenimientos.html">Mantenimiento</a></li>
             <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
             <li><a href="index.html#proyectos">Proyectos</a></li>

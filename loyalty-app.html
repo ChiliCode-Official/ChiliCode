@@ -92,7 +92,7 @@
       transform: translate(-50%, -50%);
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, color-mix(in srgb, var(--primary-color) 10%, transparent) 0%, transparent 70%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--primary-color) 8%, transparent) 0%, transparent 70%);
       pointer-events: none;
       z-index: -1;
       filter: blur(40px);
@@ -333,6 +333,34 @@
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 15%, transparent);
     }
 
+    /* Dual Authentication Tab styling */
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--input-border);
+      margin-bottom: 12px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      color: var(--sub-text);
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab-btn.active {
+      border-bottom-color: var(--primary-color);
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
     /* System Alerts */
     .alert-banner {
       background: color-mix(in srgb, #ef4444 10%, transparent);
@@ -510,6 +538,24 @@
     .user-badge-phone {
       font-family: monospace;
       color: var(--sub-text);
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--sub-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      color: var(--primary-color);
+      background: color-mix(in srgb, var(--primary-color) 8%, transparent);
     }
 
     /* QR Code Display Container */
@@ -921,6 +967,13 @@
         <i data-lucide="key-round"></i>
         [ /> INGRESAR ]
       </button>
+      
+      <!-- Forgot PIN support failsafe -->
+      <div style="text-align: center; margin-top: 8px;">
+        <a href="https://wa.me/525500000000?text=Hola%20equipo%20Chili%20Code,%20olvide%20el%20PIN%20de%20mi%20negocio:" target="_blank" style="font-size: 0.8rem; color: var(--sub-text); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--text-color)'" onmouseout="this.style.color='var(--sub-text)'">
+          ¿Olvidaste tu PIN? Soporte ChiliCode
+        </a>
+      </div>
     </form>
   </main>
 
@@ -938,7 +991,7 @@
     </header>
 
     <div class="stamp-container" style="position: relative;">
-      <!-- Camera viewport -->
+      <!-- Camera viewfinder -->
       <div class="scanner-viewfinder">
         <div id="reader"></div>
         
@@ -960,7 +1013,7 @@
     </div>
   </main>
 
-  <!-- REGISTRATION VIEW CARD -->
+  <!-- REGISTRATION & LOGIN VIEW CARD -->
   <main class="app-card" id="registrationCard">
     <div class="header-navigation">
       <button class="back-btn" id="btnBackFromReg">
@@ -970,19 +1023,25 @@
 
     <header class="brand-header">
       <div class="brand-logo-container">
-        <!-- Logo dynamic src replacement -->
         <img class="brand-logo logo-img" src="" alt="Logo" style="display: none;">
         <i data-lucide="flame" class="brand-logo default-svg"></i>
       </div>
       <h1 class="brand-title brand-name-placeholder">Establecimiento</h1>
-      <p class="brand-subtitle">Únete a nuestro club de lealtad y gana increíbles recompensas.</p>
+      <p class="brand-subtitle" id="clientFlowSub">Únete a nuestro club de lealtad y gana increíbles recompensas.</p>
     </header>
+
+    <!-- Dual authentication tabs selector -->
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab-btn active" id="tabRegister">[ Registrarme ]</button>
+      <button type="button" class="auth-tab-btn" id="tabLogin">[ Ya tengo cuenta ]</button>
+    </div>
 
     <div class="alert-banner" id="registrationAlert">
       <i data-lucide="alert-circle"></i>
       <span id="registrationAlertText">Datos ya vinculados a una tarjeta activa en este local.</span>
     </div>
 
+    <!-- Register Form -->
     <form class="stamp-container" id="registrationForm" onsubmit="return false;">
       <div class="form-group">
         <label class="form-label" for="userName">Nombre Completo</label>
@@ -1004,6 +1063,19 @@
         [ /> REGISTRARSE ]
       </button>
     </form>
+
+    <!-- Login Form -->
+    <form class="stamp-container" id="loginForm" onsubmit="return false;" style="display: none;">
+      <div class="form-group">
+        <label class="form-label" for="loginWhatsApp">WhatsApp (10 dígitos)</label>
+        <input class="form-input" type="tel" id="loginWhatsApp" placeholder="Ej. 5512345678" required pattern="\d{10}">
+      </div>
+
+      <button class="btn" type="submit" id="btnSubmitLogin">
+        <i data-lucide="log-in"></i>
+        [ INICIAR SESIÓN ]
+      </button>
+    </form>
   </main>
 
   <!-- LOYALTY CARD VIEW CONTAINER -->
@@ -1023,9 +1095,20 @@
       <p class="brand-subtitle">Tarjeta de Fidelidad Digital</p>
     </header>
 
+    <div class="alert-banner success" id="loyaltyNotificationAlert" style="margin-bottom: -8px;">
+      <i data-lucide="check-circle-2"></i>
+      <span id="loyaltyNotificationText">[ SESIÓN RECUPERADA ]</span>
+    </div>
+
     <div class="user-badge">
-      <div class="user-badge-name" id="loyUserName">---</div>
-      <div class="user-badge-phone" id="loyUserPhone">---</div>
+      <div>
+        <div class="user-badge-name" id="loyUserName">---</div>
+        <div class="user-badge-phone" id="loyUserPhone">---</div>
+      </div>
+      <!-- Logout engine button -->
+      <button class="logout-btn" id="btnLogOut" aria-label="Cerrar sesión">
+        <i data-lucide="log-out"></i>
+      </button>
     </div>
 
     <!-- Visual stamp counter -->
@@ -1128,6 +1211,15 @@
     const cajeroScannerCard = document.getElementById("cajeroScannerCard");
     const registrationCard = document.getElementById("registrationCard");
     const loyaltyCard = document.getElementById("loyaltyCard");
+    
+    // Auth Form Tabs & Forms
+    const tabRegister = document.getElementById("tabRegister");
+    const tabLogin = document.getElementById("tabLogin");
+    const registrationForm = document.getElementById("registrationForm");
+    const loginForm = document.getElementById("loginForm");
+    const registrationAlert = document.getElementById("registrationAlert");
+    const registrationAlertText = document.getElementById("registrationAlertText");
+    const clientFlowSub = document.getElementById("clientFlowSub");
     
     // Theme toggle references
     const themeToggleBtn = document.getElementById("themeToggleBtn");
@@ -1245,7 +1337,7 @@
           `;
           const blob = new Blob([swCode], { type: 'application/javascript' });
           const swUrl = URL.createObjectURL(blob);
-          navigator.serviceWorker.register(swUrl).catch(err => console.log('PWA Service Worker offline support initialized.'));
+          navigator.serviceWorker.register(swUrl).catch(err => console.log('PWA Service Worker support initialized.'));
         } catch (e) {
           console.warn("Unable to register sandbox service worker:", e);
         }
@@ -1324,7 +1416,26 @@
           }
         }
 
-        // Show role selection UI card
+        // LocalStorage Auto-Login check (on init)
+        userId = localStorage.getItem(`chili_session_${bizId}`);
+        if (userId) {
+          try {
+            const userRef = doc(db, "clientes_fidelizados", userId);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+              // Direct auto-login routing bypass
+              displayLoyaltyCard(userSnap.data());
+              return;
+            } else {
+              localStorage.removeItem(`chili_session_${bizId}`);
+            }
+          } catch (e) {
+            console.error("Auto-login fetch error:", e);
+          }
+        }
+
+        // Show welcome role selection UI card if no active session
         loadingOverlay.style.display = "none";
         roleSelectionCard.style.display = "flex";
 
@@ -1335,6 +1446,31 @@
         fatalErrorOverlay.style.display = "flex";
       }
     }
+
+    // Auth tab selector toggling
+    tabRegister.onclick = () => {
+      tabRegister.classList.add("active");
+      tabLogin.classList.remove("active");
+      registrationForm.style.display = "flex";
+      loginForm.style.display = "none";
+      registrationAlert.style.display = "none";
+      clientFlowSub.textContent = "Únete a nuestro club de lealtad y gana increíbles recompensas.";
+    };
+
+    tabLogin.onclick = () => {
+      tabLogin.classList.add("active");
+      tabRegister.classList.remove("active");
+      registrationForm.style.display = "none";
+      loginForm.style.display = "flex";
+      registrationAlert.style.display = "none";
+      clientFlowSub.textContent = "Ingresa tu WhatsApp para acceder a tus sellos acumulados.";
+    };
+
+    // Logout Click handler
+    document.getElementById("btnLogOut").onclick = () => {
+      localStorage.removeItem(`chili_session_${bizId}`);
+      window.location.reload();
+    };
 
     // Router triggers
     document.getElementById("btnSelectClient").onclick = () => {
@@ -1357,11 +1493,12 @@
 
     document.getElementById("btnBackFromReg").onclick = () => {
       registrationCard.style.display = "none";
-      document.getElementById("registrationAlert").style.display = "none";
+      registrationAlert.style.display = "none";
       roleSelectionCard.style.display = "flex";
     };
 
     document.getElementById("btnBackFromLoyalty").onclick = () => {
+      // In case they click back on active card, log them out or just return to role selector
       loyaltyCard.style.display = "none";
       roleSelectionCard.style.display = "flex";
     };
@@ -1378,7 +1515,7 @@
     async function routeToClientNode() {
       loadingOverlay.style.display = "flex";
       
-      userId = localStorage.getItem(`chili_loyalty_uid_${bizId}`);
+      userId = localStorage.getItem(`chili_session_${bizId}`);
       if (userId) {
         try {
           const userRef = doc(db, "clientes_fidelizados", userId);
@@ -1387,7 +1524,7 @@
           if (userSnap.exists()) {
             displayLoyaltyCard(userSnap.data());
           } else {
-            localStorage.removeItem(`chili_loyalty_uid_${bizId}`);
+            localStorage.removeItem(`chili_session_${bizId}`);
             displayRegistrationForm();
           }
         } catch (e) {
@@ -1404,10 +1541,12 @@
       loadingOverlay.style.display = "none";
       registrationCard.style.display = "flex";
       loyaltyCard.style.display = "none";
+      // Defaults to registration tab
+      tabRegister.click();
       lucide.createIcons();
     }
 
-    function displayLoyaltyCard(userData) {
+    function displayLoyaltyCard(userData, showToast = false) {
       loadingOverlay.style.display = "none";
       registrationCard.style.display = "none";
       loyaltyCard.style.display = "flex";
@@ -1415,6 +1554,17 @@
       // Bind dynamic parameters
       document.getElementById("loyUserName").textContent = userData.nombreCompleto || userData.nombre || "Cliente Valioso";
       document.getElementById("loyUserPhone").textContent = userData.whatsapp || "----------";
+
+      // Session Toast handler
+      const notificationAlert = document.getElementById("loyaltyNotificationAlert");
+      if (showToast) {
+        notificationAlert.style.display = "flex";
+        setTimeout(() => {
+          notificationAlert.style.display = "none";
+        }, 3000);
+      } else {
+        notificationAlert.style.display = "none";
+      }
 
       const offers = businessDoc.configuracionOfertas || {};
       const targetVisits = parseInt(offers.visitasRequeridasParaPremio || 10);
@@ -1744,14 +1894,10 @@
     }
 
     // Client registration form submission handler
-    const regForm = document.getElementById("registrationForm");
-    const alertBanner = document.getElementById("registrationAlert");
-    const alertBannerText = document.getElementById("registrationAlertText");
     const btnSubmitRegister = document.getElementById("btnSubmitRegister");
-
-    regForm.addEventListener("submit", async (e) => {
+    registrationForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      alertBanner.style.display = "none";
+      registrationAlert.style.display = "none";
 
       const name = document.getElementById("userName").value.trim();
       const email = document.getElementById("userEmail").value.trim().toLowerCase();
@@ -1783,8 +1929,8 @@
         ]);
 
         if (!snapEmail.empty || !snapWhatsApp.empty) {
-          alertBannerText.textContent = "[ ALERTA: Datos ya vinculados a una tarjeta activa en este local. ]";
-          alertBanner.style.display = "flex";
+          registrationAlertText.textContent = "[ ALERTA: Datos ya vinculados a una tarjeta activa en este local. ]";
+          registrationAlert.style.display = "flex";
           btnSubmitRegister.disabled = false;
           btnSubmitRegister.innerHTML = `<i data-lucide="user-plus"></i> [ /> REGISTRARSE ]`;
           lucide.createIcons();
@@ -1804,17 +1950,70 @@
         const docRef = await addDoc(collection(db, "clientes_fidelizados"), newClientDoc);
         userId = docRef.id;
 
-        // Save session state
-        localStorage.setItem(`chili_loyalty_uid_${bizId}`, userId);
+        // Save session state (modified key)
+        localStorage.setItem(`chili_session_${bizId}`, userId);
         
-        displayLoyaltyCard(newClientDoc);
+        displayLoyaltyCard(newClientDoc, false);
 
       } catch (err) {
         console.error("Error en registro:", err);
-        alertBannerText.textContent = "[ ERROR DE COMUNICACIÓN CON EL SERVIDOR. INTENTE DE NUEVO ]";
-        alertBanner.style.display = "flex";
+        registrationAlertText.textContent = "[ ERROR DE COMUNICACIÓN CON EL SERVIDOR. INTENTE DE NUEVO ]";
+        registrationAlert.style.display = "flex";
         btnSubmitRegister.disabled = false;
         btnSubmitRegister.innerHTML = `<i data-lucide="user-plus"></i> [ /> REGISTRARSE ]`;
+        lucide.createIcons();
+      }
+    });
+
+    // Client login form submission handler
+    const btnSubmitLogin = document.getElementById("btnSubmitLogin");
+    const loginWhatsAppInput = document.getElementById("loginWhatsApp");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      registrationAlert.style.display = "none";
+
+      const whatsapp = loginWhatsAppInput.value.trim();
+      if (!whatsapp) return;
+
+      btnSubmitLogin.disabled = true;
+      btnSubmitLogin.innerHTML = `<span class="spinner" style="width:20px; height:20px; border-width:2px; margin-bottom:0;"></span> [ INICIANDO... ]`;
+
+      try {
+        // Query client document in Firestore
+        const qLogin = query(
+          collection(db, "clientes_fidelizados"),
+          where("idNegocio", "==", bizId),
+          where("whatsapp", "==", whatsapp)
+        );
+        const snapLogin = await getDocs(qLogin);
+
+        if (!snapLogin.empty) {
+          const userDoc = snapLogin.docs[0];
+          userId = userDoc.id;
+          
+          // Save session state
+          localStorage.setItem(`chili_session_${bizId}`, userId);
+          
+          btnSubmitLogin.disabled = false;
+          btnSubmitLogin.innerHTML = `<i data-lucide="log-in"></i> [ INICIAR SESIÓN ]`;
+          
+          // Transition to card, displaying Session Recovered toast
+          displayLoyaltyCard(userDoc.data(), true);
+        } else {
+          // Render not found alert
+          registrationAlertText.textContent = "[ NÚMERO NO ENCONTRADO. Verifica tus datos o crea una cuenta nueva. ]";
+          registrationAlert.style.display = "flex";
+          btnSubmitLogin.disabled = false;
+          btnSubmitLogin.innerHTML = `<i data-lucide="log-in"></i> [ INICIAR SESIÓN ]`;
+          lucide.createIcons();
+        }
+      } catch (err) {
+        console.error("Login verification query failure:", err);
+        registrationAlertText.textContent = "[ ERROR DE COMUNICACIÓN CON EL SERVIDOR. INTENTE DE NUEVO ]";
+        registrationAlert.style.display = "flex";
+        btnSubmitLogin.disabled = false;
+        btnSubmitLogin.innerHTML = `<i data-lucide="log-in"></i> [ INICIAR SESIÓN ]`;
         lucide.createIcons();
       }
     });

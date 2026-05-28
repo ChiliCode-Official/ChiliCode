@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chili Loyalty | Panel de Registro</title>
+  
+  <!-- Space Grotesk Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary-color: #ff3b30;
+      --bg-color: #f8fafc;
+      --text-color: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.45);
+      --card-border: rgba(255, 255, 255, 0.6);
+      --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06);
+      --input-bg: rgba(255, 255, 255, 0.8);
+      --input-border: rgba(15, 23, 42, 0.1);
+      --sub-text: #64748b;
+      --grid-dot: rgba(15, 23, 42, 0.05);
+      --success-glow: #10b981;
+    }
+
+    body.dark {
+      --bg-color: #09090b;
+      --text-color: #f8fafc;
+      --card-bg: rgba(15, 15, 20, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      --input-bg: rgba(20, 20, 25, 0.8);
+      --input-border: rgba(255, 255, 255, 0.08);
+      --sub-text: #94a3b8;
+      --grid-dot: rgba(248, 250, 252, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Grid Background Effect */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, color-mix(in srgb, var(--primary-color) 8%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(40px);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-color);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--card-shadow);
+      z-index: 10;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    /* Main Container Card */
+    .app-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px 32px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Branding Header */
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .brand-logo-container {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .brand-logo {
+      color: var(--primary-color);
+      width: 60%;
+      height: 60%;
+    }
+
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 0.875rem;
+      color: var(--sub-text);
+      max-width: 320px;
+      line-height: 1.4;
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 480px) {
+      .form-grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-color);
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 15%, transparent);
+    }
+
+    /* Color picker helper */
+    .color-picker-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .color-picker-input {
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      cursor: pointer;
+      background: none;
+    }
+
+    /* Alerts */
+    .alert-banner {
+      background: color-mix(in srgb, #ef4444 10%, transparent);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .alert-banner svg {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px 0 color-mix(in srgb, var(--primary-color) 30%, transparent);
+    }
+
+    .btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Success View Screen */
+    .success-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+      animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .success-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--success-glow) 10%, transparent);
+      color: var(--success-glow);
+      border: 2px solid var(--success-glow);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .success-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--success-glow);
+      text-transform: uppercase;
+    }
+
+    .url-reveal-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px dashed var(--input-border);
+      border-radius: 16px;
+      padding: 16px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--text-color);
+    }
+
+    body.dark .url-reveal-box {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .qr-box {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .qr-image {
+      width: 180px;
+      height: 180px;
+      display: block;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .spinner-dark {
+      border: 3px solid var(--input-border);
+      border-top-color: var(--primary-color);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer Branding */
+    .footer-brand {
+      margin-top: 32px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sub-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-brand span {
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggleBtn" aria-label="Cambiar tema">
+    <i data-lucide="moon" id="themeIcon"></i>
+  </button>
+
+  <main class="app-card" id="dashboardCard">
+    <!-- ONBOARDING FORM VIEW -->
+    <div id="formSection" style="display: flex; flex-direction: column; gap: 28px;">
+      <header class="brand-header">
+        <div class="brand-logo-container">
+          <i data-lucide="rocket" class="brand-logo"></i>
+        </div>
+        <h1 class="brand-title">Onboarding Comercial</h1>
+        <p class="brand-subtitle">Crea y despliega la infraestructura de tu club de lealtad en segundos.</p>
+      </header>
+
+      <div class="alert-banner" id="errorAlert">
+        <i data-lucide="x-circle"></i>
+        <span id="errorAlertText">Error al registrar establecimiento. Intente de nuevo.</span>
+      </div>
+
+      <form id="onboardingForm" onsubmit="return false;" class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="nombreComercial">Nombre Comercial</label>
+          <input class="form-input" type="text" id="nombreComercial" placeholder="Ej. Tacos El Pastor" required minlength="3">
+        </div>
+
+        <div class="form-grid form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="colorMarca">Color de Marca</label>
+            <div class="color-picker-container">
+              <input class="color-picker-input" type="color" id="colorMarca" value="#ff3b30">
+              <span style="font-size: 0.85rem; font-weight: 500;" id="colorVal">#ff3b30</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pinCajero">PIN de Cajero (4 dígitos)</label>
+            <input class="form-input" type="password" id="pinCajero" inputmode="numeric" pattern="\d{4}" maxlength="4" placeholder="Ej. 1234" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="logoUrl">Link de la Imagen del Logo</label>
+          <input class="form-input" type="url" id="logoUrl" placeholder="Ej. https://mi-imagen.com/logo.png" required>
+        </div>
+
+        <div class="form-grid form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="visitasRequeridasParaPremio">Visitas Requeridas para Premio</label>
+            <input class="form-input" type="number" id="visitasRequeridasParaPremio" min="1" max="30" value="10" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="descripcionPremio">Descripción del Premio</label>
+            <input class="form-input" type="text" id="descripcionPremio" placeholder="Ej. Una orden gratis de tacos." required>
+          </div>
+        </div>
+
+        <button class="btn" type="submit" id="btnSubmit">
+          <i data-lucide="cloud-lightning"></i>
+          [ DESPLEGAR INFRAESTRUCTURA ]
+        </button>
+      </form>
+    </div>
+
+    <!-- SUCCESS REVEAL VIEW -->
+    <div id="successSection" class="success-container">
+      <div class="success-badge">
+        <i data-lucide="check" style="width: 40px; height: 40px;"></i>
+      </div>
+      <h2 class="success-title">Infraestructura Lista</h2>
+      <p class="brand-subtitle">Tu aplicación ha sido configurada y desplegada en tiempo real.</p>
+      
+      <div class="url-reveal-box" id="revealedUrl">---</div>
+
+      <div class="qr-box">
+        <img class="qr-image" id="appQR" src="" alt="App QR Code">
+      </div>
+
+      <button class="btn" id="btnRedirectApp" style="background: var(--success-glow); box-shadow: 0 4px 14px 0 color-mix(in srgb, var(--success-glow) 30%, transparent);">
+        <i data-lucide="external-link"></i>
+        [ ENTRAR A MI APP ]
+      </button>
+    </div>
+  </main>
+
+  <footer class="footer-brand">
+    Tecnología por <span>ChiliCode</span>
+  </footer>
+
+  <!-- MODULE FIREBASE V10 INTEGRATION -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Firebase configuration parameters (strictly matches spec)
+    const firebaseConfig = {
+      // INSERT_CHILICLOUD_CONFIG_HERE
+      apiKey: "AIzaSyDtiA-kLeD21QykL_ztIA8Ffrv0N_ITlBI",
+      authDomain: "chilicloud-loyalty.firebaseapp.com",
+      projectId: "chilicloud-loyalty",
+      storageBucket: "chilicloud-loyalty.firebasestorage.app",
+      messagingSenderId: "96924217153",
+      appId: "1:96924217153:web:9a0f0a32577ce6196dbbc0"
+    };
+
+    // Initialize Services
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const formSection = document.getElementById("formSection");
+    const successSection = document.getElementById("successSection");
+    const onboardingForm = document.getElementById("onboardingForm");
+    const errorAlert = document.getElementById("errorAlert");
+    const errorAlertText = document.getElementById("errorAlertText");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const colorMarcaInput = document.getElementById("colorMarca");
+    const colorVal = document.getElementById("colorVal");
+
+    // Theme toggle
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+
+    // Navigation target
+    let finalAppUrl = "";
+
+    // Set up light/dark mode configuration
+    function initTheme() {
+      const storedTheme = localStorage.getItem("theme") || "light";
+      if (storedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeIcon.setAttribute("data-lucide", "sun");
+      } else {
+        document.body.classList.remove("dark");
+        themeIcon.setAttribute("data-lucide", "moon");
+      }
+      lucide.createIcons();
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      themeIcon.setAttribute("data-lucide", isDark ? "sun" : "moon");
+      lucide.createIcons();
+    });
+
+    // Theme Picker Event Handler
+    colorMarcaInput.addEventListener("input", (e) => {
+      const val = e.target.value;
+      colorVal.textContent = val;
+      document.documentElement.style.setProperty('--primary-color', val);
+    });
+
+    // Form onboarding submission logic
+    onboardingForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorAlert.style.display = "none";
+
+      const nombre = document.getElementById("nombreComercial").value.trim();
+      const color = colorMarcaInput.value;
+      const logo = document.getElementById("logoUrl").value.trim();
+      const pin = document.getElementById("pinCajero").value.trim();
+      const visitas = parseInt(document.getElementById("visitasRequeridasParaPremio").value);
+      const premio = document.getElementById("descripcionPremio").value.trim();
+
+      if (!nombre || !logo || !pin || !visitas || !premio) {
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = `<span class="spinner"></span> [ DESPLEGANDO... ]`;
+
+      // Unique ID generation logic (lower case + underscores + random 4-digit number)
+      const cleanName = nombre.toLowerCase().replace(/\s+/g, '_');
+      const randomNum = Math.floor(1000 + Math.random() * 9000);
+      const biz_id = `${cleanName}_${randomNum}`;
+
+      try {
+        const businessDocRef = doc(db, "negocios", biz_id);
+        const data = {
+          nombre: nombre,
+          colorMarca: color,
+          logoUrl: logo,
+          pinCajero: pin,
+          planSuscripcion: "Piquín",
+          status: "Activo",
+          configuracionOfertas: {
+            visitasRequeridasParaPremio: visitas,
+            descripcionPremio: premio
+          },
+          fechaCreacion: new Date().toISOString()
+        };
+
+        // Write document to firestore businesses collection
+        await setDoc(businessDocRef, data);
+
+        // Calculate deployed URL
+        finalAppUrl = `https://chilicode-official.github.io/ChiliCode/loyalty-app.html?biz=${biz_id}`;
+        
+        // Show success layout screen
+        formSection.style.display = "none";
+        successSection.style.display = "flex";
+
+        // Bind success elements
+        document.getElementById("revealedUrl").textContent = finalAppUrl;
+        document.getElementById("appQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(finalAppUrl)}`;
+        
+        lucide.createIcons();
+
+      } catch (err) {
+        console.error("Firestore onboarding write failure:", err);
+        errorAlertText.textContent = "[ ERROR DE BASE DE DATOS: No se pudo inyectar el negocio ]";
+        errorAlert.style.display = "flex";
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i data-lucide="cloud-lightning"></i> [ DESPLEGAR INFRAESTRUCTURA ]`;
+        lucide.createIcons();
+      }
+    });
+
+    // App entrance button redirection handler
+    document.getElementById("btnRedirectApp").onclick = () => {
+      if (finalAppUrl) {
+        window.location.href = finalAppUrl;
+      }
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+    });
+  </script>
+</body>
+</html>

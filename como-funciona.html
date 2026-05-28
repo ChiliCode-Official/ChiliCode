@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C3EVX8YWP5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-C3EVX8YWP5');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Cómo Funciona Chili Loyalty? | ChilliCode</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Chili Loyalty - El sistema multi-inquilino de tarjetas de fidelización digital para tu negocio por ChilliCode.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Custom section styling to match premium aesthetics */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 992px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 3rem 2.5rem;
+            border-radius: var(--radius-card);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .info-card:hover {
+            background: #FFFFFF;
+            transform: translateY(-8px);
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .info-icon.owner {
+            background: rgba(0, 168, 107, 0.08);
+            color: var(--emerald);
+        }
+
+        .info-icon.client {
+            background: rgba(215, 40, 47, 0.08);
+            color: var(--red);
+        }
+
+        .info-card h3 {
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--color-text-muted);
+        }
+
+        .step-item strong {
+            color: var(--color-text);
+        }
+
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .info-card.owner-card .step-item::before {
+            background: var(--emerald);
+        }
+
+        .info-card.client-card .step-item::before {
+            background: var(--red);
+        }
+
+        /* Feature Row highlighting seamless tech */
+        .tech-highlights {
+            background: #f8fafc;
+            border-top: 1px solid rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            padding: 8rem 0;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .highlights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .highlight-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .highlight-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.3px;
+        }
+
+        .highlight-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* Action Center Section */
+        .trial-cta {
+            background: #FFFFFF;
+            text-align: center;
+            padding: 10rem 0;
+        }
+
+        .trial-cta-container {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .trial-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+        }
+
+        .trial-title span {
+            color: var(--emerald);
+        }
+
+        .trial-desc {
+            font-size: 1.15rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        .cta-btn-glowing {
+            background: var(--color-text);
+            color: var(--white);
+            padding: 1.4rem 3rem;
+            border-radius: var(--radius-pill);
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-glowing:hover {
+            background: var(--emerald);
+            box-shadow: 0 10px 30px rgba(0, 168, 107, 0.25);
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation (reconstructed dynamically by update_nav.js) -->
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
+                <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>ArtesanÃ­as</a></li>
+            </ul>
+            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div><!-- Fullscreen Menu Overlay (reconstructed dynamically by update_nav.js) -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="experiencia.html">Experiencia</a></li>
+            <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li><a href="como-funciona.html" class="active">Chili Loyalty</a></li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
+            <li><a href="index.html#proyectos">Proyectos</a></li>
+        </ul>
+    </div>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="section hero" style="min-height: 80vh; padding: 12rem 0 6rem 0;">
+            <div class="container">
+                <div class="content-wrapper">
+                    <span class="badge">CHILI LOYALTY ECOSYSTEM</span>
+                    <h1 class="title" style="font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1.0; margin-bottom: 1.5rem;">Fidelización <br><span>Digital</span> sin fricciones.</h1>
+                    <p class="subtitle" style="margin-bottom: 2rem; max-width: 580px;">Sustituye las obsoletas tarjetas de cartón por una billetera digital PWA instantánea. Sin descargas pesadas en la App Store y sin costos de almacenamiento complejos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Explanations -->
+        <section class="section" style="padding: 6rem 0; min-height: auto;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">El Flujo Dual</h2>
+                    <p class="section-subtitle">Una sola aplicación web progresiva adaptada dinámicamente para dos perfiles.</p>
+                </div>
+
+                <div class="info-grid">
+                    <!-- Owner / Cashier Node -->
+                    <div class="info-card owner-card">
+                        <div class="info-icon owner">
+                            <i data-lucide="store"></i>
+                        </div>
+                        <h3>Para el Comercio</h3>
+                        <p class="section-subtitle" style="text-align: left; font-size: 0.95rem; margin-bottom: 1rem;">Controla las visitas y recompensas de tus clientes desde cualquier dispositivo móvil o tablet.</p>
+                        
+                        <ul class="step-list">
+                            <li class="step-item">
+                                <strong>Despliegue Instantáneo:</strong> Configuras el nombre comercial, colores, logo y condiciones del premio en un formulario. Tu app se crea en tiempo real con un ID único de Firestore.
+                            </li>
+                            <li class="step-item">
+                                <strong>Acceso Seguro de Staff:</strong> Tus cajeros ingresan con un código PIN de 4 dígitos configurado para ese local.
+                            </li>
+                            <li class="step-item">
+                                <strong>Lector QR Integrado:</strong> El cajero activa la cámara de su dispositivo directamente en el navegador y escanea el código QR del cliente para sumar sellos de visita (+1) o realizar el canje del premio físico.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Customer / User Node -->
+                    <div class="info-card client-card">
+                        <div class="info-icon client">
+                            <i data-lucide="user"></i>
+                        </div>
+                        <h3>Para los Clientes</h3>
+                        <p class="section-subtitle" style="text-align: left; font-size: 0.95rem; margin-bottom: 1rem;">Una tarjeta de cliente frecuente virtual, cómoda, segura y siempre al alcance de un tap.</p>
+                        
+                        <ul class="step-list">
+                            <li class="step-item">
+                                <strong>Instalación PWA en 1 clic:</strong> Los clientes entran escaneando un QR en tu local o abriendo un enlace en su navegador. Agregan la app al inicio del celular sin requerir cuentas de Google Play o App Store.
+                            </li>
+                            <li class="step-item">
+                                <strong>Acceso por WhatsApp:</strong> Sin contraseñas complejas. Se registran una sola vez o inician sesión ingresando únicamente su número de WhatsApp de 10 dígitos.
+                            </li>
+                            <li class="step-item">
+                                <strong>Progreso e Indicador de Canje:</strong> Observan una cuadrícula animada de sellos acumulados. Al completar las visitas necesarias, la app oculta el QR de visita y revela un botón brillante de reclamo de premio para mostrárselo al cajero.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Highlights -->
+        <section class="section tech-highlights" style="min-height: auto;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Ingeniería sin Fricción</h2>
+                    <p class="section-subtitle">Construido para velocidad extrema, máxima eficiencia de datos y cero mantenimiento.</p>
+                </div>
+
+                <div class="highlights-grid">
+                    <div class="highlight-item">
+                        <div class="highlight-title" style="color: var(--emerald);"><i data-lucide="zap" style="vertical-align: middle; margin-right: 4px;"></i> Cero Descargas</div>
+                        <div class="highlight-desc">El cliente no tiene que descargar megabytes de una tienda. Corre nativamente en Safari y Chrome con rendimiento de app móvil fluida.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-title" style="color: var(--gold);"><i data-lucide="image" style="vertical-align: middle; margin-right: 4px;"></i> Bypass de Storage</div>
+                        <div class="highlight-desc">Los comercios simplemente pegan el link de su logo oficial (de Facebook, Instagram, etc.). Reducimos costos de infraestructura y evitamos límites bancarios.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-title" style="color: var(--red);"><i data-lucide="shield-check" style="vertical-align: middle; margin-right: 4px;"></i> Anti-Fraude Nativo</div>
+                        <div class="highlight-desc">Validaciones automáticas de base de datos impiden que el mismo WhatsApp o correo electrónico se registre más de una vez en el mismo local comercial.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call To Action -->
+        <section class="trial-cta">
+            <div class="container">
+                <div class="trial-cta-container">
+                    <h2 class="trial-title">Despliega tu sistema en <span>segundos</span>.</h2>
+                    <p class="trial-desc">Inicia hoy mismo sin costos ocultos, sin comisiones bancarias y completamente gratis bajo el plan de suscripción Chili Piquín.</p>
+                    <a href="dashboard.html" class="cta-btn-glowing">
+                        [ INICIAR PRUEBA GRATIS ]
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 ChilliCode Agency.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/chilicode_agency/" target="_blank">Instagram Empresa</a>
+                    <a href="https://www.instagram.com/rodricg30" target="_blank">CEO Instagram</a>
+                    <a href="https://wa.me/525574123521" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script src="hamburger.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
