@@ -2092,20 +2092,25 @@
       // Render the Offers Panel
       const clientOffersPanel = document.getElementById("clientOffersPanel");
       clientOffersPanel.innerHTML = "";
-      
-      let hasAnyRedeemable = false;
 
-      slicedOffers.forEach(offer => {
+      slicedOffers.forEach((offer, idx) => {
         const target = parseInt(offer.visitasRequeridasParaPremio || 10);
         const missing = target - puntos;
         const pct = Math.min((puntos / target) * 100, 100);
         const isRedeemable = puntos >= target;
-        if (isRedeemable) {
-          hasAnyRedeemable = true;
-        }
 
         const offerCard = document.createElement("div");
         offerCard.style.cssText = "background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;";
+        
+        let redeemButtonHTML = "";
+        if (isRedeemable) {
+          redeemButtonHTML = `
+            <button class="btn btn-redeem-offer" data-target="${target}" data-desc="${offer.descripcionPremio}" data-id="${offer.id || 'promo_' + idx}" style="margin-top: 8px; padding: 10px; font-size: 0.8rem; border-radius: 10px; background: var(--success-glow); color: #fff; border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;">
+              <i data-lucide="gift"></i> [ / CANJEAR PREMIO ]
+            </button>
+          `;
+        }
+
         offerCard.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
             <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-color); text-align: left; font-family: 'Outfit', sans-serif;">${offer.descripcionPremio}</span>
@@ -2120,44 +2125,47 @@
           <div class="progress-bar-container" style="background: var(--input-border); height: 8px; margin-top: 2px;">
             <div class="progress-bar-fill" style="width: ${pct}%; height: 100%; background: ${isRedeemable ? 'var(--success-glow)' : 'var(--primary-color)'}; border-radius: 100px;"></div>
           </div>
+          ${redeemButtonHTML}
         `;
         clientOffersPanel.appendChild(offerCard);
       });
 
-      // Reward Check-In vs Redemption Logic
+      // Show standard check-in QR (always available so they can check in more)
       const standardQRContainer = document.getElementById("standardQRContainer");
       const claimRewardContainer = document.getElementById("claimRewardContainer");
-
-      if (hasAnyRedeemable) {
-        standardQRContainer.style.display = "none";
-        claimRewardContainer.style.display = "flex";
-        
-        // Dynamic QR code for redemption
-        const redeemPayload = `REDEEM|${bizId}|${userId}`;
-        const redeemQRImg = document.getElementById("redeemQRImg");
-        redeemQRImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(redeemPayload)}`;
-
-        // Dynamic modal buttons
-        const btnClaimReward = document.getElementById("btnClaimReward");
-        const redeemModal = document.getElementById("redeemModal");
-        
-        btnClaimReward.onclick = () => {
-          redeemModal.style.display = "flex";
-        };
-
-        const btnCloseRedeemModal = document.getElementById("btnCloseRedeemModal");
-        btnCloseRedeemModal.onclick = () => {
-          redeemModal.style.display = "none";
-        };
-      } else {
-        claimRewardContainer.style.display = "none";
+      
+      if (claimRewardContainer) claimRewardContainer.style.display = "none";
+      if (standardQRContainer) {
         standardQRContainer.style.display = "flex";
-
         // Dynamic QR code for check-in
         const checkinPayload = `CHILI_LOYALTY|${bizId}|${userId}`;
         const standardQRImg = document.getElementById("standardQRImg");
         standardQRImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(checkinPayload)}`;
       }
+
+      // Bind click events on redeem buttons
+      clientOffersPanel.querySelectorAll(".btn-redeem-offer").forEach(btn => {
+        btn.onclick = () => {
+          const offerId = btn.getAttribute("data-id");
+          const targetVal = btn.getAttribute("data-target");
+          const descVal = btn.getAttribute("data-desc");
+
+          // Generate specific redemption payload
+          const redeemPayload = `REDEEM|${bizId}|${userId}|${offerId}|${targetVal}|${descVal}`;
+          
+          const redeemQRImg = document.getElementById("redeemQRImg");
+          redeemQRImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(redeemPayload)}`;
+
+          // Open modal
+          const redeemModal = document.getElementById("redeemModal");
+          redeemModal.style.display = "flex";
+
+          const btnCloseRedeemModal = document.getElementById("btnCloseRedeemModal");
+          btnCloseRedeemModal.onclick = () => {
+            redeemModal.style.display = "none";
+          };
+        };
+      });
 
       lucide.createIcons();
     }
@@ -2555,7 +2563,7 @@
 
       try {
         const parts = decodedText.split('|');
-        if (parts.length === 3) {
+        if (parts.length >= 3) {
           const [type, qrBizId, qrUserId] = parts;
           
           if (qrBizId !== bizId) {
@@ -2566,7 +2574,9 @@
           if (type === "CHILI_LOYALTY") {
             await addStampToClient(qrUserId);
           } else if (type === "REDEEM") {
-            await redeemRewardForClient(qrUserId);
+            const targetVisits = parts[4] ? parseInt(parts[4]) : 10;
+            const offerDescription = parts[5] || "Premio";
+            await redeemRewardForClient(qrUserId, targetVisits, offerDescription);
           } else {
             playErrorNotification("Código inválido.");
           }
@@ -2623,7 +2633,7 @@
       }, 3000);
     }
 
-    async function redeemRewardForClient(clientId) {
+    async function redeemRewardForClient(clientId, targetVisits, offerDescription) {
       playSuccessSound();
 
       const clientRef = doc(db, "clientes_fidelizados", clientId);
@@ -2635,10 +2645,13 @@
       }
 
       const clientData = clientSnap.data();
+      const currentPoints = parseInt(clientData.puntosAcumulados || 0);
+      const cost = parseInt(targetVisits || 10);
+      const nextPoints = Math.max(0, currentPoints - cost);
 
-      // Reset client's points to 0
+      // Deduct only the cost of the claimed reward
       await updateDoc(clientRef, {
-        puntosAcumulados: 0
+        puntosAcumulados: nextPoints
       });
 
       // Increment totalCanjes in businesses doc
@@ -2656,7 +2669,7 @@
         "gift",
         "success",
         "[ PREMIO ENTREGADO ]",
-        `¡Felicidades a ${clientData.nombreCompleto || 'Cliente'}! Tarjeta restablecida.`
+        `¡Felicidades a ${clientData.nombreCompleto || 'Cliente'} por: ${offerDescription}! (${nextPoints} visitas restantes)`
       );
 
       setTimeout(() => {
