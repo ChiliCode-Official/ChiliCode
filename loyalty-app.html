@@ -2024,9 +2024,14 @@
       lucide.createIcons();
     }
 
-    authForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      authErrorAlert.style.display = "none";
+    const authForm = document.getElementById("cajeroLoginForm");
+    const authErrorAlert = document.getElementById("authErrorAlert");
+    const btnSubmitAuth = document.getElementById("btnSubmitAuth");
+
+    if (authForm) {
+      authForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (authErrorAlert) authErrorAlert.style.display = "none";
 
       const enteredPin = document.getElementById("cajeroPinInput").value.trim();
       const pinCajeroInDb = businessDoc.pinCajero || "1234"; // Default db verification fallback
@@ -2055,6 +2060,7 @@
         lucide.createIcons();
       }
     });
+  }
 
     // Merchant Command Center State Logic
     function showStaffTab(tabName) {
