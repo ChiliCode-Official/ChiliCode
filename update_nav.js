@@ -12,7 +12,9 @@ const files = [
     'chili-mods.html',
     'partners.html',
     'plan-profesional.html',
-    'plan-sitio-web.html'
+    'plan-sitio-web.html',
+    'privacidad.html',
+    'terminos.html'
 ];
 
 const menuOverlayHTML = `
