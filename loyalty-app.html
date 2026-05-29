@@ -867,6 +867,90 @@
     .footer-brand span {
       color: var(--primary-color);
     }
+
+    /* Registration Blocker Overlay */
+    .registration-blocker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 10;
+    }
+
+    body.dark .registration-blocker {
+      background: rgba(15, 15, 20, 0.85);
+    }
+
+    .registration-blocker-content {
+      color: var(--error-glow);
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      border: 2px solid var(--error-glow);
+      padding: 16px;
+      border-radius: 12px;
+      background: var(--input-bg);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    /* Floating Pulsing PWA Install Button */
+    .pwa-install-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      background: var(--primary-color, #ff3b30);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255, 59, 48, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: pulseGlow 2s infinite ease-in-out;
+      transition: transform 0.2s ease;
+    }
+
+    .pwa-install-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+      }
+      50% {
+        box-shadow: 0 4px 30px rgba(255, 59, 48, 0.8);
+      }
+      100% {
+        box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pwa-install-btn {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1041,28 +1125,39 @@
       <span id="registrationAlertText">Datos ya vinculados a una tarjeta activa en este local.</span>
     </div>
 
-    <!-- Register Form -->
-    <form class="stamp-container" id="registrationForm" onsubmit="return false;">
-      <div class="form-group">
-        <label class="form-label" for="userName">Nombre Completo</label>
-        <input class="form-input" type="text" id="userName" placeholder="Ej. Juan Pérez" required minlength="3">
-      </div>
+    <!-- Register Form Wrapper -->
+    <div style="position: relative;" id="registrationFormWrapper">
+      <!-- Register Form -->
+      <form class="stamp-container" id="registrationForm" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-label" for="userName">Nombre Completo</label>
+          <input class="form-input" type="text" id="userName" placeholder="Ej. Juan Pérez" required minlength="3">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="userEmail">Correo Electrónico</label>
+          <input class="form-input" type="email" id="userEmail" placeholder="Ej. juan@correo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="userWhatsApp">WhatsApp (10 dígitos)</label>
+          <input class="form-input" type="tel" id="userWhatsApp" placeholder="Ej. 5512345678" required pattern="\d{10}">
+        </div>
+
+        <button class="btn" type="submit" id="btnSubmitRegister">
+          <i data-lucide="user-plus"></i>
+          [ /> REGISTRARSE ]
+        </button>
+      </form>
       
-      <div class="form-group">
-        <label class="form-label" for="userEmail">Correo Electrónico</label>
-        <input class="form-input" type="email" id="userEmail" placeholder="Ej. juan@correo.com" required>
+      <!-- Blocker overlay -->
+      <div id="registrationBlockerOverlay" class="registration-blocker">
+        <div class="registration-blocker-content">
+          [ LÍMITE DE USUARIOS ALCANZADO. Mejora tu plan. ]
+        </div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label class="form-label" for="userWhatsApp">WhatsApp (10 dígitos)</label>
-        <input class="form-input" type="tel" id="userWhatsApp" placeholder="Ej. 5512345678" required pattern="\d{10}">
-      </div>
-
-      <button class="btn" type="submit" id="btnSubmitRegister">
-        <i data-lucide="user-plus"></i>
-        [ /> REGISTRARSE ]
-      </button>
-    </form>
 
     <!-- Login Form -->
     <form class="stamp-container" id="loginForm" onsubmit="return false;" style="display: none;">
@@ -1229,6 +1324,8 @@
     let businessDoc = null;
     let bizId = "";
     let userId = "";
+    let isRegistrationLimitReached = false;
+
 
     // Scanner state variables
     let html5Qrcode = null;
@@ -1294,6 +1391,15 @@
       if (docData.colorMarca) {
         document.documentElement.style.setProperty('--primary-color', docData.colorMarca);
       }
+
+      // Whitelabel UX: Hide ChiliCode branding if Habanero plan
+      const footers = document.querySelectorAll(".footer-brand");
+      if (docData.planSuscripcion === "Habanero") {
+        footers.forEach(f => f.style.setProperty("display", "none", "important"));
+      } else {
+        footers.forEach(f => f.style.display = "");
+      }
+
       
       const logoUrl = docData.logoUrl;
       const businessName = docData.nombre || "Chili Business";
@@ -1405,16 +1511,19 @@
         applyBrandBranding(businessDoc);
         injectPwaManifest(businessDoc.nombre);
 
-        // Freemium blocker check
-        if (businessDoc.planSuscripcion === "Piquín") {
+        // Count existing registered users and verify limits
+        if (businessDoc.planSuscripcion === "Piquín" || businessDoc.planSuscripcion === "Chipotle") {
           const qCount = query(collection(db, "clientes_fidelizados"), where("idNegocio", "==", bizId));
           const snapCount = await getDocs(qCount);
-          if (snapCount.size >= 10) {
-            loadingOverlay.style.display = "none";
-            freemiumOverlay.style.display = "flex";
-            return;
+          const registeredUserCount = snapCount.size;
+          
+          if (businessDoc.planSuscripcion === "Piquín" && registeredUserCount >= 10) {
+            isRegistrationLimitReached = true;
+          } else if (businessDoc.planSuscripcion === "Chipotle" && registeredUserCount >= 100) {
+            isRegistrationLimitReached = true;
           }
         }
+
 
         // LocalStorage Auto-Login check (on init)
         userId = localStorage.getItem(`chili_session_${bizId}`);
@@ -1455,6 +1564,11 @@
       loginForm.style.display = "none";
       registrationAlert.style.display = "none";
       clientFlowSub.textContent = "Únete a nuestro club de lealtad y gana increíbles recompensas.";
+      if (isRegistrationLimitReached) {
+        document.getElementById("registrationBlockerOverlay").style.display = "flex";
+      } else {
+        document.getElementById("registrationBlockerOverlay").style.display = "none";
+      }
     };
 
     tabLogin.onclick = () => {
@@ -1464,7 +1578,9 @@
       loginForm.style.display = "flex";
       registrationAlert.style.display = "none";
       clientFlowSub.textContent = "Ingresa tu WhatsApp para acceder a tus sellos acumulados.";
+      document.getElementById("registrationBlockerOverlay").style.display = "none";
     };
+
 
     // Logout Click handler
     document.getElementById("btnLogOut").onclick = () => {
@@ -1566,11 +1682,27 @@
         notificationAlert.style.display = "none";
       }
 
-      const offers = businessDoc.configuracionOfertas || {};
-      const targetVisits = parseInt(offers.visitasRequeridasParaPremio || 10);
-      const rewardDesc = offers.descripcionPremio || "Regalo sorpresa en tu próxima visita.";
+      // Promo Engine limits: Piquín gets max 4 promos, Chipotle max 85.
+      let offersObj = businessDoc.configuracionOfertas || {};
+      let promoLimit = 9999;
+      if (businessDoc.planSuscripcion === "Piquín") {
+        promoLimit = 4;
+      } else if (businessDoc.planSuscripcion === "Chipotle") {
+        promoLimit = 85;
+      }
+
+      // If offers is an array, we slice it. If it's a single map, treat as array of 1.
+      let offersArray = Array.isArray(offersObj) ? offersObj : [offersObj];
+      let slicedOffers = offersArray.slice(0, promoLimit);
+      
+      // Determine active offer or fallback if plan limits disabled it
+      let activeOffer = slicedOffers[0] || { visitasRequeridasParaPremio: 10, descripcionPremio: "[ PROMO DESACTIVADA. Límite de plan alcanzado. ]" };
+      
+      const targetVisits = parseInt(activeOffer.visitasRequeridasParaPremio || 10);
+      const rewardDesc = activeOffer.descripcionPremio || "Regalo sorpresa en tu próxima visita.";
       
       document.getElementById("offerDescription").textContent = rewardDesc;
+
       
       const puntos = parseInt(userData.puntosAcumulados || 0);
       renderStampMatrix(puntos, targetVisits);
@@ -2018,8 +2150,44 @@
       }
     });
 
+    // PWA Install Prompt Logic
+    let deferredPrompt;
+    const pwaInstallBtn = document.getElementById("pwaInstallBtn");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (pwaInstallBtn) {
+        pwaInstallBtn.style.display = "flex";
+      }
+    });
+
+    if (pwaInstallBtn) {
+      pwaInstallBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        deferredPrompt = null;
+        pwaInstallBtn.style.display = "none";
+      });
+    }
+
+    window.addEventListener("appinstalled", (evt) => {
+      console.log("App was successfully installed");
+      if (pwaInstallBtn) {
+        pwaInstallBtn.style.display = "none";
+      }
+    });
+
     // Run Engine Initializer
     window.addEventListener("DOMContentLoaded", initApp);
   </script>
+
+  <!-- Floating pulsing PWA Install Button -->
+  <button id="pwaInstallBtn" class="pwa-install-btn" style="display: none;">
+    <i data-lucide="download"></i> [ ⬇️ Instalar App Nativamente ]
+  </button>
 </body>
 </html>
+

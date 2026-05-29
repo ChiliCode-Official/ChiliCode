@@ -28,6 +28,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     
+    <!-- Model Viewer for 3D -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
     <style>
         /* Custom section styling to match premium aesthetics */
         .info-grid {
@@ -215,8 +218,398 @@
             box-shadow: 0 10px 30px rgba(0, 168, 107, 0.25);
             transform: translateY(-4px);
         }
+
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 8rem 0;
+            background: #FFFFFF;
+            position: relative;
+            z-index: 10;
+        }
+
+        .pricing-section .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        /* Billing Toggle Switch */
+        .billing-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .billing-toggle-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .billing-toggle-label.active {
+            color: var(--color-text);
+            font-weight: 700;
+        }
+
+        .discount-badge {
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--emerald);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        /* Toggle Switch Styling */
+        .switch-toggle {
+            position: relative;
+            display: inline-block;
+            width: 72px;
+            height: 38px;
+        }
+
+        .switch-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E2E8F0;
+            transition: .4s;
+            border-radius: 38px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 30px;
+            width: 30px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .switch-toggle input:checked + .switch-slider {
+            background-color: var(--color-text);
+        }
+
+        .switch-toggle input:checked + .switch-slider:before {
+            transform: translateX(34px);
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: var(--radius-card);
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Featured Pricing Card (Chipotle) */
+        .pricing-card.featured {
+            border: 2px solid var(--color-text);
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 992px) {
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.03) translateY(-10px);
+        }
+
+        @media (max-width: 992px) {
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        .pricing-card.featured::before {
+            content: "RECOMENDADO";
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-text);
+            color: var(--white);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 1.25rem;
+            border-radius: var(--radius-pill);
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .pricing-card-header {
+            margin-bottom: 2rem;
+        }
+
+        .plan-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-desc {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .plan-price-container {
+            margin: 2rem 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            color: var(--color-text);
+        }
+
+        .price-currency {
+            font-size: 1.2rem;
+            font-weight: 500;
+            vertical-align: super;
+            margin-right: 2px;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            margin-left: 4px;
+        }
+
+        .plan-features-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .plan-feature-item {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .plan-feature-item svg {
+            width: 18px;
+            height: 18px;
+            color: var(--emerald);
+            flex-shrink: 0;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 1.1rem 2rem;
+            border-radius: var(--radius-pill);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+        }
+
+        .pricing-cta.btn-outline {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-cta.btn-outline:hover {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: var(--color-text);
+        }
+
+        .pricing-cta.btn-solid {
+            background: var(--color-text);
+            color: var(--white);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-cta.btn-solid:hover {
+            background: var(--emerald);
+            box-shadow: 0 10px 25px rgba(0, 168, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Enterprise Banner */
+        .enterprise-banner {
+            background: radial-gradient(circle at 10% 20%, rgb(18, 18, 18) 0%, rgb(0, 0, 0) 90%);
+            border-radius: var(--radius-card);
+            padding: 4rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 992px) {
+            .enterprise-banner {
+                grid-template-columns: 1fr;
+                padding: 3rem 2rem;
+                gap: 2.5rem;
+            }
+        }
+
+        .enterprise-content {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .enterprise-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gold);
+            padding: 0.35rem 1rem;
+            border-radius: var(--radius-pill);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid rgba(230, 190, 138, 0.2);
+        }
+
+        .enterprise-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .enterprise-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            max-width: 580px;
+        }
+
+        .enterprise-cta-btn {
+            background: var(--white);
+            color: var(--black);
+            padding: 1.3rem 2.8rem;
+            border-radius: var(--radius-pill);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .enterprise-cta-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(230, 190, 138, 0.3);
+        }
+
+        .enterprise-cta-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 3D Model Area inside Banner */
+        .enterprise-3d-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .enterprise-3d-wrapper {
+                height: 280px;
+            }
+        }
+
+        .enterprise-3d-wrapper model-viewer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Navigation (reconstructed dynamically by update_nav.js) -->
@@ -356,6 +749,153 @@
             </div>
         </section>
 
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">NUESTROS PLANES</span>
+                    <h2 class="section-title" style="font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -1px; margin-bottom: 1.5rem;">Suscripciones simples y transparentes.</h2>
+                    <p class="section-subtitle">Elige el plan ideal para fidelizar a tus clientes y hacer crecer tu negocio.</p>
+                </div>
+
+                <!-- Billing Toggle Switch -->
+                <div class="billing-toggle-container">
+                    <span id="label-mensual" class="billing-toggle-label active">Mensual</span>
+                    <label class="switch-toggle">
+                        <input type="checkbox" id="billing-toggle">
+                        <span class="switch-slider"></span>
+                    </label>
+                    <span id="label-anual" class="billing-toggle-label">Anual</span>
+                    <span class="discount-badge">¡2 meses GRATIS! 🔥</span>
+                </div>
+
+                <!-- Pricing Cards Grid -->
+                <div class="pricing-grid">
+                    <!-- Plan Piquín (Trial) -->
+                    <div class="pricing-card">
+                        <div class="pricing-card-header">
+                            <div class="plan-name">Plan Piquín</div>
+                            <p class="plan-desc">Perfecto para probar la plataforma y lanzar tu primer programa de fidelización.</p>
+                        </div>
+                        <div class="plan-price-container">
+                            <span class="plan-price"><span class="price-currency">$</span><span class="price-val" data-monthly="0" data-annual="0">0</span></span>
+                            <span class="price-period">/mes</span>
+                        </div>
+                        <ul class="plan-features-list">
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Hasta <strong>10 Clientes</strong> registrados</span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Hasta <strong>4 Ofertas</strong> activas</span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Experiencia Básica (Color + Logo)</span>
+                            </li>
+                            <li class="plan-feature-item" style="opacity: 0.5; text-decoration: line-through;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--color-text-muted);"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Sin marca de ChilliCode</span>
+                            </li>
+                        </ul>
+                        <a href="dashboard.html" class="pricing-cta btn-outline">[ Probar Gratis ]</a>
+                    </div>
+
+                    <!-- Plan Chipotle (Growth) - Featured -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-card-header">
+                            <div class="plan-name" style="display: flex; align-items: center; gap: 8px;">Plan Chipotle 🌶️</div>
+                            <p class="plan-desc">Para negocios en crecimiento que buscan potenciar su retención de clientes de forma seria.</p>
+                        </div>
+                        <div class="plan-price-container">
+                            <span class="plan-price"><span class="price-currency">$</span><span class="price-val" data-monthly="499" data-annual="4990" data-annual-label="/año">499</span></span>
+                            <span class="price-period">/mes</span>
+                        </div>
+                        <ul class="plan-features-list">
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Hasta <strong>100 Clientes</strong> registrados</span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Hasta <strong>85 Ofertas</strong> activas</span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Experiencia Premium (Animaciones + Modo Oscuro)</span>
+                            </li>
+                            <li class="plan-feature-item" style="opacity: 0.5; text-decoration: line-through;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--color-text-muted);"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                <span>Sin marca de ChilliCode</span>
+                            </li>
+                        </ul>
+                        <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20contratar%20el%20Plan%20Chipotle%20de%20Chili%20Loyalty." target="_blank" class="pricing-cta btn-solid">[ Contratar Chipotle ]</a>
+                    </div>
+
+                    <!-- Plan Habanero (Enterprise) -->
+                    <div class="pricing-card">
+                        <div class="pricing-card-header">
+                            <div class="plan-name" style="display: flex; align-items: center; gap: 8px;">Plan Habanero 🔥</div>
+                            <p class="plan-desc">La solución definitiva de marca blanca para dueños exigentes que quieren el control total.</p>
+                        </div>
+                        <div class="plan-price-container">
+                            <span class="plan-price"><span class="price-currency">$</span><span class="price-val" data-monthly="1299" data-annual="12990" data-annual-label="/año">1299</span></span>
+                            <span class="price-period">/mes</span>
+                        </div>
+                        <ul class="plan-features-list">
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span><strong>Clientes ilimitados</strong></span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span><strong>Ofertas ilimitadas</strong></span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span><strong>Marca Blanca Total</strong> (Sin logos ChilliCode)</span>
+                            </li>
+                            <li class="plan-feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Soporte Prioritario 24/7</span>
+                            </li>
+                        </ul>
+                        <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20contratar%20el%20Plan%20Habanero%20de%20Chili%20Loyalty." target="_blank" class="pricing-cta btn-solid" style="background: #E6BE8A; color: #000;">[ Contratar Habanero ]</a>
+                    </div>
+                </div>
+
+                <!-- Custom Enterprise Tier (Plan a la Medida) -->
+                <div class="enterprise-banner">
+                    <div class="enterprise-content">
+                        <span class="enterprise-badge">PLAN A LA MEDIDA</span>
+                        <h3 class="enterprise-title">¿Buscas más clientes y menos ofertas, o más ofertas y menos clientes?</h3>
+                        <p class="enterprise-desc font-family: 'Space Grotesk';">Escalamos tu infraestructura a medida. Si tienes múltiples sucursales, requerimientos específicos de base de datos o integraciones personalizadas con tu POS actual, creamos una solución única para ti.</p>
+                        <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20el%20Plan%20a%20la%20Medida%20de%20Chili%20Loyalty." target="_blank" class="enterprise-cta-btn">
+                            Contactar por WhatsApp
+                            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; fill: currentColor;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.394 9.806-9.799.002-2.618-1.016-5.078-2.87-6.932C16.29 2.02 13.84 1.002 11.993 1.002c-5.396 0-9.79 4.392-9.793 9.797-.001 1.902.51 3.52 1.464 5.123L2.68 21.078l4.032-1.057l-.065-.127z"/></svg>
+                        </a>
+                    </div>
+                    <div class="enterprise-3d-wrapper">
+                        <model-viewer id="skull-model-pricing" 
+                            src="https://raw.githubusercontent.com/UniteGroupTeam/mis-modelos-3d-v2-0/main/calavera_sugar_skull.glb"
+                            camera-controls
+                            disable-zoom
+                            disable-pan
+                            auto-rotate
+                            auto-rotate-delay="0"
+                            interaction-prompt="none"
+                            shadow-intensity="1.5"
+                            environment-image="neutral"
+                            exposure="1.2"
+                            camera-orbit="0deg 75deg 2m"
+                            field-of-view="32deg">
+                        </model-viewer>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Call To Action -->
         <section class="trial-cta">
             <div class="container">
@@ -369,6 +909,7 @@
             </div>
         </section>
     </main>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -389,6 +930,42 @@
     <script src="hamburger.js"></script>
     <script>
         lucide.createIcons();
+
+        // Billing Toggle Logic
+        const billingToggle = document.getElementById('billing-toggle');
+        const prices = document.querySelectorAll('.price-val');
+        const labelMensual = document.getElementById('label-mensual');
+        const labelAnual = document.getElementById('label-anual');
+        
+        if (billingToggle) {
+            billingToggle.addEventListener('change', () => {
+                const isAnnual = billingToggle.checked;
+                if (isAnnual) {
+                    labelMensual.classList.remove('active');
+                    labelAnual.classList.add('active');
+                } else {
+                    labelMensual.classList.add('active');
+                    labelAnual.classList.remove('active');
+                }
+                
+                prices.forEach(price => {
+                    const monthly = price.getAttribute('data-monthly');
+                    const annual = price.getAttribute('data-annual');
+                    const period = price.nextElementSibling;
+                    if (isAnnual) {
+                        price.textContent = annual;
+                        if (period && period.classList.contains('price-period')) {
+                            period.textContent = price.getAttribute('data-annual-label') || '/año';
+                        }
+                    } else {
+                        price.textContent = monthly;
+                        if (period && period.classList.contains('price-period')) {
+                            period.textContent = '/mes';
+                        }
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>

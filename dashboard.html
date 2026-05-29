@@ -396,6 +396,54 @@
     .footer-brand span {
       color: var(--primary-color);
     }
+
+    /* Floating Pulsing PWA Install Button */
+    .pwa-install-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      background: var(--primary-color, #ff3b30);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255, 59, 48, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: pulseGlow 2s infinite ease-in-out;
+      transition: transform 0.2s ease;
+    }
+
+    .pwa-install-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+      }
+      50% {
+        box-shadow: 0 4px 30px rgba(255, 59, 48, 0.8);
+      }
+      100% {
+        box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pwa-install-btn {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -443,9 +491,10 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="logoUrl">Link de la Imagen del Logo</label>
-          <input class="form-input" type="url" id="logoUrl" placeholder="Ej. https://mi-imagen.com/logo.png" required>
+          <label class="form-label" for="logoUpload">Logo de la Marca</label>
+          <input class="form-input" type="file" id="logoUpload" accept="image/*" required>
         </div>
+
 
         <div class="form-grid form-grid-2">
           <div class="form-group">
@@ -559,6 +608,31 @@
       document.documentElement.style.setProperty('--primary-color', val);
     });
 
+    // Imgur API Upload function
+    async function uploadToImgur(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: {
+          "Authorization": "Client-ID XXXXXXXX"
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error("Imgur upload failed: " + response.status);
+      }
+
+      const resJson = await response.json();
+      if (resJson && resJson.success && resJson.data && resJson.data.link) {
+        return resJson.data.link;
+      } else {
+        throw new Error("Invalid Imgur response structure");
+      }
+    }
+
     // Form onboarding submission logic
     onboardingForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -566,17 +640,18 @@
 
       const nombre = document.getElementById("nombreComercial").value.trim();
       const color = colorMarcaInput.value;
-      const logo = document.getElementById("logoUrl").value.trim();
+      const logoUpload = document.getElementById("logoUpload");
+      const logoFile = logoUpload ? logoUpload.files[0] : null;
       const pin = document.getElementById("pinCajero").value.trim();
       const visitas = parseInt(document.getElementById("visitasRequeridasParaPremio").value);
       const premio = document.getElementById("descripcionPremio").value.trim();
 
-      if (!nombre || !logo || !pin || !visitas || !premio) {
+      if (!nombre || !logoFile || !pin || !visitas || !premio) {
         return;
       }
 
       btnSubmit.disabled = true;
-      btnSubmit.innerHTML = `<span class="spinner"></span> [ DESPLEGANDO... ]`;
+      btnSubmit.innerHTML = `<span class="spinner"></span> [ SUBIENDO LOGO... ]`;
 
       // Unique ID generation logic (lower case + underscores + random 4-digit number)
       const cleanName = nombre.toLowerCase().replace(/\s+/g, '_');
@@ -584,11 +659,15 @@
       const biz_id = `${cleanName}_${randomNum}`;
 
       try {
+        // Intercept file and upload to Imgur
+        const logoUrl = await uploadToImgur(logoFile);
+
+        btnSubmit.innerHTML = `<span class="spinner"></span> [ DESPLEGANDO... ]`;
         const businessDocRef = doc(db, "negocios", biz_id);
         const data = {
           nombre: nombre,
           colorMarca: color,
-          logoUrl: logo,
+          logoUrl: logoUrl,
           pinCajero: pin,
           planSuscripcion: "Piquín",
           status: "Activo",
@@ -616,8 +695,8 @@
         lucide.createIcons();
 
       } catch (err) {
-        console.error("Firestore onboarding write failure:", err);
-        errorAlertText.textContent = "[ ERROR DE BASE DE DATOS: No se pudo inyectar el negocio ]";
+        console.error("Onboarding setup failure:", err);
+        errorAlertText.textContent = `[ ERROR AL DESPLEGAR: ${err.message || 'Intente de nuevo'} ]`;
         errorAlert.style.display = "flex";
         btnSubmit.disabled = false;
         btnSubmit.innerHTML = `<i data-lucide="cloud-lightning"></i> [ DESPLEGAR INFRAESTRUCTURA ]`;
@@ -632,9 +711,97 @@
       }
     };
 
+    function injectPwaManifest() {
+      const myManifest = {
+        "short_name": "ChiliDashboard",
+        "name": "Chili Loyalty | Panel",
+        "icons": [
+          {
+            "src": "https://i.imgur.com/QTzmlBC.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+          }
+        ],
+        "start_url": window.location.href,
+        "background_color": "#ffffff",
+        "theme_color": "#ff3b30",
+        "display": "standalone",
+        "orientation": "portrait"
+      };
+      
+      const stringManifest = JSON.stringify(myManifest);
+      const blob = new Blob([stringManifest], { type: 'application/json' });
+      const manifestURL = URL.createObjectURL(blob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestURL;
+      document.head.appendChild(link);
+    }
+
+    function setupServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        try {
+          const swCode = `
+            self.addEventListener('install', (e) => {
+              self.skipWaiting();
+            });
+            self.addEventListener('activate', (e) => {
+              e.waitUntil(clients.claim());
+            });
+            self.addEventListener('fetch', (e) => {
+              e.respondWith(fetch(e.request));
+            });
+          `;
+          const blob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(swUrl);
+        } catch (e) {
+          console.warn("Unable to register service worker:", e);
+        }
+      }
+    }
+
+    // PWA Install Prompt Logic
+    let deferredPrompt;
+    const pwaInstallBtn = document.getElementById("pwaInstallBtn");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (pwaInstallBtn) {
+        pwaInstallBtn.style.display = "flex";
+      }
+    });
+
+    if (pwaInstallBtn) {
+      pwaInstallBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        deferredPrompt = null;
+        pwaInstallBtn.style.display = "none";
+      });
+    }
+
+    window.addEventListener("appinstalled", (evt) => {
+      console.log("App was successfully installed");
+      if (pwaInstallBtn) {
+        pwaInstallBtn.style.display = "none";
+      }
+    });
+
     window.addEventListener("DOMContentLoaded", () => {
       initTheme();
+      setupServiceWorker();
+      injectPwaManifest();
     });
   </script>
+
+  <!-- Floating pulsing PWA Install Button -->
+  <button id="pwaInstallBtn" class="pwa-install-btn" style="display: none;">
+    <i data-lucide="download"></i> [ ⬇️ Instalar App Nativamente ]
+  </button>
 </body>
 </html>
