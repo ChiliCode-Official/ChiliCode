@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initHamburger() {
     const btn = document.querySelector('.hamburger-btn');
     const overlay = document.querySelector('.menu-overlay');
     if (!btn || !overlay) return;
@@ -17,4 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
         });
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburger);
+} else {
+    initHamburger();
+}

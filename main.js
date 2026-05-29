@@ -3,7 +3,9 @@
  * Animation Engine: Fanta-Style Section Transitions
  */
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const modelViewer = document.getElementById('skull-model') || document.getElementById('skull-model-static');
 
@@ -13,7 +15,7 @@ function updateOrbit(azimuth, polar, distance) {
 }
 
 function initAnimations() {
-    if (!modelViewer) return;
+    if (typeof gsap === 'undefined' || !modelViewer) return;
 
     // 1. Initial State (Hero)
     const isMobile = window.innerWidth < 768;
@@ -94,7 +96,7 @@ function initAnimations() {
 // Navbar Scroll Effect
 function initNavbar() {
     const nav = document.querySelector('.pill-nav');
-    if (!nav) return;
+    if (!nav || typeof gsap === 'undefined') return;
     ScrollTrigger.create({
         start: "top -50",
         onUpdate: (self) => {
@@ -109,6 +111,7 @@ function initNavbar() {
 
 // Reveal animations for text
 function initReveals() {
+    if (typeof gsap === 'undefined') return;
     const revealElements = document.querySelectorAll('.content-wrapper, .service-card, .project-item, .section-header');
 
     revealElements.forEach(el => {
@@ -131,7 +134,7 @@ function initReveals() {
 function initCarousel() {
     const cards = Array.from(document.querySelectorAll('.carousel-card'));
     const dots = Array.from(document.querySelectorAll('.dot'));
-    if (cards.length === 0) return;
+    if (cards.length === 0 || typeof gsap === 'undefined') return;
 
     let currentIndex = 0;
     let intervalId;
