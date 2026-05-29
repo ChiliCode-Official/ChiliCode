@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      alert("Error: " + message + " in " + source + " at line " + lineno + ":" + colno);
+      console.error(error);
+    };
+    window.addEventListener('unhandledrejection', function(event) {
+      alert("Unhandled promise rejection: " + event.reason);
+    });
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chili Loyalty | Tarjeta Digital</title>
@@ -1572,7 +1581,8 @@
       query, 
       where, 
       getDocs, 
-      addDoc 
+      addDoc,
+      onSnapshot
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // Firebase configuration parameters (strictly matches spec)
@@ -1902,7 +1912,7 @@
 
             if (userSnap.exists()) {
               // Direct auto-login routing bypass
-              displayLoyaltyCard(userSnap.data());
+              subscribeToClientData(userId);
               return;
             } else {
               localStorage.removeItem(`chili_session_${bizId}`);
@@ -1980,7 +1990,11 @@
     };
 
     document.getElementById("btnBackFromLoyalty").onclick = () => {
-      // In case they click back on active card, log them out or just return to role selector
+      // In case they click back on active card, unsubscribe from real-time listener
+      if (clientUnsubscribe) {
+        clientUnsubscribe();
+        clientUnsubscribe = null;
+      }
       loyaltyCard.style.display = "none";
       roleSelectionCard.style.display = "flex";
     };
@@ -2016,6 +2030,30 @@
       }
     }
 
+    let clientUnsubscribe = null;
+    let pendingToast = false;
+
+    function subscribeToClientData(clientId) {
+      if (clientUnsubscribe) {
+        clientUnsubscribe();
+        clientUnsubscribe = null;
+      }
+
+      const clientRef = doc(db, "clientes_fidelizados", clientId);
+      clientUnsubscribe = onSnapshot(clientRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const showToast = pendingToast;
+          pendingToast = false;
+          displayLoyaltyCard(docSnap.data(), showToast);
+        } else {
+          localStorage.removeItem(`chili_session_${bizId}`);
+          displayRegistrationForm();
+        }
+      }, (err) => {
+        console.error("Error listening to client updates:", err);
+      });
+    }
+
     // Routing configuration for clients
     async function routeToClientNode() {
       loadingOverlay.style.display = "flex";
@@ -2027,7 +2065,7 @@
           const userSnap = await getDoc(userRef);
 
           if (userSnap.exists()) {
-            displayLoyaltyCard(userSnap.data());
+            subscribeToClientData(userId);
           } else {
             localStorage.removeItem(`chili_session_${bizId}`);
             displayRegistrationForm();
@@ -2794,7 +2832,7 @@
         // Save session state (modified key)
         localStorage.setItem(`chili_session_${bizId}`, userId);
         
-        displayLoyaltyCard(newClientDoc, false);
+        subscribeToClientData(userId);
 
       } catch (err) {
         console.error("Error en registro:", err);
@@ -2839,8 +2877,9 @@
           btnSubmitLogin.disabled = false;
           btnSubmitLogin.innerHTML = `<i data-lucide="log-in"></i> [ INICIAR SESIÓN ]`;
           
-          // Transition to card, displaying Session Recovered toast
-          displayLoyaltyCard(userDoc.data(), true);
+          // Transition to card, displaying Session Recovered toast and starting subscription
+          pendingToast = true;
+          subscribeToClientData(userId);
         } else {
           // Render not found alert
           registrationAlertText.textContent = "[ NÚMERO NO ENCONTRADO. Verifica tus datos o crea una cuenta nueva. ]";
