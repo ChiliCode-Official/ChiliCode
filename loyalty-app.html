@@ -1779,18 +1779,8 @@
         applyBrandBranding(businessDoc);
         injectPwaManifest(businessDoc.nombre);
 
-        // Count existing registered users and verify limits
-        if (businessDoc.planSuscripcion === "Piquín" || businessDoc.planSuscripcion === "Chipotle") {
-          const qCount = query(collection(db, "clientes_fidelizados"), where("idNegocio", "==", bizId));
-          const snapCount = await getDocs(qCount);
-          const registeredUserCount = snapCount.size;
-          
-          if (businessDoc.planSuscripcion === "Piquín" && registeredUserCount >= 10) {
-            isRegistrationLimitReached = true;
-          } else if (businessDoc.planSuscripcion === "Chipotle" && registeredUserCount >= 100) {
-            isRegistrationLimitReached = true;
-          }
-        }
+        // El conteo de usuarios y verificación de límites se difiere para el flujo de registro y no bloquea el inicio rápido.
+        isRegistrationLimitReached = false;
 
 
         // LocalStorage Auto-Login check (on init)
@@ -1825,18 +1815,16 @@
     }
 
     // Auth tab selector toggling
-    tabRegister.onclick = () => {
+    tabRegister.onclick = async () => {
       tabRegister.classList.add("active");
       tabLogin.classList.remove("active");
       registrationForm.style.display = "flex";
       loginForm.style.display = "none";
       registrationAlert.style.display = "none";
       clientFlowSub.textContent = "Únete a nuestro club de lealtad y gana increíbles recompensas.";
-      if (isRegistrationLimitReached) {
-        document.getElementById("registrationBlockerOverlay").style.display = "flex";
-      } else {
-        document.getElementById("registrationBlockerOverlay").style.display = "none";
-      }
+      
+      // Consultar límites en segundo plano para no bloquear transiciones de la interfaz
+      await checkRegistrationLimit();
     };
 
     tabLogin.onclick = () => {
@@ -1894,6 +1882,29 @@
       document.getElementById("cajeroPinInput").value = "";
       document.getElementById("cajeroPinInput").focus();
     };
+
+    async function checkRegistrationLimit() {
+      if (!businessDoc) return;
+      if (businessDoc.planSuscripcion === "Piquín" || businessDoc.planSuscripcion === "Chipotle") {
+        try {
+          const qCount = query(collection(db, "clientes_fidelizados"), where("idNegocio", "==", bizId));
+          const snapCount = await getDocs(qCount);
+          const registeredUserCount = snapCount.size;
+          
+          let maxUsers = businessDoc.planSuscripcion === "Piquín" ? 10 : 100;
+          isRegistrationLimitReached = registeredUserCount >= maxUsers;
+        } catch (e) {
+          console.error("Error al comprobar límite de usuarios:", e);
+        }
+      } else {
+        isRegistrationLimitReached = false;
+      }
+      
+      const blocker = document.getElementById("registrationBlockerOverlay");
+      if (blocker) {
+        blocker.style.display = isRegistrationLimitReached ? "flex" : "none";
+      }
+    }
 
     // Routing configuration for clients
     async function routeToClientNode() {
@@ -2576,6 +2587,14 @@
       btnSubmitRegister.innerHTML = `<span class="spinner" style="width:20px; height:20px; border-width:2px; margin-bottom:0;"></span> [ ENVIANDO... ]`;
 
       try {
+        // Doble verificación del límite antes de procesar el registro en base de datos
+        await checkRegistrationLimit();
+        if (isRegistrationLimitReached) {
+          btnSubmitRegister.disabled = false;
+          btnSubmitRegister.innerHTML = `<i data-lucide="user-plus"></i> [ /> REGISTRARSE ]`;
+          return;
+        }
+
         // Anti-fraud validation checks
         const qEmail = query(
           collection(db, "clientes_fidelizados"), 
