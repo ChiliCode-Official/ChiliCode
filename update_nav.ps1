@@ -5,7 +5,11 @@ $files = @(
     "experiencia.html",
     "plan-landing.html",
     "mantenimientos.html",
-    "como-funciona.html"
+    "como-funciona.html",
+    "chili-mods.html",
+    "partners.html",
+    "plan-profesional.html",
+    "plan-sitio-web.html"
 )
 
 $menuOverlayHTML = @"
@@ -14,9 +18,19 @@ $menuOverlayHTML = @"
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="experiencia.html">Experiencia</a></li>
-            <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
             <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
             <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
             <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
             <li><a href="index.html#proyectos">Proyectos</a></li>
         </ul>
@@ -51,7 +65,7 @@ function Get-ConsistentNavLinks($activePage) {
             </button>
         </div>
     </nav>
-`$menuOverlayHTML
+$menuOverlayHTML
 "@
     return $links
 }
@@ -61,7 +75,8 @@ foreach ($file in $files) {
         $content = [System.IO.File]::ReadAllText((Resolve-Path $file), [System.Text.Encoding]::UTF8)
         $activePage = $file.Replace(".html", "")
         
-        $pattern = "(?s)<ul class=""nav-links"">.*?<\/nav>\s*(?:<!-- Fullscreen Menu Overlay -->\s*<div class=""menu-overlay"">.*?<\/div>)?"
+        # Regex matches the navigation container and any following fullscreen menu overlay OR the literal placeholder string $menuOverlayHTML
+        $pattern = "(?s)<ul class=""nav-links"">.*?<\/nav>\s*(?:<!-- Fullscreen Menu Overlay -->\s*<div class=""menu-overlay"">.*?<\/div>|\`$menuOverlayHTML(?:<!--.*?-->)?)?"
         $newNav = Get-ConsistentNavLinks $activePage
         
         $content = [System.Text.RegularExpressions.Regex]::Replace($content, $pattern, $newNav)

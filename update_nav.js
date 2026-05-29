@@ -8,7 +8,11 @@ const files = [
     'experiencia.html',
     'plan-landing.html',
     'mantenimientos.html',
-    'como-funciona.html'
+    'como-funciona.html',
+    'chili-mods.html',
+    'partners.html',
+    'plan-profesional.html',
+    'plan-sitio-web.html'
 ];
 
 const menuOverlayHTML = `
@@ -16,9 +20,19 @@ const menuOverlayHTML = `
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="experiencia.html">Experiencia</a></li>
-            <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
             <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
             <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
             <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
             <li><a href="index.html#proyectos">Proyectos</a></li>
         </ul>
@@ -58,8 +72,8 @@ files.forEach(file => {
     // Extract base page name
     const activePage = file.replace('.html', '');
 
-    // Replace everything from <ul class="nav-links"> to </nav>
-    const navRegex = /<ul class="nav-links">[\s\S]*?<\/nav>/;
+    // Replace everything from <ul class="nav-links"> to </nav> and any trailing menu-overlay or $menuOverlayHTML
+    const navRegex = /<ul class="nav-links">[\s\S]*?<\/nav>\s*(?:<!-- Fullscreen Menu Overlay -->\s*<div class="menu-overlay">[\s\S]*?<\/div>|\$menuOverlayHTML(?:<!--.*?-->)?)?/;
     
     if (navRegex.test(content)) {
         content = content.replace(navRegex, getConsistentNavLinks(activePage));

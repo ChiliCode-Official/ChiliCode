@@ -8,7 +8,11 @@ files = [
     'experiencia.html',
     'plan-landing.html',
     'mantenimientos.html',
-    'como-funciona.html'
+    'como-funciona.html',
+    'chili-mods.html',
+    'partners.html',
+    'plan-profesional.html',
+    'plan-sitio-web.html'
 ]
 
 menuOverlayHTML = """
@@ -16,9 +20,19 @@ menuOverlayHTML = """
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="experiencia.html">Experiencia</a></li>
-            <li><a href="plan-landing.html">Landing Pages</a></li>
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
             <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
             <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
             <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
             <li><a href="index.html#proyectos">Proyectos</a></li>
         </ul>
@@ -54,13 +68,9 @@ for file in files:
         content = f.read()
 
     activePage = file.replace('.html', '')
-    # Match from <ul class="nav-links"> to the end of the menu overlay container
-    navRegex = re.compile(r'<ul class="nav-links">[\s\S]*?<\/div>\s*<\/div>')
+    # Match from <ul class="nav-links"> to the end of the menu overlay container or $menuOverlayHTML
+    navRegex = re.compile(r'<ul class="nav-links">[\s\S]*?<\/nav>\s*(?:<!-- Fullscreen Menu Overlay -->\s*<div class="menu-overlay">[\s\S]*?<\/div>|\$menuOverlayHTML(?:<!--.*?-->)?)?')
     
-    # Let's also support fallback matches if the overlay layout format differs
-    if not navRegex.search(content):
-        navRegex = re.compile(r'<ul class="nav-links">[\s\S]*?<\/nav>\s*(?:<!-- Fullscreen Menu Overlay -->\s*<div class="menu-overlay">[\s\S]*?<\/div>)?')
-
     if navRegex.search(content):
         content = navRegex.sub(getConsistentNavLinks(activePage), content)
         with open(filePath, 'w', encoding='utf-8') as f:

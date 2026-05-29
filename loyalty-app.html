@@ -1231,6 +1231,11 @@
           <p class="brand-subtitle">Estadísticas y límites de tu negocio</p>
         </header>
 
+        <div class="alert-banner success" id="staffNotificationAlert" style="display: none; margin-bottom: 0;">
+          <i data-lucide="check-circle-2"></i>
+          <span id="staffNotificationText">¡Enlace copiado!</span>
+        </div>
+
         <!-- Metric Cards -->
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <!-- Clientes VIP -->
@@ -1278,6 +1283,31 @@
             <a href="https://wa.me/525574123521?text=Hola!%20He%20alcanzado%20el%20l%C3%ADmite%20de%20clientes%20de%20mi%20plan%20y%20quiero%20mejorar%20mi%20suscripci%C3%B3n." target="_blank" class="btn" style="background: var(--primary-color); display: flex; text-decoration: none; padding: 12px; font-size: 0.85rem; border-radius: 10px; justify-content: center; align-items: center;">
               <i data-lucide="sparkles"></i> [ ⚠️ MEJORAR PLAN ]
             </a>
+          </div>
+        </div>
+
+        <!-- Share & QR Code Card -->
+        <div style="background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+          <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--input-border); padding-bottom: 8px;">
+            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-color); font-family: 'Outfit', sans-serif;">Enlace de la PWA</span>
+            <i data-lucide="qr-code" style="color: var(--primary-color); width: 20px; height: 20px;"></i>
+          </div>
+          
+          <p style="font-size: 0.8rem; color: var(--sub-text); text-align: center; margin: 0;">Muestra este código QR a tus clientes para registrarse, o comparte el enlace directo de tu app de lealtad.</p>
+          
+          <!-- QR Display Area -->
+          <div style="background: #ffffff; padding: 8px; border-radius: 12px; display: flex; align-items: center; justify-content: center; width: 140px; height: 140px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <img id="staffOnboardingQRImg" src="" alt="QR Registro" style="width: 100%; height: 100%; display: block; border-radius: 4px;">
+          </div>
+          
+          <!-- Share & Copy Actions -->
+          <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button id="btnShareApp" class="btn" style="padding: 10px; font-size: 0.8rem; border-radius: 10px; margin: 0; display: flex; justify-content: center; align-items: center; gap: 6px; background: var(--primary-color); border: none; color: #fff;">
+              <i data-lucide="share-2" style="width: 14px; height: 14px;"></i> Compartir Enlace
+            </button>
+            <button id="btnCopyApp" class="btn" style="padding: 10px; font-size: 0.8rem; border-radius: 10px; margin: 0; display: flex; justify-content: center; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--input-border); color: var(--text-color);">
+              <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copiar Enlace
+            </button>
           </div>
         </div>
       </div>
@@ -1474,19 +1504,15 @@
       </button>
     </div>
 
-    <!-- Visual stamp counter -->
-    <div class="stamp-container">
-      <div class="offer-details">
-        <div class="offer-title">Premio Acumulable</div>
-        <div class="offer-desc" id="offerDescription">---</div>
-      </div>
-
-      <div class="stamp-grid" id="stampGrid">
-        <!-- Rendered via JS -->
+    <!-- Visual stamp counter and Offers Panel -->
+    <div class="stamp-container" style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--input-border); padding-bottom: 8px;">
+        <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-color); font-family: 'Outfit', sans-serif;">Tus Puntos: <span id="clientTotalPoints" style="color: var(--primary-color);">0</span></span>
+        <i data-lucide="award" style="color: var(--primary-color); width: 20px; height: 20px;"></i>
       </div>
       
-      <div class="progress-bar-container">
-        <div class="progress-bar-fill" id="progressBarFill"></div>
+      <div id="clientOffersPanel" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Rendered via JS -->
       </div>
     </div>
 
@@ -1626,15 +1652,21 @@
     }
 
     // Dynamic PWA manifest blob injection
-    function injectPwaManifest(businessName) {
+    function injectPwaManifest(businessName, logoUrl) {
       const myManifest = {
         "short_name": businessName || "ChiliLoyalty",
         "name": businessName ? `Lealtad | ${businessName}` : "Chili Loyalty Card",
         "icons": [
           {
-            "src": "https://cdn-icons-png.flaticon.com/512/4605/4605221.png",
+            "src": logoUrl || "https://cdn-icons-png.flaticon.com/512/4605/4605221.png",
             "type": "image/png",
             "sizes": "512x512",
+            "purpose": "any maskable"
+          },
+          {
+            "src": logoUrl || "https://cdn-icons-png.flaticon.com/512/4605/4605221.png",
+            "type": "image/png",
+            "sizes": "192x192",
             "purpose": "any maskable"
           }
         ],
@@ -1668,7 +1700,6 @@
         footers.forEach(f => f.style.display = "");
       }
 
-      
       const logoUrl = docData.logoUrl;
       const businessName = docData.nombre || "Chili Business";
 
@@ -1685,11 +1716,85 @@
           el.style.display = "block";
         });
         defaultSvgs.forEach(el => el.style.display = "none");
+
+        // Dynamically update favicon
+        let favicon = document.querySelector('link[rel="icon"]');
+        if (!favicon) {
+          favicon = document.createElement('link');
+          favicon.rel = 'icon';
+          document.head.appendChild(favicon);
+        }
+        favicon.href = logoUrl;
+
+        // Dynamically update Apple touch icon
+        let appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
+        if (!appleIcon) {
+          appleIcon = document.createElement('link');
+          appleIcon.rel = 'apple-touch-icon';
+          document.head.appendChild(appleIcon);
+        }
+        appleIcon.href = logoUrl;
       }
 
       // Re-skin document title
       document.title = `${businessName} | Chili Loyalty`;
       document.getElementById("scannerBrandSub").textContent = `${businessName} - Acreditación y Canje`;
+    }
+
+    // Onboarding sharing option for staff panel
+    function setupStaffShareSection() {
+      const appUrl = `${window.location.origin}${window.location.pathname}?biz=${bizId}`;
+      
+      const qrImg = document.getElementById("staffOnboardingQRImg");
+      if (qrImg) {
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(appUrl)}`;
+      }
+
+      const btnShare = document.getElementById("btnShareApp");
+      if (btnShare) {
+        btnShare.onclick = async () => {
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: `Registro en ${businessDoc.nombre || "Lealtad"}`,
+                text: `Únete a nuestro programa de lealtad y acumula visitas para ganar premios en ${businessDoc.nombre || "nuestro establecimiento"}:`,
+                url: appUrl
+              });
+            } catch (err) {
+              console.log("Error sharing:", err);
+            }
+          } else {
+            copyLinkToClipboard(appUrl);
+          }
+        };
+      }
+
+      const btnCopy = document.getElementById("btnCopyApp");
+      if (btnCopy) {
+        btnCopy.onclick = () => {
+          copyLinkToClipboard(appUrl);
+        };
+      }
+    }
+
+    function copyLinkToClipboard(link) {
+      navigator.clipboard.writeText(link).then(() => {
+        showStaffToast("¡Enlace copiado al portapapeles!");
+      }).catch(err => {
+        console.error("Could not copy text: ", err);
+      });
+    }
+
+    function showStaffToast(text) {
+      const toast = document.getElementById("staffNotificationAlert");
+      const toastText = document.getElementById("staffNotificationText");
+      if (toast && toastText) {
+        toastText.textContent = text;
+        toast.style.display = "flex";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3000);
+      }
     }
 
     // Service Worker registration (safely handles local/sandboxed runs)
@@ -1721,6 +1826,7 @@
     // Client stamp grid setup
     function renderStampMatrix(puntos, maxStamps) {
       const stampGrid = document.getElementById("stampGrid");
+      if (!stampGrid) return;
       stampGrid.innerHTML = "";
       
       if (maxStamps <= 6) {
@@ -1745,7 +1851,10 @@
       }
       
       const fillPercentage = Math.min((puntos / maxStamps) * 100, 100);
-      document.getElementById("progressBarFill").style.width = `${fillPercentage}%`;
+      const progressBarFill = document.getElementById("progressBarFill");
+      if (progressBarFill) {
+        progressBarFill.style.width = `${fillPercentage}%`;
+      }
       
       lucide.createIcons();
     }
@@ -1777,7 +1886,8 @@
 
         businessDoc = bizSnap.data();
         applyBrandBranding(businessDoc);
-        injectPwaManifest(businessDoc.nombre);
+        injectPwaManifest(businessDoc.nombre, businessDoc.logoUrl);
+        setupStaffShareSection();
 
         // El conteo de usuarios y verificación de límites se difiere para el flujo de registro y no bloquea el inicio rápido.
         isRegistrationLimitReached = false;
@@ -1974,23 +2084,51 @@
       let offersArray = Array.isArray(offersObj) ? offersObj : [offersObj];
       let slicedOffers = offersArray.slice(0, promoLimit);
       
-      // Determine active offer or fallback if plan limits disabled it
-      let activeOffer = slicedOffers[0] || { visitasRequeridasParaPremio: 10, descripcionPremio: "[ PROMO DESACTIVADA. Límite de plan alcanzado. ]" };
-      
-      const targetVisits = parseInt(activeOffer.visitasRequeridasParaPremio || 10);
-      const rewardDesc = activeOffer.descripcionPremio || "Regalo sorpresa en tu próxima visita.";
-      
-      document.getElementById("offerDescription").textContent = rewardDesc;
-
-      
       const puntos = parseInt(userData.puntosAcumulados || 0);
-      renderStampMatrix(puntos, targetVisits);
+      
+      // Update Total Points label
+      document.getElementById("clientTotalPoints").textContent = puntos;
+
+      // Render the Offers Panel
+      const clientOffersPanel = document.getElementById("clientOffersPanel");
+      clientOffersPanel.innerHTML = "";
+      
+      let hasAnyRedeemable = false;
+
+      slicedOffers.forEach(offer => {
+        const target = parseInt(offer.visitasRequeridasParaPremio || 10);
+        const missing = target - puntos;
+        const pct = Math.min((puntos / target) * 100, 100);
+        const isRedeemable = puntos >= target;
+        if (isRedeemable) {
+          hasAnyRedeemable = true;
+        }
+
+        const offerCard = document.createElement("div");
+        offerCard.style.cssText = "background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;";
+        offerCard.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+            <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-color); text-align: left; font-family: 'Outfit', sans-serif;">${offer.descripcionPremio}</span>
+            <span style="font-size: 0.75rem; font-weight: 800; padding: 4px 8px; border-radius: 100px; white-space: nowrap; ${isRedeemable ? 'background: rgba(0, 168, 107, 0.15); color: var(--success-glow);' : 'background: var(--input-border); color: var(--sub-text);'}">
+              ${isRedeemable ? '¡Listo!' : `Faltan ${missing}`}
+            </span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sub-text);">
+            <span>Progreso</span>
+            <span>${puntos} / ${target} visitas</span>
+          </div>
+          <div class="progress-bar-container" style="background: var(--input-border); height: 8px; margin-top: 2px;">
+            <div class="progress-bar-fill" style="width: ${pct}%; height: 100%; background: ${isRedeemable ? 'var(--success-glow)' : 'var(--primary-color)'}; border-radius: 100px;"></div>
+          </div>
+        `;
+        clientOffersPanel.appendChild(offerCard);
+      });
 
       // Reward Check-In vs Redemption Logic
       const standardQRContainer = document.getElementById("standardQRContainer");
       const claimRewardContainer = document.getElementById("claimRewardContainer");
 
-      if (puntos >= targetVisits) {
+      if (hasAnyRedeemable) {
         standardQRContainer.style.display = "none";
         claimRewardContainer.style.display = "flex";
         

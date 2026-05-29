@@ -749,8 +749,13 @@
         try {
           logoUrl = await uploadToImgur(logoFile);
         } catch (uploadErr) {
-          console.warn("Imgur upload failed, using fallback placeholder URL:", uploadErr);
-          logoUrl = "https://placehold.co/400x400/1a1a1a/ff3333?text=Chili+Code";
+          console.warn("Imgur upload failed, converting to Base64 data URL:", uploadErr);
+          logoUrl = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(logoFile);
+          });
         }
 
         btnSubmit.innerHTML = `<span class="spinner"></span> [ DESPLEGANDO... ]`;
