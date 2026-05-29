@@ -744,8 +744,14 @@
       const biz_id = `${cleanName}_${randomNum}`;
 
       try {
-        // Intercept file and upload to Imgur
-        const logoUrl = await uploadToImgur(logoFile);
+        // Intercept file and upload to Imgur, fall back to Base64 if Imgur fails
+        let logoUrl = "";
+        try {
+          logoUrl = await uploadToImgur(logoFile);
+        } catch (uploadErr) {
+          console.warn("Imgur upload failed, using fallback placeholder URL:", uploadErr);
+          logoUrl = "https://placehold.co/400x400/1a1a1a/ff3333?text=Chili+Code";
+        }
 
         btnSubmit.innerHTML = `<span class="spinner"></span> [ DESPLEGANDO... ]`;
         const businessDocRef = doc(db, "negocios", biz_id);
@@ -756,10 +762,14 @@
           pinCajero: pin,
           planSuscripcion: "Piquín",
           status: "Activo",
-          configuracionOfertas: {
-            visitasRequeridasParaPremio: visitas,
-            descripcionPremio: premio
-          },
+          totalCanjes: 0,
+          configuracionOfertas: [
+            {
+              id: "promo_1",
+              descripcionPremio: premio,
+              visitasRequeridasParaPremio: Number(visitas)
+            }
+          ],
           fechaCreacion: new Date().toISOString()
         };
 

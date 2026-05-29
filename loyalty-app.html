@@ -1044,6 +1044,60 @@
         background: rgba(15, 15, 20, 0.75) !important;
       }
     }
+
+    /* Glassmorphism Bottom Navigation */
+    .glass-bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 50;
+    }
+
+    body.dark .glass-bottom-nav {
+      background: rgba(15, 15, 20, 0.75);
+    }
+
+    .nav-tab-btn {
+      flex: 1;
+      height: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--sub-text);
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-tab-btn.active {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .nav-tab-btn.active svg {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 5px color-mix(in srgb, var(--primary-color) 40%, transparent));
+    }
   </style>
 </head>
 <body>
@@ -1159,39 +1213,155 @@
     </form>
   </main>
 
-  <!-- POS SCANNER CARD -->
-  <main class="app-card" id="cajeroScannerCard" style="max-width: 480px;">
+  <!-- MERCHANT COMMAND CENTER CARD (STAFF MODE) -->
+  <main class="app-card" id="cajeroScannerCard" style="max-width: 480px; padding-bottom: 80px; position: relative;">
     <div class="header-navigation">
       <button class="back-btn" id="btnBackFromScanner">
         <i data-lucide="arrow-left"></i> Cambiar Rol
       </button>
     </div>
 
-    <header class="brand-header">
-      <h1 class="brand-title" style="font-size: 1.3rem;"><i data-lucide="scan-line" style="vertical-align: middle; margin-right: 6px; color: var(--primary-color);"></i>Scanner POS</h1>
-      <p class="brand-subtitle" id="scannerBrandSub">Acreditación y Canje</p>
-    </header>
+    <!-- Active Tab Content Area -->
+    <div id="staffTabContent" style="min-height: 360px;">
+      
+      <!-- TAB 1: PANEL -->
+      <div id="staffTabPanel" class="staff-tab-view" style="display: flex; flex-direction: column; gap: 20px;">
+        <header class="brand-header">
+          <h1 class="brand-title" style="font-size: 1.4rem;">Panel Comercial</h1>
+          <p class="brand-subtitle">Estadísticas y límites de tu negocio</p>
+        </header>
 
-    <div class="stamp-container" style="position: relative;">
-      <!-- Camera viewfinder -->
-      <div class="scanner-viewfinder">
-        <div id="reader"></div>
-        
-        <!-- Live status feedback overlays -->
-        <div class="scanner-overlay" id="scannerNotificationOverlay">
-          <i data-lucide="check-circle" id="scannerNotificationIcon" style="width: 48px; height: 48px;"></i>
-          <div class="scanner-overlay-title" id="scannerNotificationTitle">Éxito</div>
-          <div class="scanner-overlay-desc" id="scannerNotificationDesc">Procesado correctamente</div>
+        <!-- Metric Cards -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Clientes VIP -->
+          <div style="background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--sub-text);">Clientes VIP</div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin-top: 4px;" id="metricClients">0 / 0</div>
+            </div>
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: color-mix(in srgb, var(--primary-color) 8%, transparent); display: flex; align-items: center; justify-content: center; color: var(--primary-color);">
+              <i data-lucide="users"></i>
+            </div>
+          </div>
+          <!-- Ofertas Activas -->
+          <div style="background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--sub-text);">Ofertas Activas</div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin-top: 4px;" id="metricOffers">0 / 0</div>
+            </div>
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: color-mix(in srgb, var(--primary-color) 8%, transparent); display: flex; align-items: center; justify-content: center; color: var(--primary-color);">
+              <i data-lucide="gift"></i>
+            </div>
+          </div>
+          <!-- Premios Canjeados -->
+          <div style="background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--sub-text);">Premios Canjeados</div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin-top: 4px;" id="metricCanjes">0</div>
+            </div>
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: color-mix(in srgb, var(--success-glow) 8%, transparent); display: flex; align-items: center; justify-content: center; color: var(--success-glow);">
+              <i data-lucide="award"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress limit and Upsell -->
+        <div style="background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+            <span>Límite de Clientes</span>
+            <span id="limitPercentText">0%</span>
+          </div>
+          <div class="progress-bar-container" style="background: var(--input-border); height: 10px;">
+            <div class="progress-bar-fill" id="limitProgressBarFill" style="width: 0%;"></div>
+          </div>
+          <div id="limitUpsellContainer" style="display: none; margin-top: 8px;">
+            <a href="https://wa.me/525574123521?text=Hola!%20He%20alcanzado%20el%20l%C3%ADmite%20de%20clientes%20de%20mi%20plan%20y%20quiero%20mejorar%20mi%20suscripci%C3%B3n." target="_blank" class="btn" style="background: var(--primary-color); display: flex; text-decoration: none; padding: 12px; font-size: 0.85rem; border-radius: 10px; justify-content: center; align-items: center;">
+              <i data-lucide="sparkles"></i> [ ⚠️ MEJORAR PLAN ]
+            </a>
+          </div>
         </div>
       </div>
-      
-      <div class="scanner-status" id="scannerStatus">
-        Iniciando cámara...
+
+      <!-- TAB 2: ESCÁNER POS -->
+      <div id="staffTabScanner" class="staff-tab-view" style="display: none; flex-direction: column; gap: 16px;">
+        <header class="brand-header">
+          <h1 class="brand-title" style="font-size: 1.4rem;">Scanner POS</h1>
+          <p class="brand-subtitle" id="scannerBrandSub">Acreditación y Canje</p>
+        </header>
+
+        <div class="stamp-container" style="position: relative;">
+          <div class="scanner-viewfinder">
+            <div id="reader"></div>
+            <!-- Live status feedback overlays -->
+            <div class="scanner-overlay" id="scannerNotificationOverlay">
+              <i data-lucide="check-circle" id="scannerNotificationIcon" style="width: 48px; height: 48px;"></i>
+              <div class="scanner-overlay-title" id="scannerNotificationTitle">Éxito</div>
+              <div class="scanner-overlay-desc" id="scannerNotificationDesc">Procesado correctamente</div>
+            </div>
+          </div>
+          <div class="scanner-status" id="scannerStatus">
+            Iniciando cámara...
+          </div>
+        </div>
+        <div class="user-badge" style="background: rgba(0, 0, 0, 0.02); text-align: center; justify-content: center; font-size: 0.8rem; font-weight: 500;">
+          Coloca el código QR del cliente frente a la cámara.
+        </div>
       </div>
+
+      <!-- TAB 3: GESTIÓN DE OFERTAS (CRUD) -->
+      <div id="staffTabOffers" class="staff-tab-view" style="display: none; flex-direction: column; gap: 16px;">
+        <header class="brand-header">
+          <h1 class="brand-title" style="font-size: 1.4rem;">Ofertas del Club</h1>
+          <p class="brand-subtitle">Gestiona promociones y visitas</p>
+        </header>
+
+        <!-- Offer List -->
+        <div id="offersListContainer" style="display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
+          <!-- Dynamically Rendered Offers -->
+        </div>
+
+        <!-- Add Offer Section -->
+        <div style="border-top: 1px solid var(--input-border); padding-top: 16px;">
+          <button id="btnOpenCreateOffer" class="btn" style="padding: 14px;">
+            <i data-lucide="plus-circle"></i> [ + CREAR NUEVA OFERTA ]
+          </button>
+          
+          <!-- Create/Edit Offer Form Overlay/Panel -->
+          <div id="offerFormPanel" style="display: none; flex-direction: column; gap: 12px; margin-top: 16px; background: rgba(0,0,0,0.02); border: 1px solid var(--input-border); padding: 16px; border-radius: 16px;">
+            <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;" id="offerFormTitle">Nueva Oferta</div>
+            <input type="hidden" id="offerFormId">
+            <div class="form-group">
+              <label class="form-label" for="offerFormDesc">Descripción del Premio</label>
+              <input class="form-input" type="text" id="offerFormDesc" placeholder="Ej. Hamburguesa gratis.">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="offerFormVisits">Visitas Requeridas</label>
+              <input class="form-input" type="number" id="offerFormVisits" min="1" max="30" value="10">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 4px;">
+              <button id="btnSaveOffer" class="btn" style="flex: 1; padding: 12px; font-size: 0.85rem;">[ GUARDAR ]</button>
+              <button id="btnCancelOffer" class="btn" style="flex: 1; padding: 12px; font-size: 0.85rem; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--input-border); box-shadow: none;">[ CANCELAR ]</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="user-badge" style="background: rgba(0, 0, 0, 0.02); text-align: center; justify-content: center; font-size: 0.8rem; font-weight: 500;">
-      Coloca el código QR del cliente frente a la cámara.
+    <!-- GLASSMORPHISM BOTTOM NAVIGATION BAR -->
+    <div class="glass-bottom-nav">
+      <button class="nav-tab-btn active" id="tabNavPanel">
+        <i data-lucide="bar-chart-2"></i>
+        <span>Panel</span>
+      </button>
+      <button class="nav-tab-btn" id="tabNavScanner">
+        <i data-lucide="scan"></i>
+        <span>Escáner</span>
+      </button>
+      <button class="nav-tab-btn" id="tabNavOffers">
+        <i data-lucide="gift"></i>
+        <span>Ofertas</span>
+      </button>
     </div>
   </main>
 
@@ -1843,11 +2013,6 @@
       lucide.createIcons();
     }
 
-    // Cashier Verification Action
-    const authForm = document.getElementById("cajeroLoginForm");
-    const authErrorAlert = document.getElementById("authErrorAlert");
-    const btnSubmitAuth = document.getElementById("btnSubmitAuth");
-
     authForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       authErrorAlert.style.display = "none";
@@ -1868,7 +2033,8 @@
         cajeroAuthCard.style.display = "none";
         cajeroScannerCard.style.display = "flex";
         
-        startScanner();
+        // Go to Panel Tab (do NOT auto-start camera)
+        showStaffTab('panel');
       } else {
         btnSubmitAuth.disabled = false;
         btnSubmitAuth.innerHTML = `<i data-lucide="key-round"></i> [ /> INGRESAR ]`;
@@ -1878,6 +2044,263 @@
         lucide.createIcons();
       }
     });
+
+    // Merchant Command Center State Logic
+    function showStaffTab(tabName) {
+      document.querySelectorAll(".staff-tab-view").forEach(view => {
+        view.style.display = "none";
+      });
+      document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      
+      // Stop scanner camera streams if active
+      stopScanner();
+      
+      if (tabName === 'panel') {
+        document.getElementById("staffTabPanel").style.display = "flex";
+        document.getElementById("tabNavPanel").classList.add("active");
+        updateTelemetryMetrics();
+      } else if (tabName === 'scanner') {
+        document.getElementById("staffTabScanner").style.display = "flex";
+        document.getElementById("tabNavScanner").classList.add("active");
+        startScanner();
+      } else if (tabName === 'offers') {
+        document.getElementById("staffTabOffers").style.display = "flex";
+        document.getElementById("tabNavOffers").classList.add("active");
+        renderOffersList();
+      }
+      lucide.createIcons();
+    }
+
+    document.getElementById("tabNavPanel").onclick = () => showStaffTab('panel');
+    document.getElementById("tabNavScanner").onclick = () => showStaffTab('scanner');
+    document.getElementById("tabNavOffers").onclick = () => showStaffTab('offers');
+
+    async function updateTelemetryMetrics() {
+      try {
+        const qCount = query(collection(db, "clientes_fidelizados"), where("idNegocio", "==", bizId));
+        const snapCount = await getDocs(qCount);
+        const registeredUserCount = snapCount.size;
+        
+        let userLimit = Infinity;
+        let promoLimit = Infinity;
+        if (businessDoc.planSuscripcion === "Piquín") {
+          userLimit = 10;
+          promoLimit = 4;
+        } else if (businessDoc.planSuscripcion === "Chipotle") {
+          userLimit = 100;
+          promoLimit = 85;
+        }
+        
+        const limitStr = userLimit === Infinity ? "Sin Límite" : userLimit;
+        document.getElementById("metricClients").textContent = `${registeredUserCount} / ${limitStr}`;
+        
+        let offersArray = [];
+        if (Array.isArray(businessDoc.configuracionOfertas)) {
+          offersArray = businessDoc.configuracionOfertas;
+        } else if (businessDoc.configuracionOfertas && businessDoc.configuracionOfertas.descripcionPremio) {
+          offersArray = [businessDoc.configuracionOfertas];
+        }
+        
+        const promoLimitStr = promoLimit === Infinity ? "Sin Límite" : promoLimit;
+        document.getElementById("metricOffers").textContent = `${offersArray.length} / ${promoLimitStr}`;
+        document.getElementById("metricCanjes").textContent = businessDoc.totalCanjes || 0;
+        
+        // Progress bar limits
+        const pct = userLimit === Infinity ? 0 : Math.min((registeredUserCount / userLimit) * 100, 100);
+        const limitProgressBarFill = document.getElementById("limitProgressBarFill");
+        document.getElementById("limitPercentText").textContent = `${Math.round(pct)}%`;
+        limitProgressBarFill.style.width = `${pct}%`;
+        
+        if (pct >= 90) {
+          limitProgressBarFill.style.backgroundColor = "var(--error-glow)";
+          document.getElementById("limitUpsellContainer").style.display = "block";
+        } else {
+          limitProgressBarFill.style.backgroundColor = "var(--primary-color)";
+          document.getElementById("limitUpsellContainer").style.display = "none";
+        }
+      } catch (e) {
+        console.error("Error updating telemetry:", e);
+      }
+    }
+
+    function renderOffersList() {
+      const listContainer = document.getElementById("offersListContainer");
+      listContainer.innerHTML = "";
+      
+      let offersArray = [];
+      if (Array.isArray(businessDoc.configuracionOfertas)) {
+        offersArray = businessDoc.configuracionOfertas;
+      } else if (businessDoc.configuracionOfertas && businessDoc.configuracionOfertas.descripcionPremio) {
+        offersArray = [{
+          id: "default_promo",
+          descripcionPremio: businessDoc.configuracionOfertas.descripcionPremio,
+          visitasRequeridasParaPremio: businessDoc.configuracionOfertas.visitasRequeridasParaPremio || 10
+        }];
+      }
+      
+      offersArray.forEach((promo, index) => {
+        const promoDiv = document.createElement("div");
+        promoDiv.style.cssText = "background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;";
+        
+        promoDiv.innerHTML = `
+          <div style="flex: 1; text-align: left;">
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-color);">${promo.descripcionPremio}</div>
+            <div style="font-size: 0.8rem; color: var(--sub-text); margin-top: 2px;">${promo.visitasRequeridasParaPremio || 10} visitas requeridas</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="edit-promo-btn" data-index="${index}" style="background: none; border: none; color: var(--sub-text); cursor: pointer; padding: 4px;" title="Editar"><i data-lucide="edit-2" style="width: 16px; height: 16px;"></i></button>
+            <button class="delete-promo-btn" data-index="${index}" style="background: none; border: none; color: var(--error-glow); cursor: pointer; padding: 4px;" title="Eliminar"><i data-lucide="trash-2" style="width: 16px; height: 16px;"></i></button>
+          </div>
+        `;
+        
+        listContainer.appendChild(promoDiv);
+      });
+
+      // Bind click events
+      listContainer.querySelectorAll(".edit-promo-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = parseInt(btn.getAttribute("data-index"));
+          const promo = offersArray[idx];
+          openOfferForm(promo, idx);
+        });
+      });
+      
+      listContainer.querySelectorAll(".delete-promo-btn").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          if (confirm("¿Estás seguro de eliminar esta oferta?")) {
+            const idx = parseInt(btn.getAttribute("data-index"));
+            offersArray.splice(idx, 1);
+            await saveOffersToFirestore(offersArray);
+          }
+        });
+      });
+      
+      lucide.createIcons();
+
+      // Control create button state and display limits
+      let promoLimit = Infinity;
+      if (businessDoc.planSuscripcion === "Piquín") {
+        promoLimit = 4;
+      } else if (businessDoc.planSuscripcion === "Chipotle") {
+        promoLimit = 85;
+      }
+      
+      const btnOpenCreateOffer = document.getElementById("btnOpenCreateOffer");
+      if (offersArray.length >= promoLimit) {
+        btnOpenCreateOffer.disabled = true;
+        btnOpenCreateOffer.textContent = "[ LÍMITE ALCANZADO ]";
+        btnOpenCreateOffer.style.background = "var(--input-border)";
+        btnOpenCreateOffer.style.color = "var(--sub-text)";
+      } else {
+        btnOpenCreateOffer.disabled = false;
+        btnOpenCreateOffer.textContent = "[ + CREAR NUEVA OFERTA ]";
+        btnOpenCreateOffer.style.background = "var(--primary-color)";
+        btnOpenCreateOffer.style.color = "#ffffff";
+      }
+    }
+
+    function openOfferForm(promo = null, index = null) {
+      const formPanel = document.getElementById("offerFormPanel");
+      const formTitle = document.getElementById("offerFormTitle");
+      const formId = document.getElementById("offerFormId");
+      const formDesc = document.getElementById("offerFormDesc");
+      const formVisits = document.getElementById("offerFormVisits");
+      
+      formPanel.style.display = "flex";
+      
+      if (promo) {
+        formTitle.textContent = "Editar Oferta";
+        formId.value = index !== null ? index : "";
+        formDesc.value = promo.descripcionPremio || "";
+        formVisits.value = promo.visitasRequeridasParaPremio || 10;
+      } else {
+        formTitle.textContent = "Nueva Oferta";
+        formId.value = "";
+        formDesc.value = "";
+        formVisits.value = 10;
+      }
+      
+      lucide.createIcons();
+    }
+
+    async function saveOffersToFirestore(newOffersArray) {
+      loadingOverlay.style.display = "flex";
+      try {
+        const bizRef = doc(db, "negocios", bizId);
+        await updateDoc(bizRef, {
+          configuracionOfertas: newOffersArray
+        });
+        // Update local state
+        businessDoc.configuracionOfertas = newOffersArray;
+        
+        // Re-render
+        await updateTelemetryMetrics();
+        renderOffersList();
+        
+        document.getElementById("offerFormPanel").style.display = "none";
+      } catch (e) {
+        alert("Error al guardar ofertas: " + e.message);
+      } finally {
+        loadingOverlay.style.display = "none";
+      }
+    }
+
+    document.getElementById("btnOpenCreateOffer").onclick = () => {
+      openOfferForm();
+    };
+    
+    document.getElementById("btnCancelOffer").onclick = () => {
+      document.getElementById("offerFormPanel").style.display = "none";
+    };
+    
+    document.getElementById("btnSaveOffer").onclick = async () => {
+      const desc = document.getElementById("offerFormDesc").value.trim();
+      const visits = parseInt(document.getElementById("offerFormVisits").value);
+      const indexStr = document.getElementById("offerFormId").value;
+      
+      if (!desc || isNaN(visits) || visits <= 0) {
+        alert("Por favor completa los campos correctamente.");
+        return;
+      }
+      
+      let offersArray = [];
+      if (Array.isArray(businessDoc.configuracionOfertas)) {
+        offersArray = [...businessDoc.configuracionOfertas];
+      } else if (businessDoc.configuracionOfertas && businessDoc.configuracionOfertas.descripcionPremio) {
+        offersArray = [{
+          id: "default_promo",
+          descripcionPremio: businessDoc.configuracionOfertas.descripcionPremio,
+          visitasRequeridasParaPremio: businessDoc.configuracionOfertas.visitasRequeridasParaPremio || 10
+        }];
+      }
+      
+      const newPromo = {
+        id: indexStr !== "" ? offersArray[parseInt(indexStr)].id || `promo_${Date.now()}` : `promo_${Date.now()}`,
+        descripcionPremio: desc,
+        visitasRequeridasParaPremio: visits
+      };
+      
+      if (indexStr !== "") {
+        offersArray[parseInt(indexStr)] = newPromo;
+      } else {
+        // Check limits before adding
+        let promoLimit = Infinity;
+        if (businessDoc.planSuscripcion === "Piquín") {
+          promoLimit = 4;
+        } else if (businessDoc.planSuscripcion === "Chipotle") {
+          promoLimit = 85;
+        }
+        if (offersArray.length >= promoLimit) {
+          alert("Has alcanzado el límite de ofertas permitido por tu plan.");
+          return;
+        }
+        offersArray.push(newPromo);
+      }
+      
+      await saveOffersToFirestore(offersArray);
+    };
 
     // Scanner script loading triggers
     function loadScannerLibrary() {
@@ -2058,9 +2481,21 @@
 
       const clientData = clientSnap.data();
 
+      // Reset client's points to 0
       await updateDoc(clientRef, {
         puntosAcumulados: 0
       });
+
+      // Increment totalCanjes in businesses doc
+      try {
+        const bizDocRef = doc(db, "negocios", bizId);
+        await updateDoc(bizDocRef, {
+          totalCanjes: increment(1)
+        });
+        businessDoc.totalCanjes = (businessDoc.totalCanjes || 0) + 1;
+      } catch (err) {
+        console.error("Failed to increment totalCanjes:", err);
+      }
 
       showScannerNotification(
         "gift",
