@@ -8,7 +8,7 @@ $files = @(
     "como-funciona.html"
 )
 
-$menuOverlayHTML = @'
+$menuOverlayHTML = @"
 
     <!-- Fullscreen Menu Overlay -->
     <div class="menu-overlay">
@@ -21,7 +21,7 @@ $menuOverlayHTML = @'
             <li><a href="index.html#proyectos">Proyectos</a></li>
         </ul>
     </div>
-'@
+"@
 
 function Get-ConsistentNavLinks($activePage) {
     $activeClassIndex = ""
@@ -31,6 +31,8 @@ function Get-ConsistentNavLinks($activePage) {
     if ($activePage -eq "nosotros") { $activeClassNosotros = ' class="active"' }
     if ($activePage -eq "artesanias") { $activeClassArtesanias = ' class="active"' }
 
+    $artesaniasText = "Artesan" + [char]0xED + "as"
+
     $links = @"
 <ul class="nav-links">
                 <li><a href="index.html"$activeClassIndex>
@@ -39,7 +41,7 @@ function Get-ConsistentNavLinks($activePage) {
                     <span class="nav-text">Inicio</span>
                 </a></li>
                 <li><a href="nosotros.html"$activeClassNosotros><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
-                <li><a href="artesanias.html"$activeClassArtesanias><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+                <li><a href="artesanias.html"$activeClassArtesanias><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>$artesaniasText</a></li>
             </ul>
             <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
             <button class="hamburger-btn" aria-label="Menu">
@@ -49,7 +51,7 @@ function Get-ConsistentNavLinks($activePage) {
             </button>
         </div>
     </nav>
-$menuOverlayHTML
+`$menuOverlayHTML
 "@
     return $links
 }
@@ -63,7 +65,7 @@ foreach ($file in $files) {
         $newNav = Get-ConsistentNavLinks $activePage
         
         $content = [System.Text.RegularExpressions.Regex]::Replace($content, $pattern, $newNav)
-        [System.IO.File]::WriteAllText((Resolve-Path $file), $content, [System.Text.Encoding]::UTF8)
+        [System.IO.File]::WriteAllText((Resolve-Path $file), $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "Updated $file"
     }
 }

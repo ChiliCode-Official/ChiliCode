@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <!-- Google tag (gtag.js) -->
@@ -11,8 +11,9 @@
       gtag('config', 'G-C3EVX8YWP5');
     </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>¿Cómo Funciona Chili Loyalty? | ChilliCode</title>
+
     
     <!-- Meta tags for SEO -->
     <meta name="description" content="Chili Loyalty - El sistema multi-inquilino de tarjetas de fidelización digital para tu negocio por ChilliCode.">
@@ -607,6 +608,231 @@
             top: 0;
             left: 0;
         }
+
+        /* 3D Floating Smartphone Mockups */
+        .hero-mockups {
+            display: flex;
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            width: 100%;
+        }
+
+        .phone-mockup {
+            width: 250px;
+            height: 500px;
+            border-radius: 40px;
+            background: #18181b;
+            border: 8px solid #27272a;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 2px rgba(255,255,255,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .phone-mockup.wallet-phone {
+            transform: rotateY(-12deg) rotateX(8deg);
+            animation: floatPhoneWallet 6s infinite ease-in-out alternate;
+        }
+
+        .phone-mockup.scanner-phone {
+            transform: rotateY(12deg) rotateX(8deg);
+            animation: floatPhoneScanner 6s infinite ease-in-out alternate;
+            animation-delay: -3s;
+        }
+
+        @keyframes floatPhoneWallet {
+            0% { transform: rotateY(-12deg) rotateX(8deg) translateY(0); }
+            100% { transform: rotateY(-8deg) rotateX(6deg) translateY(-20px); }
+        }
+
+        @keyframes floatPhoneScanner {
+            0% { transform: rotateY(12deg) rotateX(8deg) translateY(0); }
+            100% { transform: rotateY(8deg) rotateX(6deg) translateY(-20px); }
+        }
+
+        @keyframes floatPhoneMobile {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: #09090b;
+            padding: 1.25rem;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: left;
+        }
+
+        .mockup-wallet-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color, #ff3b30);
+            letter-spacing: 0.5px;
+        }
+
+        .mockup-stamp-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .mockup-stamp-slot {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1px dashed rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            font-weight: 700;
+        }
+
+        .mockup-stamp-slot.active {
+            border: 1px solid var(--primary-color, #ff3b30);
+            background: rgba(255,59,48,0.12);
+            color: var(--primary-color, #ff3b30);
+        }
+
+        .mockup-qr {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 12px;
+            align-self: center;
+            padding: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .mockup-qr img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .mockup-scanner-viewfinder {
+            flex: 1;
+            border: 2px dashed var(--emerald, #00A86B);
+            border-radius: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 168, 107, 0.03);
+            overflow: hidden;
+        }
+
+        .mockup-scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--emerald, #00A86B);
+            box-shadow: 0 0 8px var(--emerald, #00A86B);
+            top: 0;
+            animation: scanLineMove 2.5s infinite linear;
+        }
+
+        @keyframes scanLineMove {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        @media (max-width: 992px) {
+            .section.hero .container {
+                grid-template-columns: 1fr !important;
+                text-align: center;
+                gap: 4rem !important;
+            }
+            .section.hero .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-mockups {
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-mockups {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .phone-mockup {
+                transform: none !important;
+                animation: floatPhoneMobile 4s infinite ease-in-out alternate !important;
+            }
+            .phone-mockup.scanner-phone {
+                animation-delay: -2s !important;
+            }
+        }
+
+        /* Floating background orbs for PC viewports */
+        .bg-orb {
+            display: none;
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @media (min-width: 769px) {
+            .bg-orb {
+                display: block;
+            }
+            .orb-1 {
+                width: 450px;
+                height: 450px;
+                background: radial-gradient(circle, rgba(215, 40, 47, 0.06) 0%, transparent 75%);
+                top: 5%;
+                left: -5%;
+                animation: floatOrb1 20s infinite ease-in-out alternate;
+            }
+            .orb-2 {
+                width: 550px;
+                height: 550px;
+                background: radial-gradient(circle, rgba(0, 168, 107, 0.05) 0%, transparent 75%);
+                bottom: 5%;
+                right: -5%;
+                animation: floatOrb2 25s infinite ease-in-out alternate;
+            }
+            .orb-3 {
+                width: 350px;
+                height: 350px;
+                background: radial-gradient(circle, rgba(230, 190, 138, 0.05) 0%, transparent 75%);
+                top: 40%;
+                left: 35%;
+                animation: floatOrb3 22s infinite ease-in-out alternate;
+            }
+        }
+
+        @keyframes floatOrb1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 40px) scale(1.1); }
+        }
+        @keyframes floatOrb2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-90px, -60px) scale(0.95); }
+        }
+        @keyframes floatOrb3 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, -80px) scale(1.05); }
+        }
     </style>
 </head>
 
@@ -625,7 +851,7 @@
                     <span class="nav-text">Inicio</span>
                 </a></li>
                 <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
-                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>ArtesanÃ­as</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
             </ul>
             <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
             <button class="hamburger-btn" aria-label="Menu">
@@ -635,18 +861,7 @@
             </button>
         </div>
     </nav>
-
-    <!-- Fullscreen Menu Overlay -->
-    <div class="menu-overlay">
-        <ul class="menu-links">
-            <li><a href="experiencia.html">Experiencia</a></li>
-            <li><a href="plan-landing.html">Landing Pages</a></li>
-            <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
-            <li><a href="mantenimientos.html">Mantenimiento</a></li>
-            <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
-            <li><a href="index.html#proyectos">Proyectos</a></li>
-        </ul>
-    </div><!-- Fullscreen Menu Overlay (reconstructed dynamically by update_nav.js) -->
+$menuOverlayHTML<!-- Fullscreen Menu Overlay (reconstructed dynamically by update_nav.js) -->
     <div class="menu-overlay">
         <ul class="menu-links">
             <li><a href="experiencia.html">Experiencia</a></li>
@@ -658,17 +873,73 @@
         </ul>
     </div>
 
+    <!-- Floating background orbs for PC viewports -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="section hero" style="min-height: 80vh; padding: 12rem 0 6rem 0;">
-            <div class="container">
+        <section class="section hero" style="min-height: auto; padding: 12rem 0 6rem 0; overflow: hidden;">
+            <div class="container" style="display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 4rem;">
                 <div class="content-wrapper">
                     <span class="badge">CHILI LOYALTY ECOSYSTEM</span>
-                    <h1 class="title" style="font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1.0; margin-bottom: 1.5rem;">Fidelización <br><span>Digital</span> sin fricciones.</h1>
+                    <h1 class="title" style="font-size: clamp(3rem, 5.5vw, 5rem); line-height: 1.0; margin-bottom: 1.5rem;">Fidelización <br><span>Digital</span> sin fricciones.</h1>
                     <p class="subtitle" style="margin-bottom: 2rem; max-width: 580px;">Sustituye las obsoletas tarjetas de cartón por una billetera digital PWA instantánea. Sin descargas pesadas en la App Store y sin costos de almacenamiento complejos.</p>
+                    <a href="#pricing" class="cta-btn-glowing" style="display: inline-block;">Ver Planes de Suscripción</a>
+                </div>
+                
+                <!-- 3D Smartphone Floating Mockups -->
+                <div class="hero-mockups">
+                    <!-- Client Wallet Mockup -->
+                    <div class="phone-mockup wallet-phone">
+                        <div class="phone-screen">
+                            <div class="mockup-wallet-logo">
+                                <span style="font-size: 1.25rem;">🌶️</span> CHILI WALLET
+                            </div>
+                            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 16px;">
+                                <div style="font-size: 0.65rem; color: #888; font-weight:700; text-transform:uppercase; margin-bottom:4px;">PROGRESO DE SELLOS</div>
+                                <div class="mockup-stamp-grid">
+                                    <div class="mockup-stamp-slot active"><span style="font-size:0.6rem;">🔥</span></div>
+                                    <div class="mockup-stamp-slot active"><span style="font-size:0.6rem;">🔥</span></div>
+                                    <div class="mockup-stamp-slot active"><span style="font-size:0.6rem;">🔥</span></div>
+                                    <div class="mockup-stamp-slot active"><span style="font-size:0.6rem;">🔥</span></div>
+                                    <div class="mockup-stamp-slot">5</div>
+                                    <div class="mockup-stamp-slot">6</div>
+                                    <div class="mockup-stamp-slot">7</div>
+                                    <div class="mockup-stamp-slot">8</div>
+                                    <div class="mockup-stamp-slot">9</div>
+                                    <div class="mockup-stamp-slot">10</div>
+                                </div>
+                            </div>
+                            <div class="mockup-qr">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=CHILI_LOYALTY_MOCK" alt="QR Wallet">
+                            </div>
+                            <div style="font-size: 0.65rem; color: #888; text-align: center;">Muestra este código al cajero para registrar tu visita.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Staff Scanner Mockup -->
+                    <div class="phone-mockup scanner-phone">
+                        <div class="phone-screen">
+                            <div class="mockup-wallet-logo" style="color: var(--emerald, #00A86B);">
+                                <span style="font-size: 1.25rem;">🌶️</span> POS SCANNER
+                            </div>
+                            <div class="mockup-scanner-viewfinder">
+                                <div class="mockup-scanner-line"></div>
+                                <div style="border: 2px dashed rgba(255,255,255,0.2); width: 100px; height: 100px; border-radius: 12px; display: flex; align-items:center; justify-content:center;">
+                                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">Escaneando...</span>
+                                </div>
+                            </div>
+                            <div style="background: rgba(0, 168, 107, 0.08); border: 1px solid rgba(0, 168, 107, 0.2); padding: 10px; border-radius: 12px; font-size: 0.65rem; color: var(--emerald, #00A86B); text-align: center; font-weight:700;">
+                                [ SCANNER ACTIVO ]
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
 
         <!-- Dynamic Explanations -->
         <section class="section" style="padding: 6rem 0; min-height: auto;">
@@ -749,9 +1020,23 @@
             </div>
         </section>
 
+        <!-- Call To Action -->
+        <section class="trial-cta">
+            <div class="container">
+                <div class="trial-cta-container">
+                    <h2 class="trial-title">Despliega tu sistema en <span>segundos</span>.</h2>
+                    <p class="trial-desc">Inicia hoy mismo sin costos ocultos, sin comisiones bancarias y completamente gratis bajo el plan de suscripción Chili Piquín.</p>
+                    <a href="dashboard.html" class="cta-btn-glowing">
+                        [ INICIAR PRUEBA GRATIS ]
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Pricing Section -->
         <section id="pricing" class="pricing-section">
             <div class="container">
+
                 <div class="section-header">
                     <span class="badge">NUESTROS PLANES</span>
                     <h2 class="section-title" style="font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -1px; margin-bottom: 1.5rem;">Suscripciones simples y transparentes.</h2>
@@ -896,18 +1181,6 @@
             </div>
         </section>
 
-        <!-- Call To Action -->
-        <section class="trial-cta">
-            <div class="container">
-                <div class="trial-cta-container">
-                    <h2 class="trial-title">Despliega tu sistema en <span>segundos</span>.</h2>
-                    <p class="trial-desc">Inicia hoy mismo sin costos ocultos, sin comisiones bancarias y completamente gratis bajo el plan de suscripción Chili Piquín.</p>
-                    <a href="dashboard.html" class="cta-btn-glowing">
-                        [ INICIAR PRUEBA GRATIS ]
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
 
 
@@ -951,15 +1224,18 @@
                 prices.forEach(price => {
                     const monthly = price.getAttribute('data-monthly');
                     const annual = price.getAttribute('data-annual');
-                    const period = price.nextElementSibling;
+                    
+                    const card = price.closest('.pricing-card');
+                    const period = card ? card.querySelector('.price-period') : null;
+                    
                     if (isAnnual) {
                         price.textContent = annual;
-                        if (period && period.classList.contains('price-period')) {
+                        if (period) {
                             period.textContent = price.getAttribute('data-annual-label') || '/año';
                         }
                     } else {
                         price.textContent = monthly;
-                        if (period && period.classList.contains('price-period')) {
+                        if (period) {
                             period.textContent = '/mes';
                         }
                     }

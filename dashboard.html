@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chili Loyalty | Panel de Registro</title>
   
   <!-- Space Grotesk Font -->
@@ -436,17 +436,102 @@
       }
     }
 
-    @media (max-width: 480px) {
-      .pwa-install-btn {
-        bottom: 16px;
-        right: 16px;
         left: 16px;
         justify-content: center;
+      }
+    }
+
+    /* Mobile-First native-feel adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 0;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+      
+      .app-card {
+        margin: 0;
+        width: 100%;
+        max-width: 100% !important;
+        border-radius: 24px 24px 0 0 !important;
+        border-bottom: none !important;
+        padding: 32px 24px 48px 24px !important;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.12) !important;
+        animation: bottomSheetSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      @keyframes bottomSheetSlide {
+        to { transform: translateY(0); }
+      }
+
+      /* Touch Target adjustments for Thumb Zone */
+      .btn, .form-input {
+        min-height: 48px;
+      }
+
+      .form-input {
+        padding: 16px !important;
+        font-size: 1rem !important;
+      }
+    }
+
+    /* Desktop Motion Graphics (Empty space filler) */
+    .bg-orb {
+      display: none;
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    @media (min-width: 769px) {
+      .bg-orb {
+        display: block;
+      }
+      .orb-1 {
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(255, 59, 48, 0.08) 0%, transparent 75%);
+        top: 10%;
+        left: 5%;
+        animation: floatOrb1 20s infinite ease-in-out alternate;
+      }
+      .orb-2 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 75%);
+        bottom: 10%;
+        right: 5%;
+        animation: floatOrb2 25s infinite ease-in-out alternate;
+      }
+      .orb-3 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(230, 190, 138, 0.06) 0%, transparent 75%);
+        top: 40%;
+        left: 35%;
+        animation: floatOrb3 22s infinite ease-in-out alternate;
+      }
+
+      /* Desktop layout enhancements to prevent stretching */
+      .app-card {
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        background: rgba(255, 255, 255, 0.55) !important;
+        box-shadow: 0 30px 70px rgba(0,0,0,0.06) !important;
+      }
+      body.dark .app-card {
+        background: rgba(15, 15, 20, 0.75) !important;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Background Orbs for PC viewports -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
 
   <!-- Theme Toggle Button -->
   <button class="theme-toggle" id="themeToggleBtn" aria-label="Cambiar tema">
