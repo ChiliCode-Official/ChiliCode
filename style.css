@@ -74,6 +74,12 @@ model-viewer {
     model-viewer {
         transform: scale(0.5);
     }
+    .model-container {
+        z-index: 1 !important;
+    }
+    #skull-model {
+        transform: scale(0.35) !important;
+    }
 }
 
 /* --- Unified Pill Navigation --- */
@@ -1056,6 +1062,16 @@ model-viewer {
     }
     .project-block.centered-full {
         min-height: 50vh;
+    }
+    
+    .mexicana-wrapper {
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 1rem 0 !important;
+        overflow: visible !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
     }
 } /* END @media (max-width: 768px) */
 

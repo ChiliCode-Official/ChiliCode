@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
+        .container {
+            max-width: 1400px;
+            width: 95%;
+        }
+
         .mantenimiento-hero {
             padding-top: 150px;
             padding-bottom: 50px;
@@ -53,17 +58,23 @@
 
         .mex-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
             position: relative;
             z-index: 2;
+        }
+
+        @media (max-width: 1200px) {
+            .mex-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .mex-card {
             background: #ffffff;
             border: 2px solid rgba(0, 0, 0, 0.05);
             border-radius: 32px;
-            padding: 3rem 2.5rem;
+            padding: 3rem 1.5rem;
             position: relative;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
@@ -126,7 +137,7 @@
         }
 
         .support-list li::before {
-            content: '�o"';
+            content: '✓';
             color: var(--black);
             font-weight: 900;
             font-size: 1.1rem;
@@ -137,7 +148,7 @@
         .theme-red .support-list li::before { color: var(--mex-red); }
 
         .support-list.negative-list li { color: var(--gray); }
-        .support-list.negative-list li::before { content: '�o.'; color: var(--mex-red); }
+        .support-list.negative-list li::before { content: '✗'; color: var(--mex-red); }
 
         .mex-investment {
             font-family: 'Outfit', sans-serif;
@@ -176,6 +187,9 @@
     <!-- Navigation -->
     <nav class="pill-nav">
         <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html">
                     <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -183,7 +197,7 @@
                     <span class="nav-text">Inicio</span>
                 </a></li>
                 <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
-                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesan�as</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
             </ul>
             <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20tus%20servicios%20en%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
             <button class="hamburger-btn" aria-label="Menu">
@@ -197,7 +211,6 @@
     <!-- Fullscreen Menu Overlay -->
     <div class="menu-overlay">
         <ul class="menu-links">
-            <li><a href="experiencia.html">Experiencia</a></li>
             <li class="has-details">
                 <details>
                     <summary>Planes Web</summary>
@@ -212,7 +225,7 @@
             <li><a href="mantenimientos.html">Mantenimiento</a></li>
             <li><a href="chili-mods.html">Chili Mods</a></li>
             <li><a href="nosotros.html#ceo-section">El Fundador</a></li>
-            <li><a href="index.html#proyectos">Proyectos</a></li>
+            <li><a href="nosotros.html#experiencia">Proyectos</a></li>
         </ul>
     </div>
 
@@ -225,13 +238,13 @@
 
         <div class="mexicana-wrapper">
             <!-- Decoraciones Flotantes -->
-            <div class="floating-element float-1">�~�️</div>
-            <div class="floating-element float-2">�YO�️</div>
-            <div class="floating-element float-3">�YO�️</div>
-            <div class="floating-element float-4">�~�️</div>
-            <div class="floating-element float-5">�Y"�</div>
+            <div class="floating-element float-1">⚠️</div>
+            <div class="floating-element float-2">🌶️</div>
+            <div class="floating-element float-3">🌶️</div>
+            <div class="floating-element float-4">⚠️</div>
+            <div class="floating-element float-5">💥</div>
 
-            <div class="mex-grid">
+            <div class="mex-grid horizontal-scroll-mobile">
                 <!-- Pimienta -->
                 <div class="mex-card" style="border-color: rgba(0,0,0,0.1);">
                     <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--gray)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg> Pimienta</h3>
@@ -252,11 +265,11 @@
                 <!-- Básico -->
                 <div class="mex-card theme-emerald">
                     <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Seguro Verde</h3>
-                    <p class="mex-desc">Solo necesitas que tu sitio esté siempre en línea, seguro y con el dominio renovado.</p>
+                    <p class="mex-desc">Solo necesitas que tu sitio está siempre en línea, seguro y con el dominio renovado.</p>
                     <ul class="support-list">
                         <li>Hosting activo en GitHub Pages</li>
                         <li>Gestión de renovación de dominio (el costo del dominio depende de la personalización, se cobra extra o se añade si ya tienen uno)</li>
-                        <li>Actualizaciones de seguridad y dependencias �?" trimestralmente</li>
+                        <li>Actualizaciones de seguridad y dependencias — trimestralmente</li>
                         <li>Monitoreo de uptime (si cae, se atiende de inmediato)</li>
                         <li>SSL activo y renovado automáticamente</li>
                         <li>1 ronda de cambios mensuales</li>
@@ -293,7 +306,7 @@
                 <!-- Pro -->
                 <div class="mex-card theme-red">
                     <h3><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Socio Molcajete</h3>
-                    <p class="mex-desc">Para sitios que evolucionan activamente �?" nuevas secciones, actualizaciones frecuentes y revisión estratégica.</p>
+                    <p class="mex-desc">Para sitios que evolucionan activamente — nuevas secciones, actualizaciones frecuentes y revisión estratégica.</p>
                     <ul class="support-list">
                         <li><strong>Todo lo del Seguro Salsa Roja</strong></li>
                         <li>Agregar nuevas secciones a páginas existentes</li>
@@ -301,7 +314,7 @@
                         <li>Actualizar o ajustar integraciones existentes</li>
                         <li>Ajustes de SEO on-page (meta tags, contenido, estructura)</li>
                         <li>Optimizaciones de velocidad y rendimiento</li>
-                        <li>Entrega en hasta 1 día hábil (prioridad)</li>
+                        <li>Entrega en hasta 1 días hábil (prioridad)</li>
                         <li>Google Analytics a nuevas paginas actualizado</li>
                         <li>1 mes extra de chat gpt + 1 año de canva (añadidos extra a tu paquete)</li>
                     </ul>
@@ -309,7 +322,7 @@
                     <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20el%20plan%20Socio%20Molcajete." target="_blank" class="btn btn-primary" style="margin-top: 1.5rem; text-align: center; border-radius: 100px; padding: 12px; background: var(--mex-red);">Solicitar Plan</a>
                 </div>
             </div>
-            <div class="swipe-indicator">�?� Desliza hacia la derecha o izquierda para ver más �?'</div>
+            <div class="swipe-indicator">↔️ Desliza hacia la derecha o izquierda para ver más ↔️</div>
         </div>
 
     </main>
