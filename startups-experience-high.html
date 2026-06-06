@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C3EVX8YWP5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-C3EVX8YWP5');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startups de Alto Impacto | ChilliCode Agency</title>
+    <meta name="description" content="ChilliCode no solo construye sitios web — lanzamos startups. Conoce GoWash y Shift: productos SaaS reales que están transformando industrias en México.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/QTzmlBC.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Startups de Alto Impacto | ChilliCode Agency">
+    <meta property="og:description" content="GoWash y Shift: SaaS de vanguardia construidos desde cero por ChilliCode para digitalizar industrias en México.">
+    <meta property="og:image" content="https://i.imgur.com/QTzmlBC.png">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+        :root {
+            --gowash-orange: #FF7F00;
+            --gowash-amber: #D69E2E;
+            --shift-teal: #00C896;
+            --shift-yellow: #FFDE59;
+        }
+
+        html, body {
+            overflow-x: hidden;
+        }
+
+        /* ===== HERO ===== */
+        .startups-hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            animation: drift 12s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--gowash-orange);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--shift-teal);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -6s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--emerald);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -3s;
+            opacity: 0.12;
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(60px, 40px) scale(1.1); }
+        }
+
+        /* Grid pattern overlay */
+        .hero-canvas::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        .startups-hero .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 14rem 2rem 8rem;
+        }
+
+        .startups-hero .badge {
+            background: rgba(255,127,0,0.15);
+            color: var(--gowash-orange);
+            border: 1px solid rgba(255,127,0,0.3);
+        }
+
+        .startups-hero .title {
+            color: #FFFFFF;
+            letter-spacing: -4px;
+            font-size: clamp(3rem, 9vw, 7rem);
+            line-height: 0.95;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+
+        .startups-hero .title .accent-orange { color: var(--gowash-orange); }
+        .startups-hero .title .accent-teal   { color: var(--shift-teal); }
+
+        .startups-hero .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            margin-top: 5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 3rem;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--gowash-orange), var(--shift-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat .stat-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 0.4rem;
+        }
+
+        /* ===== WHAT WE BUILD section ===== */
+        .what-we-build {
+            background: #FFFFFF;
+            padding: 10rem 0;
+            text-align: center;
+        }
+
+        .what-we-build .section-title {
+            color: var(--black);
+        }
+
+        .build-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .build-pill {
+            padding: 0.8rem 1.8rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .build-pill.orange {
+            border-color: var(--gowash-orange);
+            color: var(--gowash-orange);
+        }
+
+        .build-pill.teal {
+            border-color: var(--shift-teal);
+            color: var(--shift-teal);
+        }
+
+        .build-pill.emerald {
+            border-color: var(--emerald);
+            color: var(--emerald);
+        }
+
+        .build-pill:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+        }
+
+        /* ===== STARTUP SHOWCASE CARDS ===== */
+        .startups-showcase {
+            background: #050505;
+            padding: 8rem 0;
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .showcase-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-header p {
+            color: rgba(255,255,255,0.5);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* GOWASH CARD */
+        .startup-block {
+            max-width: 1200px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+        }
+
+        .startup-card {
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 900px) {
+            .startup-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* GoWash */
+        .startup-card.gowash {
+            background: linear-gradient(135deg, #1a0f00 0%, #0d0800 100%);
+            border: 1px solid rgba(255, 127, 0, 0.2);
+            box-shadow: 0 40px 100px rgba(255, 127, 0, 0.12);
+        }
+
+        .gowash-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--gowash-orange);
+            filter: blur(200px);
+            opacity: 0.12;
+            top: -100px;
+            right: -100px;
+            pointer-events: none;
+        }
+
+        /* Shift */
+        .startup-card.shift {
+            background: linear-gradient(135deg, #000e0b 0%, #000a08 100%);
+            border: 1px solid rgba(0, 200, 150, 0.2);
+            box-shadow: 0 40px 100px rgba(0, 200, 150, 0.12);
+        }
+
+        .shift-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--shift-teal);
+            filter: blur(200px);
+            opacity: 0.1;
+            bottom: -100px;
+            left: -100px;
+            pointer-events: none;
+        }
+
+        .startup-card-content {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .startup-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .startup-logo {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 14px;
+        }
+
+        .startup-brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: #FFFFFF;
+        }
+
+        .startup-industry-pill {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            width: fit-content;
+        }
+
+        .gowash .startup-industry-pill {
+            background: rgba(255,127,0,0.15);
+            color: var(--gowash-orange);
+            border: 1px solid rgba(255,127,0,0.3);
+        }
+
+        .shift .startup-industry-pill {
+            background: rgba(0,200,150,0.15);
+            color: var(--shift-teal);
+            border: 1px solid rgba(0,200,150,0.3);
+        }
+
+        .startup-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .startup-headline .hl-orange { color: var(--gowash-orange); }
+        .startup-headline .hl-teal { color: var(--shift-teal); }
+
+        .startup-desc {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 420px;
+        }
+
+        .startup-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .startup-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .gowash .feature-dot { background: var(--gowash-orange); }
+        .shift .feature-dot   { background: var(--shift-teal); }
+
+        .startup-cta-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-startup-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .gowash .btn-startup-primary {
+            background: var(--gowash-orange);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(255,127,0,0.35);
+        }
+
+        .gowash .btn-startup-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(255,127,0,0.5);
+        }
+
+        .shift .btn-startup-primary {
+            background: var(--shift-teal);
+            color: #050505;
+            box-shadow: 0 10px 30px rgba(0,200,150,0.35);
+        }
+
+        .shift .btn-startup-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,200,150,0.5);
+        }
+
+        .btn-startup-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+
+        .btn-startup-ghost:hover {
+            border-color: rgba(255,255,255,0.4);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Visual side of card */
+        .startup-card-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 2;
+            min-height: 400px;
+        }
+
+        .phone-mockup-container {
+            position: relative;
+            display: flex;
+            gap: -20px;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 3rem 2rem;
+            height: 100%;
+        }
+
+        .phone-frame {
+            width: 180px;
+            height: 360px;
+            border-radius: 32px;
+            border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+            background: #111;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05);
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .phone-frame:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .phone-frame:nth-child(1) {
+            transform: rotate(-6deg) translateY(20px);
+            z-index: 1;
+        }
+
+        .phone-frame:nth-child(1):hover {
+            transform: rotate(-6deg) translateY(10px) scale(1.05);
+        }
+
+        .phone-frame:nth-child(2) {
+            transform: rotate(4deg);
+            z-index: 2;
+            margin-left: -30px;
+        }
+
+        .phone-frame:nth-child(2):hover {
+            transform: rotate(4deg) translateY(-10px) scale(1.05);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* GoWash Phone Screen */
+        .gowash-screen {
+            background: linear-gradient(160deg, #0d0800, #1a1000);
+            height: 100%;
+            padding: 1rem 0.75rem;
+        }
+
+        .phone-notch {
+            width: 60px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin: 0 auto 1rem;
+        }
+
+        .gws-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gws-logo-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--gowash-orange);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gws-logo-icon svg {
+            width: 16px;
+            height: 16px;
+            color: white;
+        }
+
+        .gws-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: #FFFFFF;
+        }
+
+        .gws-stat-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .gws-stat {
+            background: rgba(255,127,0,0.12);
+            border: 1px solid rgba(255,127,0,0.2);
+            border-radius: 10px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .gws-stat-val {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--gowash-orange);
+        }
+
+        .gws-stat-lbl {
+            font-size: 0.5rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gws-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .gws-list-item {
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .gws-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gowash-orange);
+            flex-shrink: 0;
+        }
+
+        .gws-item-text {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Shift Phone Screen */
+        .shift-screen {
+            background: linear-gradient(160deg, #000a07, #000e0b);
+            height: 100%;
+            padding: 1rem 0.75rem;
+        }
+
+        .sft-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sft-logo-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--shift-teal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sft-logo-icon svg {
+            width: 16px;
+            height: 16px;
+            color: #050505;
+        }
+
+        .sft-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: #FFFFFF;
+        }
+
+        .sft-ticket {
+            background: rgba(0,200,150,0.1);
+            border: 1px solid rgba(0,200,150,0.2);
+            border-radius: 12px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sft-ticket-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--shift-teal);
+            line-height: 1;
+        }
+
+        .sft-ticket-label {
+            font-size: 0.5rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sft-ticket-divider {
+            border: none;
+            border-top: 1px dashed rgba(0,200,150,0.2);
+            margin: 0.5rem 0;
+        }
+
+        .sft-ticket-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sft-ticket-key {
+            font-size: 0.5rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .sft-ticket-val {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+        }
+
+        .sft-actions {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .sft-action-btn {
+            flex: 1;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 0.5rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sft-action-primary {
+            background: var(--shift-teal);
+            color: #050505;
+        }
+
+        .sft-action-ghost {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ===== WHY WE BUILD STARTUPS ===== */
+        .why-startups {
+            background: #FFFFFF;
+            padding: 10rem 0;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 5rem;
+        }
+
+        @media (max-width: 900px) {
+            .why-grid { grid-template-columns: 1fr; }
+        }
+
+        .why-card {
+            background: rgba(255,255,255,0.4);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: var(--radius-card);
+            padding: 3rem 2.5rem;
+            transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+        }
+
+        .why-card:hover {
+            transform: translateY(-8px);
+            background: #fff;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+        }
+
+        .why-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .why-card-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .why-card p {
+            color: var(--color-text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* ===== EXTRA SERVICES SECTION ===== */
+        .extra-services {
+            background: #050505;
+            padding: 10rem 0;
+        }
+
+        .extra-services .showcase-header h2 { color: #fff; }
+        .extra-services .showcase-header p { color: rgba(255,255,255,0.5); }
+
+        .services-extended-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .services-extended-grid { grid-template-columns: 1fr; }
+        }
+
+        .ext-service-card {
+            border-radius: 28px;
+            padding: 3rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ext-service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border-radius: 28px;
+        }
+
+        .ext-service-card.orange::before {
+            background: radial-gradient(circle at top left, rgba(255,127,0,0.08), transparent 70%);
+        }
+
+        .ext-service-card.teal::before {
+            background: radial-gradient(circle at top left, rgba(0,200,150,0.08), transparent 70%);
+        }
+
+        .ext-service-card.emerald-dark::before {
+            background: radial-gradient(circle at top left, rgba(0,168,107,0.08), transparent 70%);
+        }
+
+        .ext-service-card.red-dark::before {
+            background: radial-gradient(circle at top left, rgba(215,40,47,0.08), transparent 70%);
+        }
+
+        .ext-service-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .ext-service-card:hover::before { opacity: 1; }
+
+        .ext-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .ext-icon svg { width: 24px; height: 24px; }
+
+        .ext-icon.orange { background: rgba(255,127,0,0.12); color: var(--gowash-orange); }
+        .ext-icon.teal   { background: rgba(0,200,150,0.12); color: var(--shift-teal); }
+        .ext-icon.emerald-dark { background: rgba(0,168,107,0.12); color: var(--emerald); }
+        .ext-icon.red-dark { background: rgba(215,40,47,0.12); color: var(--red); }
+
+        .ext-service-card h3 {
+            font-size: 1.4rem;
+            color: #FFFFFF;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .ext-service-card p {
+            color: rgba(255,255,255,0.5);
+            line-height: 1.7;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ext-tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .ext-tag {
+            padding: 0.3rem 0.85rem;
+            border-radius: 100px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ext-tag.orange { background: rgba(255,127,0,0.12); color: var(--gowash-orange); }
+        .ext-tag.teal   { background: rgba(0,200,150,0.12); color: var(--shift-teal); }
+        .ext-tag.emerald-dark { background: rgba(0,168,107,0.12); color: var(--emerald); }
+        .ext-tag.red-dark { background: rgba(215,40,47,0.12); color: var(--red); }
+
+        /* ===== CONTACT CTA ===== */
+        .startups-cta {
+            background: #FFFFFF;
+            padding: 10rem 0;
+        }
+
+        .cta-card-dark {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #050505;
+            border-radius: 48px;
+            padding: 6rem 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card-dark::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gowash-orange), var(--shift-teal));
+            filter: blur(150px);
+            opacity: 0.12;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cta-card-dark h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #FFFFFF;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-card-dark h2 span {
+            background: linear-gradient(135deg, var(--gowash-orange), var(--shift-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-card-dark p {
+            color: rgba(255,255,255,0.5);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-cta-glow {
+            display: inline-block;
+            padding: 1.1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--gowash-orange), var(--shift-teal));
+            color: #fff;
+            box-shadow: 0 15px 40px rgba(255,127,0,0.3);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .btn-cta-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(255,127,0,0.45);
+        }
+
+        .btn-cta-outline-white {
+            display: inline-block;
+            padding: 1.1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta-outline-white:hover {
+            border-color: rgba(255,255,255,0.5);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .startup-card-content { padding: 2.5rem; }
+            .cta-card-dark { padding: 4rem 2rem; }
+            .hero-stats { gap: 2.5rem; }
+            .phone-mockup-container { padding: 2rem 1rem; }
+            .phone-frame { width: 140px; height: 280px; }
+        }
+
+        @media (max-width: 480px) {
+            .phone-frame { width: 120px; height: 240px; }
+            .startup-logo-wrap { flex-wrap: wrap; }
+        }
+
+        /* Scroll reveal classes */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="pill-nav">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="https://i.imgur.com/QTzmlBC.png" alt="ChilliCode Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">
+                    <svg viewBox="0 0 24 24" class="nav-icon-std"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <img src="https://i.imgur.com/QTzmlBC.png" alt="Inicio" class="nav-logo-mobile">
+                    <span class="nav-text">Inicio</span>
+                </a></li>
+                <li><a href="nosotros.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Estudio</a></li>
+                <li><a href="artesanias.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Artesanías</a></li>
+            </ul>
+            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20hablar%20sobre%20una%20startup%20con%20ChilliCode." class="nav-cta" target="_blank">Hablemos</a>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay">
+        <ul class="menu-links">
+            <li class="has-details">
+                <details>
+                    <summary>Planes Web</summary>
+                    <ul class="dropdown-menu">
+                        <li><a href="plan-landing.html">Landing Page</a></li>
+                        <li><a href="plan-sitio-web.html">ChiliCode Corporativo</a></li>
+                        <li><a href="plan-profesional.html">ChiliCode Profesional</a></li>
+                    </ul>
+                </details>
+            </li>
+            <li><a href="como-funciona.html">Chili Loyalty (Nuevo)</a></li>
+            <li><a href="mantenimientos.html">Mantenimiento</a></li>
+            <li><a href="chili-mods.html">Chili Mods</a></li>
+            <li><a href="startups-experience-high.html">Startups</a></li>
+            <li><a href="nosotros.html#experiencia">Proyectos</a></li>
+        </ul>
+    </div>
+
+    <main id="main-content">
+
+        <!-- ===== HERO ===== -->
+        <section class="startups-hero">
+            <div class="hero-canvas">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="container" style="max-width:1200px; width:100%;">
+                <div style="max-width:1200px; margin:0 auto;">
+                    <span class="badge reveal">Startups de Alto Impacto</span>
+                    <h1 class="title reveal">No solo<br>construimos<br>
+                        <span class="accent-orange">webs</span> —<br>
+                        lanzamos <span class="accent-teal">startups.</span>
+                    </h1>
+                    <p class="subtitle reveal">Dos productos SaaS reales. Dos industrias transformadas. Diseñados, desarrollados y operados desde ChilliCode.</p>
+                    <div class="cta-row reveal" style="justify-content:center; gap:1.5rem; margin-top:2.5rem;">
+                        <a href="#startups" class="btn btn-primary" id="hero-explore-btn">Explorar Productos</a>
+                        <a href="https://wa.me/525574123521?text=Hola!%20Quiero%20construir%20una%20startup%20con%20ChilliCode." target="_blank" class="btn btn-secondary" style="border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.8);" id="hero-build-btn">Construye con Nosotros</a>
+                    </div>
+                    <div class="hero-stats reveal">
+                        <div class="hero-stat">
+                            <span class="stat-number">2</span>
+                            <span class="stat-label">Startups Lanzadas</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number">SaaS</span>
+                            <span class="stat-label">Modelo de Negocio</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Hecho en México</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Escalabilidad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WHAT WE BUILD ===== -->
+        <section class="what-we-build">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 class="section-title">Más allá del sitio web.</h2>
+                    <p class="section-subtitle">Cuando los clientes necesitan más que una presencia digital, construimos el producto completo.</p>
+                </div>
+                <div class="build-pills reveal">
+                    <span class="build-pill orange">Aplicaciones SaaS</span>
+                    <span class="build-pill teal">Gestión de Operaciones</span>
+                    <span class="build-pill emerald">PWA Mobile-First</span>
+                    <span class="build-pill orange">Control de Efectivo</span>
+                    <span class="build-pill teal">Bóveda Legal de Evidencias</span>
+                    <span class="build-pill emerald">Pagos Digitales</span>
+                    <span class="build-pill orange">Inventarios en Tiempo Real</span>
+                    <span class="build-pill teal">Valet Parking Digital</span>
+                    <span class="build-pill emerald">Autolavado Inteligente</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== STARTUP SHOWCASE ===== -->
+        <section class="startups-showcase" id="startups">
+            <div class="showcase-header container reveal">
+                <h2>Nuestros Productos</h2>
+                <p>Dos soluciones que ya están digitalizando industrias en México.</p>
+            </div>
+
+            <!-- GoWash Card -->
+            <div class="startup-block reveal">
+                <div class="startup-card gowash" id="gowash-card">
+                    <div class="gowash-glow"></div>
+
+                    <div class="startup-card-content">
+                        <div class="startup-logo-wrap">
+                            <img src="https://i.imgur.com/seIwnhu.png" alt="GoWash Logo" class="startup-logo">
+                            <span class="startup-brand-name">GoWash</span>
+                        </div>
+                        <span class="startup-industry-pill">Autolavados · SaaS · PWA</span>
+                        <h2 class="startup-headline">El fin de los <span class="hl-orange">boletos de papel.</span> Tu autolavado, digitalizado.</h2>
+                        <p class="startup-desc">GoWash elimina el caos operativo de los autolavados. Bóveda legal de fotos de inspección, control de efectivo en tiempo real, inventario automático y reportes en tu bolsillo.</p>
+                        <ul class="startup-features">
+                            <li><span class="feature-dot"></span> Bóveda legal de fotos de inspección por vehículo</li>
+                            <li><span class="feature-dot"></span> Control de efectivo en tiempo real</li>
+                            <li><span class="feature-dot"></span> Inventarios y servicios configurables</li>
+                            <li><span class="feature-dot"></span> Panel de administración web + PWA</li>
+                            <li><span class="feature-dot"></span> Reportes diarios automáticos</li>
+                        </ul>
+                        <div class="startup-cta-row">
+                            <a href="https://chilicode-official.github.io/GoWash/" target="_blank" class="btn-startup-primary" id="gowash-visit-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                Ver GoWash
+                            </a>
+                            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20GoWash%20para%20mi%20autolavado." target="_blank" class="btn-startup-ghost" id="gowash-contact-btn">
+                                Quiero esto para mi negocio →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="startup-card-visual">
+                        <div class="phone-mockup-container">
+                            <!-- Phone 1 -->
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <div class="gowash-screen">
+                                        <div class="phone-notch"></div>
+                                        <div class="gws-logo-row">
+                                            <div class="gws-logo-icon">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0m9-5v5l3 3"></path></svg>
+                                            </div>
+                                            <span class="gws-brand">GoWash</span>
+                                        </div>
+                                        <div class="gws-stat-row">
+                                            <div class="gws-stat">
+                                                <div class="gws-stat-val">$4,820</div>
+                                                <div class="gws-stat-lbl">Hoy</div>
+                                            </div>
+                                            <div class="gws-stat">
+                                                <div class="gws-stat-val">38</div>
+                                                <div class="gws-stat-lbl">Servicios</div>
+                                            </div>
+                                        </div>
+                                        <ul class="gws-list">
+                                            <li class="gws-list-item">
+                                                <span class="gws-dot"></span>
+                                                <span class="gws-item-text">Honda Civic • ABC-1234 • Completo</span>
+                                            </li>
+                                            <li class="gws-list-item">
+                                                <span class="gws-dot"></span>
+                                                <span class="gws-item-text">Toyota RAV4 • XYZ-5678 • Básico</span>
+                                            </li>
+                                            <li class="gws-list-item">
+                                                <span class="gws-dot"></span>
+                                                <span class="gws-item-text">Nissan Frontier • LMN-9012 • Premium</span>
+                                            </li>
+                                            <li class="gws-list-item">
+                                                <span class="gws-dot"></span>
+                                                <span class="gws-item-text">VW Jetta • QRS-3456 • Completo</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phone 2 -->
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <div class="gowash-screen">
+                                        <div class="phone-notch"></div>
+                                        <div style="font-size:0.55rem; color:rgba(255,127,0,0.8); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.6rem; font-weight:700;">Inspección #038</div>
+                                        <div style="background:rgba(255,127,0,0.1); border:1px solid rgba(255,127,0,0.2); border-radius:10px; aspect-ratio:4/3; margin-bottom:0.6rem; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,127,0,0.4)" stroke-width="1.5" style="width:40px;height:40px;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                        </div>
+                                        <div style="font-size:0.55rem; color:rgba(255,255,255,0.4); margin-bottom:0.3rem;">Placa: DEF-7890</div>
+                                        <div style="font-size:0.55rem; color:rgba(255,255,255,0.6); margin-bottom:0.6rem; font-weight:600;">Rayón leve - cofre Der.</div>
+                                        <div style="background:var(--gowash-orange); border-radius:8px; padding:0.4rem; text-align:center; font-size:0.55rem; font-weight:700; color:#fff;">✓ Evidencia guardada</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shift Card -->
+            <div class="startup-block reveal">
+                <div class="startup-card shift" id="shift-card">
+                    <div class="shift-glow"></div>
+
+                    <!-- Swap visual to left on desktop -->
+                    <div class="startup-card-visual" style="order:0;">
+                        <div class="phone-mockup-container">
+                            <!-- Phone 1 -->
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <div class="shift-screen">
+                                        <div class="phone-notch"></div>
+                                        <div class="sft-logo-row">
+                                            <div class="sft-logo-icon">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
+                                            </div>
+                                            <span class="sft-brand">Shift</span>
+                                        </div>
+                                        <div class="sft-ticket">
+                                            <div class="sft-ticket-num">#0247</div>
+                                            <div class="sft-ticket-label">Boleto Activo</div>
+                                            <hr class="sft-ticket-divider">
+                                            <div class="sft-ticket-row">
+                                                <span class="sft-ticket-key">Placa</span>
+                                                <span class="sft-ticket-val">MNO-1122</span>
+                                            </div>
+                                            <div class="sft-ticket-row">
+                                                <span class="sft-ticket-key">Entrada</span>
+                                                <span class="sft-ticket-val">21:34 hrs</span>
+                                            </div>
+                                            <div class="sft-ticket-row">
+                                                <span class="sft-ticket-key">Modelo</span>
+                                                <span class="sft-ticket-val">Audi A3</span>
+                                            </div>
+                                        </div>
+                                        <div class="sft-actions">
+                                            <div class="sft-action-btn sft-action-primary">Entregar</div>
+                                            <div class="sft-action-btn sft-action-ghost">Fotos</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phone 2 -->
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <div class="shift-screen">
+                                        <div class="phone-notch"></div>
+                                        <div style="font-size:0.5rem; color:rgba(0,200,150,0.8); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.6rem; font-weight:700;">Turno Activo</div>
+                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; margin-bottom:0.6rem;">
+                                            <div style="background:rgba(0,200,150,0.1); border:1px solid rgba(0,200,150,0.2); border-radius:8px; padding:0.4rem; text-align:center;">
+                                                <div style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1rem; color:var(--shift-teal);">$8,350</div>
+                                                <div style="font-size:0.45rem; color:rgba(255,255,255,0.4); text-transform:uppercase;">Efectivo</div>
+                                            </div>
+                                            <div style="background:rgba(0,200,150,0.1); border:1px solid rgba(0,200,150,0.2); border-radius:8px; padding:0.4rem; text-align:center;">
+                                                <div style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1rem; color:var(--shift-teal);">62</div>
+                                                <div style="font-size:0.45rem; color:rgba(255,255,255,0.4); text-transform:uppercase;">Autos</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size:0.5rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem;">Últimos movimientos</div>
+                                        <div style="display:flex;flex-direction:column;gap:0.3rem;">
+                                            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.35rem 0.4rem;">
+                                                <span style="font-size:0.5rem;color:rgba(255,255,255,0.6);">#0247 entregado</span>
+                                                <span style="font-size:0.5rem;color:var(--shift-teal);font-weight:700;">+$80</span>
+                                            </div>
+                                            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.35rem 0.4rem;">
+                                                <span style="font-size:0.5rem;color:rgba(255,255,255,0.6);">#0246 entregado</span>
+                                                <span style="font-size:0.5rem;color:var(--shift-teal);font-weight:700;">+$120</span>
+                                            </div>
+                                            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.35rem 0.4rem;">
+                                                <span style="font-size:0.5rem;color:rgba(255,255,255,0.6);">#0245 entregado</span>
+                                                <span style="font-size:0.5rem;color:var(--shift-teal);font-weight:700;">+$100</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="startup-card-content" style="order:1;">
+                        <div class="startup-logo-wrap">
+                            <img src="https://i.imgur.com/8dqhwKO.png" alt="Shift Logo" class="startup-logo">
+                            <span class="startup-brand-name">Shift</span>
+                        </div>
+                        <span class="startup-industry-pill">Valet Parking · SaaS · PWA</span>
+                        <h2 class="startup-headline">Valet parking <span class="hl-teal">inteligente.</span> Sin papel. Sin excusas.</h2>
+                        <p class="startup-desc">Shift digitaliza por completo la operación de tu valet parking. Boletos digitales, bóveda de fotos de inspección, control de efectivo en tiempo real y pagos digitales integrados.</p>
+                        <ul class="startup-features">
+                            <li><span class="feature-dot"></span> Boletos digitales con foto del vehículo</li>
+                            <li><span class="feature-dot"></span> Bóveda de evidencias para respaldo legal</li>
+                            <li><span class="feature-dot"></span> Control de efectivo y pagos digitales</li>
+                            <li><span class="feature-dot"></span> Dashboard en tiempo real para el admin</li>
+                            <li><span class="feature-dot"></span> Reportes automáticos por turno</li>
+                        </ul>
+                        <div class="startup-cta-row">
+                            <a href="https://chilicode-official.github.io/Shift/" target="_blank" class="btn-startup-primary" id="shift-visit-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                Ver Shift
+                            </a>
+                            <a href="https://wa.me/525574123521?text=Hola!%20Me%20interesa%20Shift%20para%20mi%20valet%20parking." target="_blank" class="btn-startup-ghost" id="shift-contact-btn">
+                                Quiero esto para mi negocio →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WHY WE BUILD STARTUPS ===== -->
+        <section class="why-startups">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 class="section-title">¿Por qué ChilliCode<br>construye startups?</h2>
+                    <p class="section-subtitle">Porque la artesanía digital no termina en un entregable — termina en un impacto real.</p>
+                </div>
+                <div class="why-grid">
+                    <div class="why-card reveal">
+                        <div class="why-card-icon" style="background:rgba(255,127,0,0.08); color:var(--gowash-orange);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </div>
+                        <h3>Diseño de Autor</h3>
+                        <p>Cada startup nace con una identidad visual y UX certificada bajo los estándares de Google UX Design. No son plantillas — son productos únicos.</p>
+                    </div>
+                    <div class="why-card reveal">
+                        <div class="why-card-icon" style="background:rgba(0,200,150,0.08); color:var(--shift-teal);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <h3>Infraestructura de Élite</h3>
+                        <p>Arquitecturas modernas, escalables y seguras. Nuestras apps soportan miles de usuarios concurrentes desde el primer día de operación.</p>
+                    </div>
+                    <div class="why-card reveal">
+                        <div class="why-card-icon" style="background:rgba(0,168,107,0.08); color:var(--emerald);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </div>
+                        <h3>Tracción Real</h3>
+                        <p>No teorizamos — desplegamos. GoWash y Shift están en operación activa, validando el modelo y creciendo mes a mes en México.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== EXTRA SERVICES ===== -->
+        <section class="extra-services" id="servicios-extra">
+            <div class="showcase-header container reveal">
+                <h2>También podemos construir esto para ti</h2>
+                <p>Si tienes una idea de industria por digitalizar, tenemos el stack, el diseño y la experiencia para hacerlo realidad.</p>
+            </div>
+            <div class="services-extended-grid">
+                <div class="ext-service-card orange reveal" id="ext-service-saas">
+                    <div class="ext-icon orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    </div>
+                    <h3>SaaS a Medida</h3>
+                    <p>Tienes un proceso de negocio que urge digitalizarse. Construimos la plataforma SaaS completa — backend, frontend, mobile y dashboard de admin.</p>
+                    <div class="ext-tag-row">
+                        <span class="ext-tag orange">Restaurantes</span>
+                        <span class="ext-tag orange">Estacionamientos</span>
+                        <span class="ext-tag orange">Servicios Automotrices</span>
+                    </div>
+                </div>
+
+                <div class="ext-service-card teal reveal" id="ext-service-pwa">
+                    <div class="ext-icon teal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                    </div>
+                    <h3>Aplicaciones PWA</h3>
+                    <p>Apps instalables en cualquier dispositivo sin pasar por la App Store. La experiencia de una app nativa con el costo de una web. Perfectas para operadores en campo.</p>
+                    <div class="ext-tag-row">
+                        <span class="ext-tag teal">Mobile-First</span>
+                        <span class="ext-tag teal">Sin App Store</span>
+                        <span class="ext-tag teal">Offline Ready</span>
+                    </div>
+                </div>
+
+                <div class="ext-service-card emerald-dark reveal" id="ext-service-dashboard">
+                    <div class="ext-icon emerald-dark">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <h3>Dashboards de Operación</h3>
+                    <p>Paneles de control en tiempo real para que los dueños y gerentes tengan visibilidad total de su negocio desde cualquier dispositivo, en cualquier momento.</p>
+                    <div class="ext-tag-row">
+                        <span class="ext-tag emerald-dark">Tiempo Real</span>
+                        <span class="ext-tag emerald-dark">KPIs Clave</span>
+                        <span class="ext-tag emerald-dark">Multi-sucursal</span>
+                    </div>
+                </div>
+
+                <div class="ext-service-card red-dark reveal" id="ext-service-legal">
+                    <div class="ext-icon red-dark">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3>Bóvedas de Evidencia Legal</h3>
+                    <p>Sistemas de almacenamiento fotográfico con metadatos de fecha, hora y geolocalización. Protege a tu empresa de reclamaciones fraudulentas con evidencia irrefutable.</p>
+                    <div class="ext-tag-row">
+                        <span class="ext-tag red-dark">Fotografía Legal</span>
+                        <span class="ext-tag red-dark">Geolocalización</span>
+                        <span class="ext-tag red-dark">Anti-Fraude</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FINAL CTA ===== -->
+        <section class="startups-cta">
+            <div class="container">
+                <div class="cta-card-dark reveal">
+                    <h2>¿Tienes una industria<br>por <span>digitalizar?</span></h2>
+                    <p>Trae tu idea. Nosotros ponemos el diseño, el código y la experiencia para construir el siguiente GoWash o Shift de tu sector.</p>
+                    <div class="cta-btn-group">
+                        <a href="https://wa.me/525574123521?text=Hola!%20Quiero%20construir%20una%20startup%20con%20ChilliCode.%20Tengo%20una%20idea%20de..." target="_blank" class="btn-cta-glow" id="final-cta-btn">
+                            Empezar mi Startup →
+                        </a>
+                        <a href="nosotros.html#experiencia" class="btn-cta-outline-white" id="final-portfolio-btn">
+                            Ver Portafolio Completo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="typewriter-container" style="text-align: center; margin-bottom: 2rem;">
+                <span class="static-text">Nuestras startups son para:</span>
+                <span id="typewriter" class="dynamic-text"></span>
+                <span class="cursor">|</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ChilliCode Agency.</p>
+                <div class="socials">
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="terminos.html">Términos</a>
+                    <a href="https://www.instagram.com/chilicode_agency/" target="_blank">Instagram Empresa</a>
+                    <a href="https://www.instagram.com/rodricg30" target="_blank">CEO Instagram</a>
+                    <a href="https://wa.me/525574123521" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="hamburger.js"></script>
+
+    <script>
+        // Typewriter
+        (function() {
+            const tw = document.getElementById('typewriter');
+            if (!tw) return;
+            const words = [
+                "Autolavados", "Valet Parking", "Restaurantes", "Estacionamientos",
+                "Hoteles", "Talleres Mecánicos", "Salones de Eventos", "Spas",
+                "Clínicas", "Gimnasios"
+            ];
+            let wi = 0, ci = 0, deleting = false;
+            function tick() {
+                const w = words[wi];
+                tw.textContent = deleting ? w.slice(0, ci - 1) : w.slice(0, ci + 1);
+                deleting ? ci-- : ci++;
+                let speed = deleting ? 50 : 100;
+                if (!deleting && ci === w.length) { deleting = true; speed = 2000; }
+                else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; speed = 500; }
+                setTimeout(tick, speed);
+            }
+            tick();
+        })();
+
+        // Scroll reveal with GSAP
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Batch animate all reveal elements
+                gsap.utils.toArray('.reveal').forEach(function(el) {
+                    gsap.fromTo(el,
+                        { opacity: 0, y: 50 },
+                        {
+                            opacity: 1, y: 0,
+                            duration: 0.9,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: el,
+                                start: 'top 88%',
+                                once: true
+                            }
+                        }
+                    );
+                });
+
+                // Parallax on hero orbs
+                gsap.to('.orb-1', {
+                    y: -80,
+                    scrollTrigger: {
+                        trigger: '.startups-hero',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 2
+                    }
+                });
+                gsap.to('.orb-2', {
+                    y: 80,
+                    scrollTrigger: {
+                        trigger: '.startups-hero',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 2
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
